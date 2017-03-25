@@ -1,0 +1,15 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+app/build/
+/captures
+.externalNativeBuild
+.gitignore
+app/src/test
+app/libs/
+app/src/main/res/drawable/
