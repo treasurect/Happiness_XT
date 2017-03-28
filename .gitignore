@@ -11,5 +11,3 @@ app/build/
 .externalNativeBuild
 .gitignore
 app/src/test
-app/libs/
-app/src/main/res/drawable/
