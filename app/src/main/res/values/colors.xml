@@ -6,4 +6,5 @@
     <color name="title_background_orange">#f56241</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorBlock">#222222</color>
+    <color name="colorGray">#cccccc</color>
 </resources>
