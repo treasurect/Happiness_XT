@@ -17,4 +17,8 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
+    <style name="loginPopupWindow" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/login_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/login_popup_exit</item>
+    </style>
 </resources>
