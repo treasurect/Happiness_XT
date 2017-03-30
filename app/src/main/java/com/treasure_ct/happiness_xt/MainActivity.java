@@ -1,10 +1,8 @@
 package com.treasure_ct.happiness_xt;
 
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +13,7 @@ import com.treasure_ct.happiness_xt.fragments.HomeFragment;
 import com.treasure_ct.happiness_xt.fragments.PersonalFragment;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
-public class MainActivity extends ParentActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout tab_home,tab_assistant,tab_collection,tab_personal;
     private ImageView home_image,assistant_image,collection_image,personal_image, tab_plus;

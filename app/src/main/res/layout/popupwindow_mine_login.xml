@@ -16,17 +16,16 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:gravity="center"
-                android:paddingTop="26dp"
                 android:text="登录后享受更多内容\n只为丰富你的知识"
                 android:textColor="#9222"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold"/>
 
             <ImageView
                 android:layout_width="28dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_gravity="right"
                 android:src="@mipmap/icon_delete"
                 android:layout_margin="20dp"
@@ -35,37 +34,27 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
             <EditText
                 android:id="@+id/mine_login_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="手机号"
-                android:paddingLeft="15dp"
+                android:hint="请输入手机号"
+                android:paddingLeft="30dp"
                 android:background="@drawable/edittext_bg"/>
-            <TextView
-                android:id="@+id/popup_send_message"
-                android:layout_width="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:layout_height="match_parent"
-                android:text="| 发送验证码"
-                android:textStyle="bold"/>
         </FrameLayout>
 
         <EditText
-            android:id="@+id/mine_login_verification_code"
+            android:id="@+id/mine_login_password"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
-            android:hint="请输入验证码"
+            android:paddingLeft="30dp"
+            android:hint="请输入密码"
             android:background="@drawable/edittext_bg"/>
         <TextView
             android:id="@+id/mine_popup_register"
@@ -73,22 +62,23 @@
             android:layout_height="wrap_content"
             android:text="未注册的，快来注册呀"
             android:gravity="center"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:textColor="#fff"/>
-        <Button
+        <TextView
             android:id="@+id/mine_popup_loginin"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:background="@drawable/textview_bg"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textColor="#fff"
             android:text="进入XT"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="100dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

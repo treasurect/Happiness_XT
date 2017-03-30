@@ -1,9 +1,9 @@
 package com.treasure_ct.happiness_xt.fragments;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -13,14 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.XTApplication;
+import com.treasure_ct.happiness_xt.activity.UserEditUserInfoActivity;
+import com.treasure_ct.happiness_xt.activity.UserRegisterActivity;
+import com.treasure_ct.happiness_xt.bean.UserInfoBean;
+import com.treasure_ct.happiness_xt.utils.ACache;
+import com.treasure_ct.happiness_xt.utils.Tools;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 public class PersonalFragment extends Fragment implements View.OnClickListener {
     private PopupWindow mPopupWindow;
@@ -29,8 +41,10 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private TextView mine_login_username, register;
     private String user_name;
     private ImageView qqLogin, weChatLogin, sinaLogin, qqweiboLogin;
-    private EditText editCode, editPhone;
+    private EditText editPwd, editPhone;
     private FrameLayout messagePush_layout, offLine_layout, active_layout, feedBack_layout, shop_layout;
+    private XTApplication application;
+    private ACache aCache;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +52,21 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
         initFindId(view);
+        application = (XTApplication) getActivity().getApplication();
+        if (aCache == null){
+            aCache = ACache.get(getContext());
+        }
+        isNight = application.isNight();
+        if (!Tools.isNull(aCache.getAsString("token"))){
+            if (aCache.getAsString("token").equals("login")){
+                isLogin = true;
+                mine_login_icon.setImageResource(R.mipmap.icon);
+                mine_login_username.setText("用户：" + ((UserInfoBean) aCache.getAsObject("UserInfo")).getNick_name());
+            }
+        }else {
+            mine_login_icon.setImageResource(R.mipmap.icon_login);
+            mine_login_username.setText("登录让内容更精彩");
+        }
         initView();
         initClick();
         return view;
@@ -59,16 +88,16 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         if (isNight) {
             imageNight.setImageResource(R.mipmap.icon_night);
+            Window window = getActivity().getWindow();
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.screenBrightness = 0.001f;
+            window.setAttributes(layoutParams);
         } else {
             imageNight.setImageResource(R.mipmap.icon_daytime);
-        }
-        if (isLogin) {
-            user_name = "小米";
-            mine_login_icon.setImageResource(R.mipmap.ic_launcher);
-            mine_login_username.setText("用户：" + user_name);
-        } else {
-            mine_login_icon.setImageResource(R.mipmap.icon_login);
-            mine_login_username.setText("登录让内容更精彩");
+            Window window = getActivity().getWindow();
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.screenBrightness = -1;
+            window.setAttributes(layoutParams);
         }
     }
 
@@ -114,7 +143,13 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_popup_quit:
                 quitpopupWindow();
                 break;
-
+            case R.id.mine_popup_loginin:
+                Loginin();
+                break;
+            case R.id.mine_popup_register:
+                mPopupWindow.dismiss();
+                startActivity(new Intent(getContext(), UserRegisterActivity.class));
+                break;
             case R.id.image_qqlogin:
                 break;
             case R.id.image_wechatlogin:
@@ -127,6 +162,46 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
+     * 登录操作
+     */
+    private void Loginin() {
+        if (Tools.isNull(editPhone.getText().toString().trim())){
+            Toast.makeText(getContext(), "手机号不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Tools.isNull(editPwd.getText().toString().trim())){
+            Toast.makeText(getContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        BmobQuery<UserInfoBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("user_name",editPhone.getText().toString().trim());
+        query.findObjects(new FindListener<UserInfoBean>() {
+            @Override
+            public void done(List<UserInfoBean> list, BmobException e) {
+                if (e== null){
+                    if (list.size() == 0){
+                        Toast.makeText(getContext(), "手机号错误", Toast.LENGTH_SHORT).show();
+                    }else {
+                        if (editPwd.getText().toString().trim().equals(list.get(0).getUser_pwd())){
+                            Toast.makeText(getContext(), "恭喜你，登陆成功", Toast.LENGTH_SHORT).show();
+                            mPopupWindow.dismiss();
+                            mine_login_icon.setImageResource(R.mipmap.icon);
+                            mine_login_username.setText(list.get(0).getNick_name());
+                            aCache.put("UserInfo",new UserInfoBean());
+                            aCache.put("token","login");
+                        }else {
+                            Toast.makeText(getContext(), "密码错误", Toast.LENGTH_SHORT).show();
+                            editPwd.setText("");
+                        }
+                    }
+                }else {
+                    Toast.makeText(getContext(), "原因："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /**
      * 显示 关闭 popupWindow
      */
     public void showPopupWindow() {
@@ -134,19 +209,18 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         mPopupWindow = new PopupWindow(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setAnimationStyle(R.style.loginPopupWindow);
         mPopupWindow.setOutsideTouchable(false);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
         ImageView quit = (ImageView) convertView.findViewById(R.id.mine_popup_quit);
-        TextView send_message = (TextView) convertView.findViewById(R.id.popup_send_message);
         editPhone = (EditText) convertView.findViewById(R.id.mine_login_phone);
-        editCode = (EditText) convertView.findViewById(R.id.mine_login_verification_code);
-        Button login = (Button) convertView.findViewById(R.id.mine_popup_loginin);
+        editPwd = (EditText) convertView.findViewById(R.id.mine_login_password);
+        TextView login = (TextView) convertView.findViewById(R.id.mine_popup_loginin);
         register = (TextView) convertView.findViewById(R.id.mine_popup_register);
         qqLogin = ((ImageView) convertView.findViewById(R.id.image_qqlogin));
         weChatLogin = ((ImageView) convertView.findViewById(R.id.image_wechatlogin));
         sinaLogin = ((ImageView) convertView.findViewById(R.id.image_sinalogin));
         qqweiboLogin = ((ImageView) convertView.findViewById(R.id.image_qqweibologin));
 
-        send_message.setOnClickListener(this);
         quit.setOnClickListener(this);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -184,7 +258,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private void nightSwitch() {
         if (!isNight) {
             imageNight.setImageResource(R.mipmap.icon_night);
-            isNight = true;
+            application.setNight(true);
             Window window = getActivity().getWindow();
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.screenBrightness = 0.001f;
@@ -192,7 +266,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
         } else {
             imageNight.setImageResource(R.mipmap.icon_daytime);
-            isNight = false;
+            application.setNight(false);
             Window window = getActivity().getWindow();
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.screenBrightness = -1;

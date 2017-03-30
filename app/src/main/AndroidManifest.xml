@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.treasure_ct.happiness_xt">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
+        android:name=".XTApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -15,7 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+        <!-- Bmob云 添加 -->
+        <activity
+            android:name=".CreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".DeleteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".UpdateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FindActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.UserRegisterActivity">
+        </activity>
+        <activity android:name=".activity.UserEditUserInfoActivity">
         </activity>
     </application>
 

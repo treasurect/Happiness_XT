@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.treasure_ct.happiness_xt.utils.ACache;
 
-public class ParentActivity extends FragmentActivity {
+public class BaseActivity extends FragmentActivity {
 
     public ImageView btn_back;
     public TextView title;
