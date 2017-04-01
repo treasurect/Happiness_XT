@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.treasure_ct.happiness_xt.fragments.AssistantFragment;
-import com.treasure_ct.happiness_xt.fragments.CollectionFragment;
+import com.treasure_ct.happiness_xt.fragments.DynamicFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeFragment;
 import com.treasure_ct.happiness_xt.fragments.PersonalFragment;
 import com.treasure_ct.happiness_xt.utils.Tools;
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 collection_image.setImageResource(R.mipmap.btn_collection);
                 collection_text.setTextColor(getResources().getColor(R.color.colorRed));
                 collection_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,new CollectionFragment());
+                transaction.replace(R.id.replace_fragment,new DynamicFragment());
                 break;
             case R.id.main_tab_personal:
                 personal_image.setImageResource(R.mipmap.btn_personal);

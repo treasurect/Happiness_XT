@@ -1,6 +1,7 @@
 package com.treasure_ct.happiness_xt.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeAllAssistantActivity;
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
 
@@ -66,6 +68,7 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
             case "驾考题库":
                 break;
             case "全部":
+                startActivity(new Intent(getContext(), LifeAllAssistantActivity.class));
                 break;
         }
     }

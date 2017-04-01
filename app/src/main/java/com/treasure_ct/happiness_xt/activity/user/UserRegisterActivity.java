@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.activity;
+package com.treasure_ct.happiness_xt.activity.user;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

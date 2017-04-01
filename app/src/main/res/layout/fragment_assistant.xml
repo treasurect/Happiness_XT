@@ -19,7 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/title_background_orange"
+            app:contentScrim="@color/colorOrange"
             app:expandedTitleMarginStart="45dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

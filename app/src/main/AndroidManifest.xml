@@ -38,10 +38,9 @@
         <activity
             android:name=".FindActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserRegisterActivity">
-        </activity>
-        <activity android:name=".activity.UserEditUserInfoActivity">
-        </activity>
+        <activity android:name=".activity.user.UserRegisterActivity"/>
+        <activity android:name=".activity.user.UserEditUserInfoActivity"/>
+        <activity android:name=".activity.assistant.LifeAllAssistantActivity"/>
     </application>
 
 </manifest>

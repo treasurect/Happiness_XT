@@ -15,7 +15,7 @@ import com.treasure_ct.happiness_xt.adapter.HomeFragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     @Override
@@ -23,10 +23,11 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initFindId(view);
+
+        tabLayout.addOnTabSelectedListener(this);
         initTabLayout();
         initViewPager();
         viewPager.setCurrentItem(0);
-        viewPager.addOnPageChangeListener(this);
         //联动
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         return view;
@@ -42,9 +43,6 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
         tabLayout.addTab(tabLayout.newTab().setText("视频"));
         tabLayout.addTab(tabLayout.newTab().setText("美食"));
         tabLayout.addTab(tabLayout.newTab().setText("音乐"));
-        tabLayout.addTab(tabLayout.newTab().setText("新闻"));
-        tabLayout.addTab(tabLayout.newTab().setText("新闻"));
-        tabLayout.addTab(tabLayout.newTab().setText("新闻"));
     }
 
     private void initViewPager() {
@@ -59,17 +57,17 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
 
     }
 
     @Override
-    public void onPageSelected(int position) {
-        viewPager.setCurrentItem(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
+    public void onTabReselected(TabLayout.Tab tab) {
 
     }
 }

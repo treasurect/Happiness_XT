@@ -22,8 +22,7 @@ import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
-import com.treasure_ct.happiness_xt.activity.UserEditUserInfoActivity;
-import com.treasure_ct.happiness_xt.activity.UserRegisterActivity;
+import com.treasure_ct.happiness_xt.activity.user.UserRegisterActivity;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
 import com.treasure_ct.happiness_xt.utils.ACache;
 import com.treasure_ct.happiness_xt.utils.Tools;

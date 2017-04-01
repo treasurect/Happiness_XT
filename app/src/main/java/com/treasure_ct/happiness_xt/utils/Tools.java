@@ -124,7 +124,7 @@ public class Tools{
 		}
 			SystemBarTintManager tintManager = new SystemBarTintManager(context);
 			tintManager.setStatusBarTintEnabled(true);
-			tintManager.setStatusBarTintResource(R.color.title_background_orange);// 状态栏无背景
+			tintManager.setStatusBarTintResource(R.color.colorOrange);// 状态栏无背景
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Tools{
 		}
 		SystemBarTintManager tintManager = new SystemBarTintManager(context);
 		tintManager.setStatusBarTintEnabled(true);
-		tintManager.setStatusBarTintResource(R.color.title_background_orange);// 状态栏无背景
+		tintManager.setStatusBarTintResource(R.color.colorOrange);// 状态栏无背景
 	}
 
 	/**

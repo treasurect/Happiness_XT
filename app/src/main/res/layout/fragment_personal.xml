@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="3.4"
         android:orientation="vertical"
-        android:background="@color/title_background_orange"
+        android:background="@color/colorOrange"
         android:gravity="center">
         <ImageView
             android:id="@+id/mine_login_icon"
