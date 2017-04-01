@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
 import com.treasure_ct.happiness_xt.utils.Tools;
@@ -21,7 +22,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.SaveListener;
 
-public class UserEditUserInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserEditUserInfoActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText editPhone;
     private EditText editNick;
@@ -48,6 +49,11 @@ public class UserEditUserInfoActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit_user_info);
+        initTitle();//基础activity里初始化标题栏
+        Tools.setTranslucentStatus(this);//沉浸模式
+        btn_back.setImageResource(R.mipmap.icon_return);
+        btn_back.setVisibility(View.VISIBLE);
+        title.setText("信息修改");
         initFindId();
         Intent intent = getIntent();
         if (!Tools.isNull(intent.getStringExtra("UserPhone"))) {

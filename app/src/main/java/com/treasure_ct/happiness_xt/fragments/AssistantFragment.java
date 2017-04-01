@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAllAssistantActivity;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantMapActivity;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantWeatherActivity;
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
 
@@ -20,8 +22,8 @@ import java.util.List;
 
 public class AssistantFragment extends Fragment implements LifeAssistantGridAdapter.LifeAssistantClickItem {
     private GridView gridView;
-    private String[] assistant_list_text = {"天气预报", "空气质量", "万年历", "微信精选", "健康知识", "汽车信息", "驾考题库", "全部"};
-    private int[] assistant_list_image = {R.mipmap.icon_weather,R.mipmap.icon_air,R.mipmap.icon_calendar,R.mipmap.icon_wechat_2,
+    private String[] assistant_list_text = {"天气预报", "地图", "万年历", "微信精选", "健康知识", "汽车信息", "驾考题库", "全部"};
+    private int[] assistant_list_image = {R.mipmap.icon_weather,R.mipmap.icon_location,R.mipmap.icon_calendar,R.mipmap.icon_wechat_2,
             R.mipmap.icon_healthy,R.mipmap.icon_car,R.mipmap.icon_driving,R.mipmap.icon_all};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,8 +56,10 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
         Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
         switch (name){
             case "天气预报":
+                startActivity(new Intent(getContext(), LifeAssistantWeatherActivity.class));
                 break;
-            case "空气质量":
+            case "地图":
+                startActivity(new Intent(getContext(),LifeAssistantMapActivity.class));
                 break;
             case "万年历":
                 break;

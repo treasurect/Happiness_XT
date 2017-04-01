@@ -1,18 +1,22 @@
 package com.treasure_ct.happiness_xt.activity.assistant;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
+import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LifeAllAssistantActivity extends AppCompatActivity implements LifeAssistantGridAdapter.LifeAssistantClickItem {
+public class LifeAllAssistantActivity extends BaseActivity implements LifeAssistantGridAdapter.LifeAssistantClickItem {
     private String[] assistant_text1 = {"地图", "天气预报", "手机号码归属地", " 邮编查询", "菜谱查询", "基站定位查询",
             "空气质量", "身份证查询", "IP地址", "万年历", "中国彩票开奖", "微信精选"};
     private int[] assistant_image1 = {R.mipmap.icon_location, R.mipmap.icon_weather, R.mipmap.icon_phone, R.mipmap.icon_postcode,
@@ -36,6 +40,11 @@ public class LifeAllAssistantActivity extends AppCompatActivity implements LifeA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_life_all_assistant);
+        initTitle();//基础activity里初始化标题栏
+        Tools.setTranslucentStatus(this);//沉浸模式
+        btn_back.setImageResource(R.mipmap.icon_return);
+        btn_back.setVisibility(View.VISIBLE);
+        title.setText("全部应用");
         initFindId();
         initGridView();
     }
@@ -99,8 +108,10 @@ public class LifeAllAssistantActivity extends AppCompatActivity implements LifeA
         Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
         switch (name){
             case "地图":
+                startActivity(new Intent(this,LifeAssistantMapActivity.class));
                 break;
             case "天气预报":
+                startActivity(new Intent(this, LifeAssistantWeatherActivity.class));
                 break;
             case "手机号码归属地":
                 break;

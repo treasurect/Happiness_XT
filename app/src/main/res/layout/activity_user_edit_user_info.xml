@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#ff7556"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff7556"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/top_view"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -54,42 +59,48 @@
         android:background="@drawable/edittext_bg"
         android:hint="确认密码"
         android:paddingLeft="20dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/mine_edit_age"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:inputType="number"
+            android:layout_weight="1"
             android:background="@drawable/edittext_bg"
             android:hint="年龄"
+            android:inputType="number"
             android:paddingLeft="20dp"/>
+
         <RadioGroup
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/mine_edit_sex_man"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="男"
                 android:textColor="@color/colorRed"/>
+
             <RadioButton
                 android:id="@+id/mine_edit_sex_woman"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="女"/>
         </RadioGroup>
     </LinearLayout>
+
     <EditText
         android:id="@+id/mine_edit_user_desc"
         android:layout_width="match_parent"
@@ -98,10 +109,11 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/bottom_white_frame_black_radius5"
-        android:hint="留点啥呗。。。"
         android:gravity="top"
+        android:hint="留点啥呗。。。"
         android:padding="10dp"
         android:paddingLeft="20dp"/>
+
     <TextView
         android:id="@+id/btn_user_edit_enter"
         android:layout_width="match_parent"

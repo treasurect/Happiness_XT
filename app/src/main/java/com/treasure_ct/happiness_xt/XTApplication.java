@@ -2,6 +2,8 @@ package com.treasure_ct.happiness_xt;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import cn.bmob.v3.Bmob;
 
 /**
@@ -28,6 +30,8 @@ public class XTApplication extends Application{
         //.setFileExpiration(2500)
         //.build();
         //Bmob.initialize(config);
+        //百度地图初始化
+        SDKInitializer.initialize(getApplicationContext());
     }
     public boolean isNight() {
         return isNight;

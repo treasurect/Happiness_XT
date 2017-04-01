@@ -55,8 +55,9 @@ public class DynamicListAdapter extends BaseAdapter {
         }else {
             ret = inflater.inflate(R.layout.dynamic_listview_item,viewGroup,false);
         }
-        ViewHolder holder = new ViewHolder(ret);
+        ret.setTag(new ViewHolder(ret));
         DynamicListViewBean listViewBean = list.get(position);
+        ViewHolder holder = (ViewHolder) ret.getTag();
         holder.publisher_icon.setImageResource(R.mipmap.icon);
         holder.publisher_name.setText(listViewBean.getPublisher_name());
         holder.publish_image.setImageResource(R.mipmap.pic_fengjing);

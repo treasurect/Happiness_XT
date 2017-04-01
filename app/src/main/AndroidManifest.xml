@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".XTApplication"
@@ -41,6 +45,18 @@
         <activity android:name=".activity.user.UserRegisterActivity"/>
         <activity android:name=".activity.user.UserEditUserInfoActivity"/>
         <activity android:name=".activity.assistant.LifeAllAssistantActivity"/>
+        <activity android:name=".activity.assistant.LifeAssistantWeatherActivity"/>
+        <activity android:name=".activity.assistant.LifeAssistantWeatherCityListActivity"/>
+        <activity android:name=".activity.assistant.LifeAssistantMapActivity"/>
+        <!-- 百度Map -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="6rObwiDir836uYr0LkUaKiclgRNCWRF0" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 
 </manifest>

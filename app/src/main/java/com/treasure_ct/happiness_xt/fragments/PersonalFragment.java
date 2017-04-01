@@ -262,7 +262,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.screenBrightness = 0.001f;
             window.setAttributes(layoutParams);
-
+            isNight =true;
         } else {
             imageNight.setImageResource(R.mipmap.icon_daytime);
             application.setNight(false);
@@ -270,6 +270,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.screenBrightness = -1;
             window.setAttributes(layoutParams);
+            isNight = false;
         }
     }
 }

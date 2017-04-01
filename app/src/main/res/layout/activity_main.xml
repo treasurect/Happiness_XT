@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:text="收藏"/>
+                    android:text="动态·"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/main_tab_personal"
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:text="设置"/>
+                    android:text="我的"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

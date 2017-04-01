@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_life_assistant_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    tools:context="com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantMapActivity">
+    <include layout="@layout/top_view"/>
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/assistant_mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:clickable="true" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:background="@mipmap/pic_map_bg"/>
+    <ImageView
+        android:id="@+id/assistant_mapView_location"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/icon_location2"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"/>
+</FrameLayout>

@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
-public class UserRegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserRegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText editPhone;
     private EditText editCode;
@@ -21,6 +22,11 @@ public class UserRegisterActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
+        initTitle();//基础activity里初始化标题栏
+        Tools.setTranslucentStatus(this);//沉浸模式
+        btn_back.setImageResource(R.mipmap.icon_return);
+        btn_back.setVisibility(View.VISIBLE);
+        title.setText("注册");
         initFindId();
         initClick();
     }
