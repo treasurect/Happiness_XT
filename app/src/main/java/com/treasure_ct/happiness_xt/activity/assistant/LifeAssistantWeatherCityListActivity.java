@@ -8,7 +8,7 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
-public class LifeAssistantWeatherCityListActivity extends BaseActivity {
+public class LifeAssistantWeatherCityListActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +19,19 @@ public class LifeAssistantWeatherCityListActivity extends BaseActivity {
         btn_back.setImageResource(R.mipmap.icon_return);
         btn_back.setVisibility(View.VISIBLE);
         title.setText("城市列表");
+        initClick();
+    }
+
+    private void initClick() {
+        btn_back.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
+        }
     }
 }

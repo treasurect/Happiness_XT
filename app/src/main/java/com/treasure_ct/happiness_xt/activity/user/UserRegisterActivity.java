@@ -31,11 +31,6 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
         initClick();
     }
 
-    private void initClick() {
-        btnLogin.setOnClickListener(this);
-        btnSendMes.setOnClickListener(this);
-    }
-
     private void initFindId() {
         editPhone = (EditText) findViewById(R.id.mine_register_phone);
         editCode = (EditText) findViewById(R.id.mine_register_verification_code);
@@ -43,13 +38,22 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
         btnLogin = (TextView) findViewById(R.id.btn_user_login);
     }
 
+    private void initClick() {
+        btnLogin.setOnClickListener(this);
+        btnSendMes.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
             case R.id.btn_user_login:
                 Intent intent = new Intent(UserRegisterActivity.this, UserEditUserInfoActivity.class);
-                if (!Tools.isNull(editPhone.getText().toString().trim())){
-                    intent.putExtra("UserPhone",editPhone.getText().toString().trim());
+                if (!Tools.isNull(editPhone.getText().toString().trim())) {
+                    intent.putExtra("UserPhone", editPhone.getText().toString().trim());
                 }
                 startActivity(intent);
                 break;

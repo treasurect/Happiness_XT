@@ -6,7 +6,10 @@ import com.google.gson.Gson;
 
 import java.io.File;
 
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * 网络访问帮助类
@@ -144,4 +147,15 @@ public class HttpHelper {
 //                .execute(bitmapCallback);
 //    }
 
+    /**
+     * okhttp的get请求
+     */
+    public static void doGetCall(String url, Context context, Callback callback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .tag(context)
+                .build();
+        new OkHttpClient().newCall(request).enqueue(callback);
+    }
 }

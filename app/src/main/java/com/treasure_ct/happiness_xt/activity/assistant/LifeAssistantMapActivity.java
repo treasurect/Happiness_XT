@@ -88,6 +88,7 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
 
     private void initClick() {
         map_location.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
     }
 
     @Override
@@ -95,6 +96,9 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
         switch (v.getId()) {
             case R.id.assistant_mapView_location:
                 showUserLocation();
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

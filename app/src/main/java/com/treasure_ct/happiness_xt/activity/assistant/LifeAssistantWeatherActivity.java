@@ -19,6 +19,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.AssistantWeatherFutureAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherFutureBean;
 import com.treasure_ct.happiness_xt.bean.MobAPIWeatherResultBean;
+import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
 import com.treasure_ct.happiness_xt.utils.StringContents;
@@ -119,13 +120,8 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
     }
 
     private void getWeatherDetail(String key, String city, String province) {
-        final Request request = new Request.Builder()
-                .url(StringContents.MobAPI_BaseUrl + "weather/query?key=" + key + "&city=" + city + "&province=" + province)
-                .get()
-                .tag(this)
-                .build();
-        new OkHttpClient().newCall(request)
-                .enqueue(new Callback() {
+        String url = StringContents.MobAPI_BaseUrl + "weather/query?key=" + key + "&city=" + city + "&province=" + province;
+        HttpHelper.doGetCall(url, this, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 LogUtil.d("~~~~~~~~~~~~~~~~onFailure", e.getMessage());
@@ -134,7 +130,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() == 200){
-                     resultBean = ModelParseHelper.parseWeatherResult(response.body().string());
+                    resultBean = ModelParseHelper.parseWeatherResult(response.body().string());
                     Message message = new Message();
                     message.what = 200;
                     mHandler.sendMessage(message);

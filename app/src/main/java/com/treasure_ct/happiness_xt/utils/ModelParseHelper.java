@@ -1,6 +1,10 @@
 package com.treasure_ct.happiness_xt.utils;
 
 import com.google.gson.Gson;
+import com.treasure_ct.happiness_xt.bean.AssistantBaseLocationQueryBean;
+import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
+import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
+import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
 import com.treasure_ct.happiness_xt.bean.MobAPIWeatherResultBean;
 
 /**
@@ -37,10 +41,59 @@ public class ModelParseHelper {
 //        return gson.fromJson(str, type);
 //    }
 
+    /**
+     * 解析 助手-天气-未来几天
+     * @param str
+     * @return
+     */
     public static MobAPIWeatherResultBean parseWeatherResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
         return gson.fromJson(str, MobAPIWeatherResultBean.class);
+
+    }
+    /**
+     * 解析 助手-手机归属地
+     * @param str
+     * @return
+     */
+    public static AssistantPhoneBelongBean parsePhoneBelongResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, AssistantPhoneBelongBean.class);
+
+    }
+    /**
+     * 解析 助手-邮编查城市
+     * @param str
+     * @return
+     */
+    public static AssistantPostCodeBean parsePostCodeResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, AssistantPostCodeBean.class);
+
+    }
+    /**
+     * 解析 助手-城市查邮编
+     * @param str
+     * @return
+     */
+    public static AssistantPostCode2Bean parsePostCode2Result(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, AssistantPostCode2Bean.class);
+
+    }
+    /**
+     * 解析 助手-基站查询
+     * @param str
+     * @return
+     */
+    public static AssistantBaseLocationQueryBean parseBaseQueryResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, AssistantBaseLocationQueryBean.class);
 
     }
 }

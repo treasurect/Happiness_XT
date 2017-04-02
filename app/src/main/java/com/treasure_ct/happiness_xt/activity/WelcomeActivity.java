@@ -36,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 WelcomeActivity.this.finish();
             }
-        },5000);
+        },1000);
     }
 
     private void setMediaPlayer() {

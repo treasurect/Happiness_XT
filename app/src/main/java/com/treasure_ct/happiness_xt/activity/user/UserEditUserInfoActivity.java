@@ -66,6 +66,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
 
     private void initClick() {
         btnEnter.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
     }
 
     private void initFindId() {
@@ -83,6 +84,9 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
             case R.id.btn_user_edit_enter:
                 if (Tools.isNull(editPhone.getText().toString().trim())) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
