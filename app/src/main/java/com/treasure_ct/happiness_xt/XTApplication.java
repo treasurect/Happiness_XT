@@ -3,6 +3,7 @@ package com.treasure_ct.happiness_xt;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import cn.bmob.v3.Bmob;
 
@@ -32,6 +33,8 @@ public class XTApplication extends Application{
         //Bmob.initialize(config);
         //百度地图初始化
         SDKInitializer.initialize(getApplicationContext());
+        //fresco的初始化
+        Fresco.initialize(this);
     }
     public boolean isNight() {
         return isNight;

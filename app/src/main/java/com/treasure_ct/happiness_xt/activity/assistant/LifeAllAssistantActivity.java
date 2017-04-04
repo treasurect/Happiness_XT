@@ -29,7 +29,7 @@ import com.treasure_ct.happiness_xt.bean.AssistantBaseLocationQueryBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
-import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
+import com.treasure_ct.happiness_xt.bean.AssistantGridBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -187,9 +187,9 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
 
     private void initGridView() {
         //填充gridView1
-        List<LifeAssistantGridBean> list = new ArrayList<>();
+        List<AssistantGridBean> list = new ArrayList<>();
         for (int i = 0; i < assistant_image1.length; i++) {
-            LifeAssistantGridBean gridBean = new LifeAssistantGridBean();
+            AssistantGridBean gridBean = new AssistantGridBean();
             gridBean.setText(assistant_text1[i]);
             gridBean.setImage(assistant_image1[i]);
             list.add(gridBean);
@@ -198,9 +198,9 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
         gridView1.setAdapter(adapter1);
         adapter1.setLifeAssistantClickItem(this);
         //填充GridView2
-        List<LifeAssistantGridBean> list2 = new ArrayList<>();
+        List<AssistantGridBean> list2 = new ArrayList<>();
         for (int i = 0; i < assistant_image2.length; i++) {
-            LifeAssistantGridBean gridBean = new LifeAssistantGridBean();
+            AssistantGridBean gridBean = new AssistantGridBean();
             gridBean.setText(assistant_text2[i]);
             gridBean.setImage(assistant_image2[i]);
             list2.add(gridBean);
@@ -209,9 +209,9 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
         gridView2.setAdapter(adapter2);
         adapter2.setLifeAssistantClickItem(this);
         //填充GridView3
-        List<LifeAssistantGridBean> list3 = new ArrayList<>();
+        List<AssistantGridBean> list3 = new ArrayList<>();
         for (int i = 0; i < assistant_image3.length; i++) {
-            LifeAssistantGridBean gridBean = new LifeAssistantGridBean();
+            AssistantGridBean gridBean = new AssistantGridBean();
             gridBean.setText(assistant_text3[i]);
             gridBean.setImage(assistant_image3[i]);
             list3.add(gridBean);
@@ -220,9 +220,9 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
         gridView3.setAdapter(adapter3);
         adapter3.setLifeAssistantClickItem(this);
         //填充GridView4
-        List<LifeAssistantGridBean> list4 = new ArrayList<>();
+        List<AssistantGridBean> list4 = new ArrayList<>();
         for (int i = 0; i < assistant_image4.length; i++) {
-            LifeAssistantGridBean gridBean = new LifeAssistantGridBean();
+            AssistantGridBean gridBean = new AssistantGridBean();
             gridBean.setText(assistant_text4[i]);
             gridBean.setImage(assistant_image4[i]);
             list4.add(gridBean);

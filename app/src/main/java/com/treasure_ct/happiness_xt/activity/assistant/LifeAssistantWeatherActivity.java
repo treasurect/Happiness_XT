@@ -3,12 +3,8 @@ package com.treasure_ct.happiness_xt.activity.assistant;
 import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.RotateAnimation;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,7 +14,7 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.AssistantWeatherFutureAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherFutureBean;
-import com.treasure_ct.happiness_xt.bean.MobAPIWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -31,8 +27,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class LifeAssistantWeatherActivity extends BaseActivity implements View.OnClickListener {
@@ -62,7 +56,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
                     publish_cold.setText(resultBean.getResult().get(0).getColdIndex());
                     publish_dress.setText(resultBean.getResult().get(0).getDressingIndex());
                     publish_exercise.setText(resultBean.getResult().get(0).getExerciseIndex());
-                    List<MobAPIWeatherResultBean.ResultBean.FutureBean> futureList = resultBean.getResult().get(0).getFuture();
+                    List<AssistantWeatherResultBean.ResultBean.FutureBean> futureList = resultBean.getResult().get(0).getFuture();
                     list.clear();
                     for (int i = 1; i < futureList.size(); i++) {
                         AssistantWeatherFutureBean futureBean = new AssistantWeatherFutureBean();
@@ -76,7 +70,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
             }
         }
     };
-    private MobAPIWeatherResultBean resultBean;
+    private AssistantWeatherResultBean resultBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +145,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
 //
 //            @Override
 //            public void onResponse(String response, int id) {
-//                MobAPIWeatherResultBean resultBean = ModelParseHelper.parseWeatherResult(response);
+//                AssistantWeatherResultBean resultBean = ModelParseHelper.parseWeatherResult(response);
 //                if (resultBean.getRetCode().equals("200")) {
 
 //                }

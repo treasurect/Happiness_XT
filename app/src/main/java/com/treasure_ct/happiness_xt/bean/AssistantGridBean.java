@@ -7,7 +7,7 @@ import android.widget.TextView;
  * Created by Administrator on 2017/3/30.
  */
 
-public class LifeAssistantGridBean {
+public class AssistantGridBean {
     private String text;
     private int image;
 

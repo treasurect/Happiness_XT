@@ -5,7 +5,8 @@ import com.treasure_ct.happiness_xt.bean.AssistantBaseLocationQueryBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
-import com.treasure_ct.happiness_xt.bean.MobAPIWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
 
 /**
  * 使用Gson解析接口数据帮助类
@@ -46,10 +47,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static MobAPIWeatherResultBean parseWeatherResult(String str) {
+    public static AssistantWeatherResultBean parseWeatherResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, MobAPIWeatherResultBean.class);
+        return gson.fromJson(str, AssistantWeatherResultBean.class);
 
     }
     /**
@@ -96,4 +97,26 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantBaseLocationQueryBean.class);
 
     }
+    /**
+     * 解析 home-新闻头条
+     * @param str
+     * @return
+     */
+    public static HomeNewsTopListBean parseNewsTopResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeNewsTopListBean.class);
+
+    }
+//    /**
+//     * 解析 home-新闻军事
+//     * @param str
+//     * @return
+//     */
+//    public static HomeNewsWarListBean parseNewsWarResult(String str) {
+//        if (str == null || str.equals("")) return null;
+//        Gson gson = new Gson();
+//        return gson.fromJson(str, HomeNewsWarListBean.class);
+//
+//    }
 }

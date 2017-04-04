@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
+import com.treasure_ct.happiness_xt.bean.AssistantGridBean;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import java.util.List;
 
 public class LifeAssistantGridAdapter extends BaseAdapter {
     private Context context;
-    private List<LifeAssistantGridBean> list;
+    private List<AssistantGridBean> list;
     private LayoutInflater inflater;
 
-    public LifeAssistantGridAdapter(Context context, List<LifeAssistantGridBean> list) {
+    public LifeAssistantGridAdapter(Context context, List<AssistantGridBean> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -57,7 +57,7 @@ public class LifeAssistantGridAdapter extends BaseAdapter {
             ret = inflater.inflate(R.layout.assistant_grid_item, viewGroup, false);
         }
         ret.setTag(new ViewHolder(ret));
-        final LifeAssistantGridBean gridBean = list.get(position);
+        final AssistantGridBean gridBean = list.get(position);
         final ViewHolder holder = (ViewHolder) ret.getTag();
         holder.textView.setText(gridBean.getText());
         holder.imageView.setImageResource(gridBean.getImage());

@@ -27,9 +27,9 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
         tabLayout.addOnTabSelectedListener(this);
         initTabLayout();
         initViewPager();
-        viewPager.setCurrentItem(0);
         //联动
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.setCurrentItem(0,false);
         return view;
     }
     private void initFindId(View view) {
@@ -38,27 +38,37 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
     }
 
     private void initTabLayout() {
-        tabLayout.addTab(tabLayout.newTab().setText("新闻"));
+        tabLayout.addTab(tabLayout.newTab().setText("头条"));
         tabLayout.addTab(tabLayout.newTab().setText("段子"));
+        tabLayout.addTab(tabLayout.newTab().setText("FUN"));
         tabLayout.addTab(tabLayout.newTab().setText("视频"));
         tabLayout.addTab(tabLayout.newTab().setText("美食"));
         tabLayout.addTab(tabLayout.newTab().setText("音乐"));
+        tabLayout.addTab(tabLayout.newTab().setText("科技"));
+        tabLayout.addTab(tabLayout.newTab().setText("时尚"));
+        tabLayout.addTab(tabLayout.newTab().setText("电影"));
+        tabLayout.addTab(tabLayout.newTab().setText("体育"));
     }
 
     private void initViewPager() {
         List<Fragment> list = new ArrayList<>();
-        list.add(new HomeNewsFragment());
+        list.add(new HomeNewsTopFragment());
         list.add(new HomeJokerFragment());
+        list.add(new HomeNewsFunFragment());
         list.add(new HomeVideoFragment());
         list.add(new HomeCateFragment());
         list.add(new HomeMusicFragment());
+        list.add(new HomeNewsTechFragment());
+        list.add(new HomeNewsFashionFragment());
+        list.add(new HomeNewsMoviesFragment());
+        list.add(new HomeNewsSportsFragment());
         HomeFragmentPagerAdapter pagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager(), list);
         viewPager.setAdapter(pagerAdapter);
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
+        viewPager.setCurrentItem(tab.getPosition(),false);
     }
 
     @Override

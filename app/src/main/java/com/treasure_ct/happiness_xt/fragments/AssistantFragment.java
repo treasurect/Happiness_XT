@@ -24,8 +24,7 @@ import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantMapActivity;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantWeatherActivity;
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
-import com.treasure_ct.happiness_xt.bean.LifeAssistantGridBean;
-import com.treasure_ct.happiness_xt.bean.MobAPIWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.AssistantGridBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -82,12 +81,12 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     }
 
     private void initGridView() {
-        List<LifeAssistantGridBean> list = new ArrayList<>();
+        List<AssistantGridBean> list = new ArrayList<>();
         for (int i = 0; i < assistant_list_text.length; i++) {
-            LifeAssistantGridBean lifeAssistantGridBean = new LifeAssistantGridBean();
-            lifeAssistantGridBean.setText(assistant_list_text[i]);
-            lifeAssistantGridBean.setImage(assistant_list_image[i]);
-            list.add(lifeAssistantGridBean);
+            AssistantGridBean assistantGridBean = new AssistantGridBean();
+            assistantGridBean.setText(assistant_list_text[i]);
+            assistantGridBean.setImage(assistant_list_image[i]);
+            list.add(assistantGridBean);
         }
         LifeAssistantGridAdapter adapter = new LifeAssistantGridAdapter(getContext(), list);
         gridView.setAdapter(adapter);
