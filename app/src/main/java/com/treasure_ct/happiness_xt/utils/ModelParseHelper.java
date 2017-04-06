@@ -6,6 +6,7 @@ import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
 
 /**
@@ -108,15 +109,15 @@ public class ModelParseHelper {
         return gson.fromJson(str, HomeNewsTopListBean.class);
 
     }
-//    /**
-//     * 解析 home-新闻军事
-//     * @param str
-//     * @return
-//     */
-//    public static HomeNewsWarListBean parseNewsWarResult(String str) {
-//        if (str == null || str.equals("")) return null;
-//        Gson gson = new Gson();
-//        return gson.fromJson(str, HomeNewsWarListBean.class);
-//
-//    }
+    /**
+     * 解析 home-段子
+     * @param str
+     * @return
+     */
+    public static HomeJokerListBean parseJokerResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeJokerListBean.class);
+
+    }
 }

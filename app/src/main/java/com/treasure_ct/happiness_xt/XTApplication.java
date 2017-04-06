@@ -6,6 +6,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import cn.bmob.v3.Bmob;
+import cn.smssdk.SMSSDK;
 
 /**
  * Created by treasure on 2017.03.30.
@@ -35,6 +36,8 @@ public class XTApplication extends Application{
         SDKInitializer.initialize(getApplicationContext());
         //fresco的初始化
         Fresco.initialize(this);
+        //Mob的初始化
+        SMSSDK.initSDK(this, "1cc26b90803f5", "78a3e40107b81c515b56737efe2cfee8");
     }
     public boolean isNight() {
         return isNight;
