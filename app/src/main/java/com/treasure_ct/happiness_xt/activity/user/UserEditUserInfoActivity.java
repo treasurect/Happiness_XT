@@ -1,7 +1,6 @@
 package com.treasure_ct.happiness_xt.activity.user;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,8 +11,11 @@ import android.widget.Toast;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
+import com.treasure_ct.happiness_xt.utils.ACache;
+import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +29,6 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     private EditText editPhone;
     private EditText editNick;
     private EditText editPwd;
-    private EditText editRePwd;
     private EditText editAge;
     private EditText editDesc;
     private RadioButton sex_man;
@@ -51,17 +52,34 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         setContentView(R.layout.activity_user_edit_user_info);
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
-        btn_back.setImageResource(R.mipmap.icon_return);
-        btn_back.setVisibility(View.VISIBLE);
         title.setText("信息修改");
         initFindId();
+        receiveIntentData();
+        initClick();
+    }
+
+    private void initFindId() {
+        editPhone = (EditText) findViewById(R.id.mine_edit_phone);
+        editNick = (EditText) findViewById(R.id.mine_edit_nickname);
+        editPwd = (EditText) findViewById(R.id.mine_edit_password);
+        editAge = (EditText) findViewById(R.id.mine_edit_age);
+        editDesc = (EditText) findViewById(R.id.mine_edit_userDesc);
+        sex_man = (RadioButton) findViewById(R.id.mine_edit_sex_man);
+        sex_woman = (RadioButton) findViewById(R.id.mine_edit_sex_woman);
+        btnEnter = (TextView) findViewById(R.id.btn_user_edit_enter);
+    }
+
+    private void receiveIntentData() {
         Intent intent = getIntent();
         if (!Tools.isNull(intent.getStringExtra("UserPhone"))) {
             String userPhone = intent.getStringExtra("UserPhone");
             editPhone.setText(userPhone);
+            editNick.setText(userPhone);
+        }else {
+            editNick.setText("小王");
         }
+        editAge.setText("0");
         sex_man.setChecked(true);
-        initClick();
     }
 
     private void initClick() {
@@ -69,39 +87,20 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         btn_back.setOnClickListener(this);
     }
 
-    private void initFindId() {
-        editPhone = (EditText) findViewById(R.id.mine_edit_phone);
-        editNick = (EditText) findViewById(R.id.mine_edit_nickname);
-        editPwd = (EditText) findViewById(R.id.mine_edit_password);
-        editRePwd = (EditText) findViewById(R.id.mine_edit_re_password);
-        editAge = (EditText) findViewById(R.id.mine_edit_age);
-        editDesc = (EditText) findViewById(R.id.mine_edit_user_desc);
-        sex_man = (RadioButton) findViewById(R.id.mine_edit_sex_man);
-        sex_woman = (RadioButton) findViewById(R.id.mine_edit_sex_woman);
-        btnEnter = (TextView) findViewById(R.id.btn_user_edit_enter);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_back:
-                finish();
-                break;
             case R.id.btn_user_edit_enter:
                 if (Tools.isNull(editPhone.getText().toString().trim())) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (Tools.isNull(editNick.getText().toString().trim())) {
-                    Toast.makeText(this, "请输入昵称", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (Tools.isNull(editPwd.getText().toString().trim())) {
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (Tools.isNull(editRePwd.getText().toString().trim())) {
-                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                if (Tools.isNull(editNick.getText().toString().trim())) {
+                    Toast.makeText(this, "请输入昵称", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (Tools.isNull(editAge.getText().toString().trim())) {
@@ -109,7 +108,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                     return;
                 }
                 if (Tools.isNull(editDesc.getText().toString().trim())) {
-                    Toast.makeText(this, "让我们认识你", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "让更多人认识你", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 editRegister();
@@ -154,16 +153,16 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
          */
         if (sex_man.isChecked()) {
             sex = 0;
-        } else {
+        } else if (sex_woman.isChecked()){
             sex = 1;
         }
-        UserInfoBean infoBean = new UserInfoBean();
+        final UserInfoBean infoBean = new UserInfoBean();
         infoBean.setUser_name(editPhone.getText().toString().trim());
-        infoBean.setNick_name(editNick.getText().toString().trim());
+        infoBean.setNick_name(editNick.getText().toString().trim()+"");
         infoBean.setUser_pwd(editPwd.getText().toString().trim());
         infoBean.setAge(Integer.parseInt(editAge.getText().toString().trim()));
         infoBean.setSex(sex);
-        infoBean.setUser_desc(editDesc.getText().toString().trim());
+        infoBean.setUser_desc(editDesc.getText().toString().trim()+"");
         infoBean.setUser_icon("暂无头像");
 
         infoBean.save(new SaveListener<String>() {
@@ -171,10 +170,23 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             public void done(String s, BmobException e) {
                 if (e == null) {
                     Toast.makeText(UserEditUserInfoActivity.this, "恭喜你，注册成功", Toast.LENGTH_SHORT).show();
+                    //缓存
+                    BaseActivity.aCache.put("UserInfo",(Serializable) infoBean);
+                    BaseActivity.aCache.put("token","login");
+                    //发送登录成功 广播
+                    Intent intent = new Intent();
+                    intent.setAction(StringContents.ACTION_COMMENTDATA);
+                    sendBroadcast(intent);
+                    UserEditUserInfoActivity.this.finish();
                 } else {
                     Toast.makeText(UserEditUserInfoActivity.this, "很遗憾，注册失败\n原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
     }
 }

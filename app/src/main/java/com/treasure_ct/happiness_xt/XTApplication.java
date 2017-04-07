@@ -38,6 +38,7 @@ public class XTApplication extends Application{
         Fresco.initialize(this);
         //Mob的初始化
         SMSSDK.initSDK(this, "1cc26b90803f5", "78a3e40107b81c515b56737efe2cfee8");
+        setNight(false);
     }
     public boolean isNight() {
         return isNight;

@@ -7,5 +7,6 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlock">#222222</color>
     <color name="colorGray">#cccccc</color>
+    <color name="colorGray2">#444444</color>
     <color name="colorWhite">#f8f8f8</color>
 </resources>

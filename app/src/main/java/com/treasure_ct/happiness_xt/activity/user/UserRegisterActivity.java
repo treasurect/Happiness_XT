@@ -39,6 +39,7 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
                 //请求验证码
                 case 200:
                     Toast.makeText(UserRegisterActivity.this, "请求成功", Toast.LENGTH_SHORT).show();
+                    openCountTimer();
                     break;
                 //提交验证码
                 case 201:
@@ -48,6 +49,7 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
                         intent.putExtra("UserPhone", phoneNumber);
                     }
                     startActivity(intent);
+                    UserRegisterActivity.this.finish();
                     break;
                 //失败原因
                 case 400:
@@ -84,6 +86,7 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
         btnSendMes.setOnClickListener(this);
         btn_back.setOnClickListener(this);
     }
+
     private void registerEvent() {
         SMSSDK.registerEventHandler(new EventHandler() {
             @Override
@@ -133,15 +136,14 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.user_send_message:
-
                 phoneNumber = editPhone.getText().toString().trim();
                 if (isRequestSMSCode()) {
                     requestSMSCode();
-                    openCountTimer();
                 }
                 break;
         }
     }
+
     private boolean isRequestSMSCode() {
         Matcher matcher = p.matcher(phoneNumber);
         if (matcher.matches()) {
@@ -157,26 +159,24 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void openCountTimer() {
-        if (timer == null){
-            timer = new CountDownTimer(60000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    btnSendMes.setClickable(false);
-                    btnSendMes.setText("获取（"+(millisUntilFinished / 1000)+"s）");
-                    btnSendMes.setTextSize(15.0f);
-                    btnSendMes.setTextColor(getResources().getColor(R.color.colorGray));
-                }
+        timer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                btnSendMes.setClickable(false);
+                btnSendMes.setText("获取（" + (millisUntilFinished / 1000) + "s）");
+                btnSendMes.setTextSize(15.0f);
+                btnSendMes.setTextColor(getResources().getColor(R.color.colorGray2));
+            }
 
-                @Override
-                public void onFinish() {
-                    btnSendMes.setClickable(true);
-                    btnSendMes.setText("获取验证码");
-                    btnSendMes.setTextSize(18.0f);
-                    btnSendMes.setTextColor(getResources().getColor(R.color.colorBlock));
-                }
-            };
-            timer.start();
-        }
+            @Override
+            public void onFinish() {
+                btnSendMes.setClickable(true);
+                btnSendMes.setText("获取验证码");
+                btnSendMes.setTextSize(18.0f);
+                btnSendMes.setTextColor(getResources().getColor(R.color.colorBlock));
+            }
+        };
+        timer.start();
     }
 
     private void verifySMSCode() {

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#ff7556"
+              android:background="@color/colorWhite"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
               android:orientation="vertical">
@@ -10,17 +10,16 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:gravity="center"
-        android:text="希望你开心"
-        android:textColor="#9222"
+        android:text="只为带给你\n\n开心"
+        android:textColor="@color/colorOrange"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:id="@+id/textView4"/>
+        android:textStyle="bold"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
@@ -55,10 +54,10 @@
     <EditText
         android:id="@+id/mine_register_verification_code"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/edittext_bg"
         android:hint="请输入验证码"
         android:paddingLeft="20dp"/>
@@ -66,7 +65,7 @@
     <TextView
         android:id="@+id/btn_user_login"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
