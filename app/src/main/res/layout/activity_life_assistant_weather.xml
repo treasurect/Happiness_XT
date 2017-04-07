@@ -94,6 +94,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/assistant_weather_now_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -329,7 +330,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/colorWhite" />
 
-            <ListView
+            <com.treasure_ct.happiness_xt.custom.CustomScrollListView
                 android:id="@+id/assistant_weather_now_listView"
                 android:layout_width="match_parent"
                 android:layout_height="720dp"

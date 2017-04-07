@@ -3,6 +3,7 @@ package com.treasure_ct.happiness_xt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,17 @@ import android.widget.Toast;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicListViewBean;
+import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicFragment extends Fragment implements DynamicListAdapter.OnClickPublishAttention {
-    private ListView listView;
+    private CustomScrollListView listView;
     private List<DynamicListViewBean> list;
     private DynamicListAdapter adapter;
+    private NestedScrollView scrollView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,10 +32,18 @@ public class DynamicFragment extends Fragment implements DynamicListAdapter.OnCl
         initFindId(view);
         initListView();
         adapter.setOnClickPublishAttention(this);
+        initScrollView();
         return view;
     }
+
+    private void initScrollView() {
+        scrollView.smoothScrollTo(0,20);
+        listView.setFocusable(false);
+    }
+
     private void initFindId(View view) {
-        listView = (ListView) view.findViewById(R.id.dynamic_listView);
+        scrollView = (NestedScrollView) view.findViewById(R.id.dynamic_scrollView);
+        listView = (CustomScrollListView) view.findViewById(R.id.dynamic_listView);
     }
 
     private void initListView() {

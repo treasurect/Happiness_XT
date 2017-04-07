@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.AssistantWeatherFutureAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherFutureBean;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
+import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -33,7 +35,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
 
     private TextView now_temp, now_fine, now_range, now_air;
     private TextView publish_time, publish_humidity, publish_pollution, publish_wind, publish_cold, publish_dress, publish_exercise;
-    private ListView listView;
+    private CustomScrollListView listView;
     private List<AssistantWeatherFutureBean> list;
     private AssistantWeatherFutureAdapter adapter;
     private ImageView btn_cityList;
@@ -71,6 +73,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
         }
     };
     private AssistantWeatherResultBean resultBean;
+    private NestedScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
         initListView();
         initClick();
         getWeatherDetail(StringContents.MobAPI_APPKEY, "石景山", "北京");
+        initScrollView();
     }
 
     private void initFindId() {
@@ -96,10 +100,11 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
         publish_cold = (TextView) findViewById(R.id.assistant_weather_publish_cold);
         publish_dress = (TextView) findViewById(R.id.assistant_weather_publish_dress);
         publish_exercise = (TextView) findViewById(R.id.assistant_weather_publish_exercise);
-        listView = (ListView) findViewById(R.id.assistant_weather_now_listView);
+        listView = (CustomScrollListView) findViewById(R.id.assistant_weather_now_listView);
         btn_cityList = (ImageView) findViewById(R.id.assistant_weather_cityList);
         now_city = (TextView) findViewById(R.id.assistant_weather_now_city);
         btn_refresh = (ImageView) findViewById(R.id.assistant_weather_refresh);
+        scrollView = (NestedScrollView) findViewById(R.id.assistant_weather_now_scrollView);
     }
 
     private void initListView() {
@@ -151,6 +156,11 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
 //                }
 //            }
 //        });
+    }
+
+    private void initScrollView() {
+        scrollView.smoothScrollTo(0,20);
+        listView.setFocusable(false);
     }
 
     @Override

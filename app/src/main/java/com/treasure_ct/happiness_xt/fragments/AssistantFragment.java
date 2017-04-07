@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantWeatherActiv
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantGridBean;
+import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -65,6 +68,8 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     };
     private AssistantPhoneBelongBean resultBean;
     private TextView  phoneBelong_city, phoneBelong_cityCode, phoneBelong_operator, phoneBelong_province, phoneBelong_zipCode;
+    private CustomScrollListView listView;
+    private NestedScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,11 +78,15 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
         View view = inflater.inflate(R.layout.fragment_assistant, container, false);
         initFindId(view);
         initGridView();
+        initListView();
+        initScrollView();
         return view;
     }
 
     private void initFindId(View view) {
         gridView = (GridView) view.findViewById(R.id.assistant_gridView);
+        listView = (CustomScrollListView) view.findViewById(R.id.assistant_listView);
+        scrollView = (NestedScrollView) view.findViewById(R.id.assistant_scrollView);
     }
 
     private void initGridView() {
@@ -91,6 +100,20 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
         LifeAssistantGridAdapter adapter = new LifeAssistantGridAdapter(getContext(), list);
         gridView.setAdapter(adapter);
         adapter.setLifeAssistantClickItem(this);
+    }
+
+    private void initListView() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            list.add("data::::::::::::"+i);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+    }
+
+    private void initScrollView() {
+        scrollView.smoothScrollTo(0,20);
+        listView.setFocusable(false);
     }
 
     @Override

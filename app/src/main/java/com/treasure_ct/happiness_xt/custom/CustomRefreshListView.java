@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -23,7 +21,7 @@ import java.util.Date;
  * Created by treasure on 2016.11.07.
  */
 
-public class CustomListView extends ListView implements AbsListView.OnScrollListener{
+public class CustomRefreshListView extends ListView implements AbsListView.OnScrollListener{
     /**
      * 头布局
      */
@@ -91,12 +89,12 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
      */
     private boolean isLoadingMore = false;
 
-    public CustomListView(Context context) {
+    public CustomRefreshListView(Context context) {
         this(context,null);
         this.context = context;
     }
 
-    public CustomListView(Context context, AttributeSet attrs) {
+    public CustomRefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();

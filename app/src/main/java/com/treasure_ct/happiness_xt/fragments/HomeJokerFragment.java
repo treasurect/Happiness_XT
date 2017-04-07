@@ -13,8 +13,7 @@ import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeJokerListAdapter;
 import com.treasure_ct.happiness_xt.adapter.HomeNewsTopListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
-import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
-import com.treasure_ct.happiness_xt.custom.CustomListView;
+import com.treasure_ct.happiness_xt.custom.CustomRefreshListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -27,10 +26,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class HomeJokerFragment extends BaseFragment implements CustomListView.OnRefreshListener, HomeNewsTopListAdapter.isClickItemInterface {
+public class HomeJokerFragment extends BaseFragment implements CustomRefreshListView.OnRefreshListener, HomeNewsTopListAdapter.isClickItemInterface {
     //标志位，标志已经初始化完成
     private boolean isPrepared;
-    private CustomListView listView;
+    private CustomRefreshListView listView;
     private HomeJokerListBean newsResult;
     private Handler mHandler = new Handler() {
         @Override
@@ -76,7 +75,7 @@ public class HomeJokerFragment extends BaseFragment implements CustomListView.On
         getNewsInfo(page);
     }
     private void initFindId(View view) {
-        listView = (CustomListView) view.findViewById(R.id.home_joker_listView);
+        listView = (CustomRefreshListView) view.findViewById(R.id.home_joker_listView);
     }
     private void initListView() {
         list = new ArrayList<>();

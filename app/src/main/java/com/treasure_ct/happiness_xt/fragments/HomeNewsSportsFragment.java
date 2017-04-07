@@ -13,7 +13,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeNewsTopListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
-import com.treasure_ct.happiness_xt.custom.CustomListView;
+import com.treasure_ct.happiness_xt.custom.CustomRefreshListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -26,10 +26,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class HomeNewsSportsFragment extends BaseFragment implements HomeNewsTopListAdapter.isClickItemInterface, CustomListView.OnRefreshListener {
+public class HomeNewsSportsFragment extends BaseFragment implements HomeNewsTopListAdapter.isClickItemInterface, CustomRefreshListView.OnRefreshListener {
     //标志位，标志已经初始化完成
     private boolean isPrepared;
-    private CustomListView listView;
+    private CustomRefreshListView listView;
     private HomeNewsTopListBean newsResult;
     private Handler mHandler = new Handler() {
         @Override
@@ -66,7 +66,7 @@ public class HomeNewsSportsFragment extends BaseFragment implements HomeNewsTopL
     }
 
     private void initFindId(View view) {
-        listView = (CustomListView) view.findViewById(R.id.home_news_listView);
+        listView = (CustomRefreshListView) view.findViewById(R.id.home_news_listView);
     }
 
     @Override
