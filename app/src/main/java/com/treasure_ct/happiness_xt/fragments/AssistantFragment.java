@@ -18,7 +18,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -38,7 +37,7 @@ import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantGridBean;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
-import com.treasure_ct.happiness_xt.boradcastreceiver.CommonDataReceiver;
+import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
@@ -194,7 +193,6 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
             public void done(List<DynamicBean> data_list, BmobException e) {
                 if(e==null){
                     if (data_list != null){
-                        LogUtil.d("~~~~~~~~~~~~~~~~~~~~","lllllllllllllllll");
                         list.clear();
                         Collections.reverse(data_list);
                         list.addAll(data_list);

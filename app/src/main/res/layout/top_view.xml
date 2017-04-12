@@ -43,4 +43,31 @@
         android:layout_alignParentRight="true"
         android:textColor="#f8f8f8"
         android:visibility="gone"/>
+    <RadioGroup
+        android:id="@+id/push_radioGroup"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/frame_white_radius25"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <RadioButton
+            android:id="@+id/push_notification_btn"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="通知"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:button="@null"
+            android:background="@drawable/radiobutton_white"/>
+        <RadioButton
+            android:id="@+id/push_other_btn"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="推广"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:button="@null"
+            android:background="@drawable/radiobutton_white"/>
+    </RadioGroup>
 </RelativeLayout>

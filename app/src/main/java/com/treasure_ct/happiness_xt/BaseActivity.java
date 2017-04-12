@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +16,9 @@ public class BaseActivity extends FragmentActivity {
     public ImageView btn_back;
     public TextView title;
     public TextView btn_send;
+    public RadioGroup push_RG;
+    public RadioButton noti_RB;
+    public RadioButton other_RB;
 
     public static ACache aCache;
 
@@ -30,6 +35,9 @@ public class BaseActivity extends FragmentActivity {
         title = (TextView) findViewById(R.id.text_title);
         btn_back = (ImageView) findViewById(R.id.btn_back);
         btn_send = (TextView) findViewById(R.id.btn_send);
+        push_RG = (RadioGroup)findViewById(R.id.push_radioGroup);
+        noti_RB = (RadioButton) findViewById(R.id.push_notification_btn);
+        other_RB = (RadioButton) findViewById(R.id.push_other_btn);
     }
 
 }

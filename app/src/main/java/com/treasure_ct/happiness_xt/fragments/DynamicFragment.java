@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
@@ -14,17 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
-import com.treasure_ct.happiness_xt.bean.UserInfoBean;
-import com.treasure_ct.happiness_xt.boradcastreceiver.CommonDataReceiver;
+import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
-import com.treasure_ct.happiness_xt.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

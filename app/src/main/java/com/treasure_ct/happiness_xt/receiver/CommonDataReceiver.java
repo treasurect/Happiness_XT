@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.boradcastreceiver;
+package com.treasure_ct.happiness_xt.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

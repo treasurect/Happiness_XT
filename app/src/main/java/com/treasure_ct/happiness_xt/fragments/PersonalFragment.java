@@ -27,11 +27,11 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
+import com.treasure_ct.happiness_xt.activity.user.UserPushActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserRegisterActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserSettingsActivity;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
-import com.treasure_ct.happiness_xt.boradcastreceiver.CommonDataReceiver;
-import com.treasure_ct.happiness_xt.utils.ACache;
+import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
@@ -173,6 +173,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), UserSettingsActivity.class ));
                 break;
             case R.id.mine_messagePush_layout:
+                startActivity(new Intent(getContext(), UserPushActivity.class));
                 break;
             case R.id.mine_offLine_layout:
                 break;
