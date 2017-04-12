@@ -74,9 +74,11 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
         listView.setOnRefreshListener(this);
         getNewsInfo(page);
     }
+
     private void initFindId(View view) {
         listView = (CustomRefreshListView) view.findViewById(R.id.home_joker_listView);
     }
+
     private void initListView() {
         list = new ArrayList<>();
         adapter = new HomeJokerListAdapter(getContext(), list);
@@ -84,7 +86,7 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
     }
 
     private void getNewsInfo(int page) {
-        String url = "http://api.3g.ifeng.com/clientShortNews?type=joke&page="+page;
+        String url = "http://api.3g.ifeng.com/clientShortNews?type=joke&page=" + page + "&uid=860797039338439";
         HttpHelper.doGetCall(url, getContext(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

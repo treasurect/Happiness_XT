@@ -96,7 +96,6 @@ public class HomeNewsTopListAdapter extends BaseAdapter {
         if (!Tools.isNull(bean.getTitle())) {
             holder.title.setText(bean.getTitle());
         }
-        LogUtil.d("~~~~~~~~~~~~~~~~~~getView~~", bean.getStyle().getView());
         if (!Tools.isNull(bean.getSource())) {
             holder.from.setText(bean.getSource());
         }

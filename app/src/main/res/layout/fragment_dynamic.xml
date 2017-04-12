@@ -6,7 +6,7 @@
     android:id="@+id/activity_life_assistant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ccc"
+    android:background="@color/colorGray"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
@@ -19,7 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorAccent"
+            app:contentScrim="@color/colorOrange"
             app:expandedTitleMarginStart="45dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -49,7 +49,9 @@
             android:id="@+id/dynamic_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f8f8f8"
+            android:background="@color/colorWhite"
+            android:divider="@color/colorGray"
+            android:dividerHeight="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"

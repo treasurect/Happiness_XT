@@ -16,9 +16,13 @@ import com.treasure_ct.happiness_xt.utils.Tools;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout tab_home,tab_assistant,tab_collection,tab_personal;
-    private ImageView home_image,assistant_image,collection_image,personal_image, tab_plus;
+    private ImageView home_image,assistant_image,collection_image,personal_image;
     private TextView home_text,assistant_text,collection_text,personal_text;
     private FragmentTransaction transaction;
+    private HomeFragment homeFragment;
+    private AssistantFragment assistantFragment;
+    private DynamicFragment dynamicFragment;
+    private PersonalFragment personalFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         transaction = getSupportFragmentManager().beginTransaction();
         initFindId();
-        transaction.replace(R.id.replace_fragment,new HomeFragment());
+        transaction.replace(R.id.replace_fragment,homeFragment);
         transaction.commit();
+        home_image.setImageResource(R.mipmap.btn_home);
+        home_text.setTextColor(getResources().getColor(R.color.colorRed));
+        home_text.getPaint().setFakeBoldText(true);
         initClick();
     }
 
@@ -59,11 +66,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         assistant_image = (ImageView) findViewById(R.id.main_tab_assistant_image);
         collection_image = (ImageView) findViewById(R.id.main_tab_collection_image);
         personal_image = (ImageView) findViewById(R.id.main_tab_personal_image);
-        tab_plus = (ImageView) findViewById(R.id.main_tab_plus);
+//        tab_plus = (ImageView) findViewById(R.id.main_tab_plus);
         home_text = (TextView) findViewById(R.id.main_tab_home_text);
         assistant_text = (TextView) findViewById(R.id.main_tab_assistant_text);
         collection_text = (TextView) findViewById(R.id.main_tab_collection_text);
         personal_text = (TextView) findViewById(R.id.main_tab_personal_text);
+        homeFragment = new HomeFragment();
+        assistantFragment = new AssistantFragment();
+        dynamicFragment = new DynamicFragment();
+        personalFragment = new PersonalFragment();
     }
 
     private void initClick() {
@@ -71,7 +82,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tab_assistant.setOnClickListener(this);
         tab_collection.setOnClickListener(this);
         tab_personal.setOnClickListener(this);
-        tab_plus.setOnClickListener(this);
+//        tab_plus.setOnClickListener(this);
     }
 
     @Override
@@ -83,28 +94,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 home_image.setImageResource(R.mipmap.btn_home);
                 home_text.setTextColor(getResources().getColor(R.color.colorRed));
                 home_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,new HomeFragment());
+                transaction.replace(R.id.replace_fragment,homeFragment);
                 break;
             case R.id.main_tab_assistant:
                 assistant_image.setImageResource(R.mipmap.btn_assistant);
                 assistant_text.setTextColor(getResources().getColor(R.color.colorRed));
                 assistant_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,new AssistantFragment());
+                transaction.replace(R.id.replace_fragment,assistantFragment);
                 break;
             case R.id.main_tab_collection:
                 collection_image.setImageResource(R.mipmap.btn_collection);
                 collection_text.setTextColor(getResources().getColor(R.color.colorRed));
                 collection_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,new DynamicFragment());
+                transaction.replace(R.id.replace_fragment,dynamicFragment);
                 break;
             case R.id.main_tab_personal:
                 personal_image.setImageResource(R.mipmap.btn_personal);
                 personal_text.setTextColor(getResources().getColor(R.color.colorRed));
                 personal_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,new PersonalFragment());
+                transaction.replace(R.id.replace_fragment,personalFragment);
                 break;
-            case R.id.main_tab_plus:
-                break;
+//            case R.id.main_tab_plus:
+//                break;
         }
         transaction.commit();
     }

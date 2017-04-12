@@ -45,6 +45,7 @@ public class UserRegisterActivity extends BaseActivity implements View.OnClickLi
                 case 201:
                     Toast.makeText(UserRegisterActivity.this, "恭喜你，验证成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(UserRegisterActivity.this, UserEditUserInfoActivity.class);
+                    intent.putExtra("edit_type","register");
                     if (!Tools.isNull(editPhone.getText().toString().trim())) {
                         intent.putExtra("UserPhone", phoneNumber);
                     }

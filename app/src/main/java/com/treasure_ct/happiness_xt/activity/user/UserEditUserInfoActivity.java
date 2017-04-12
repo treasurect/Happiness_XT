@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
-import com.treasure_ct.happiness_xt.utils.ACache;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
@@ -45,6 +44,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
      * 147
      */
     private Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$");
+    private String edit_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,15 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             String userPhone = intent.getStringExtra("UserPhone");
             editPhone.setText(userPhone);
             editNick.setText(userPhone);
-        }else {
+        } else {
             editNick.setText("小王");
+        }
+        if (!Tools.isNull(intent.getStringExtra("edit_type"))) {
+            edit_type = intent.getStringExtra("edit_type");
+            if (edit_type.equals("normal")) {
+                btn_back.setVisibility(View.VISIBLE);
+                btn_back.setOnClickListener(this);
+            }
         }
         editAge.setText("0");
         sex_man.setChecked(true);
@@ -112,6 +119,9 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                     return;
                 }
                 editRegister();
+                break;
+            case R.id.btn_back:
+                UserEditUserInfoActivity.this.finish();
                 break;
         }
     }
@@ -153,16 +163,16 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
          */
         if (sex_man.isChecked()) {
             sex = 0;
-        } else if (sex_woman.isChecked()){
+        } else if (sex_woman.isChecked()) {
             sex = 1;
         }
         final UserInfoBean infoBean = new UserInfoBean();
         infoBean.setUser_name(editPhone.getText().toString().trim());
-        infoBean.setNick_name(editNick.getText().toString().trim()+"");
+        infoBean.setNick_name(editNick.getText().toString().trim() + "");
         infoBean.setUser_pwd(editPwd.getText().toString().trim());
         infoBean.setAge(Integer.parseInt(editAge.getText().toString().trim()));
         infoBean.setSex(sex);
-        infoBean.setUser_desc(editDesc.getText().toString().trim()+"");
+        infoBean.setUser_desc(editDesc.getText().toString().trim() + "");
         infoBean.setUser_icon("暂无头像");
 
         infoBean.save(new SaveListener<String>() {
@@ -171,11 +181,12 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                 if (e == null) {
                     Toast.makeText(UserEditUserInfoActivity.this, "恭喜你，注册成功", Toast.LENGTH_SHORT).show();
                     //缓存
-                    BaseActivity.aCache.put("UserInfo",(Serializable) infoBean);
-                    BaseActivity.aCache.put("token","login");
+                    BaseActivity.aCache.put("UserInfo", (Serializable) infoBean);
+                    BaseActivity.aCache.put("token", "login");
                     //发送登录成功 广播
                     Intent intent = new Intent();
                     intent.setAction(StringContents.ACTION_COMMENTDATA);
+                    intent.putExtra("label", "login");
                     sendBroadcast(intent);
                     UserEditUserInfoActivity.this.finish();
                 } else {
@@ -187,6 +198,10 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
+        if (edit_type.equals("normal")) {
+            super.onBackPressed();
+        } else if (edit_type.equals("register")) {
+            Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
+        }
     }
 }

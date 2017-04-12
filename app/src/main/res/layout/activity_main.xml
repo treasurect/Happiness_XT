@@ -21,64 +21,72 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/main_tab_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
+
                 <ImageView
                     android:id="@+id/main_tab_home_image"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/btn_home2"/>
+
                 <TextView
                     android:id="@+id/main_tab_home_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="主页"/>
+                    android:layout_marginTop="2dp"
+                    android:text="主页"
+                    android:textSize="10sp"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/main_tab_assistant"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/main_tab_assistant_image"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/btn_assistant2"/>
+                    android:src="@mipmap/btn_assistant2"
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/main_tab_assistant_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="助手"/>
+                    android:layout_marginTop="2dp"
+                    android:text="助手"
+                    android:textSize="10sp"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="vertical">-->
+            <!--</LinearLayout>-->
             <LinearLayout
                 android:id="@+id/main_tab_collection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/main_tab_collection_image"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/btn_collection2"/>
                 <TextView
@@ -86,19 +94,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="动态·"/>
+                    android:layout_marginTop="2dp"
+                    android:text="动态"
+                    android:textSize="10sp"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/main_tab_personal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/main_tab_personal_image"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/btn_personal2"/>
                 <TextView
@@ -106,16 +116,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="我的"/>
+                    android:layout_marginTop="2dp"
+                    android:text="我的"
+                    android:textSize="10sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/main_tab_plus"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:src="@mipmap/btn_add"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/main_tab_plus"-->
+        <!--android:layout_width="52dp"-->
+        <!--android:layout_height="52dp"-->
+        <!--android:layout_gravity="bottom|center_horizontal"-->
+        <!--android:layout_marginBottom="30dp"-->
+        <!--android:src="@mipmap/btn_add"/>-->
 </FrameLayout>

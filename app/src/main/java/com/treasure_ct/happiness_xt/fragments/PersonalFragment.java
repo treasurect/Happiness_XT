@@ -18,14 +18,17 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserRegisterActivity;
+import com.treasure_ct.happiness_xt.activity.user.UserSettingsActivity;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
 import com.treasure_ct.happiness_xt.boradcastreceiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.ACache;
@@ -42,16 +45,16 @@ import cn.bmob.v3.listener.FindListener;
 
 public class PersonalFragment extends Fragment implements View.OnClickListener {
     private PopupWindow mPopupWindow;
-    private ImageView imageNight, mine_login_icon, imageCollection, imageSettings;
+    private ImageView imageNight, mine_login_icon, imageHistory, imageSettings;
     private TextView mine_login_username, register;
     private String user_name;
     private ImageView qqLogin, weChatLogin, sinaLogin, qqweiboLogin;
     private EditText editPwd, editPhone;
     private FrameLayout messagePush_layout, offLine_layout, active_layout, feedBack_layout, shop_layout;
     private XTApplication application;
-    private ACache aCache;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
+    private LinearLayout layoutNight, layoutHistory,layoutSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,9 +62,6 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
         application = (XTApplication) getActivity().getApplication();
-        if (aCache == null){
-            aCache = ACache.get(getContext());
-        }
 
         receiveBoradCast();
         initFindId(view);
@@ -77,19 +77,31 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         commonDataReceiver.setDoUiReceiver(new CommonDataReceiver.DoUiReceiver() {
             @Override
             public void doUi(Context context, Intent intent) {
-                mine_login_icon.setImageResource(R.mipmap.icon);
-                mine_login_username.setText("用户：" + ((UserInfoBean) aCache.getAsObject("UserInfo")).getNick_name());
+                if (intent.getExtras().getString("label").equals("login")){
+                    if (!Tools.isNull(BaseActivity.aCache.getAsString("token"))){
+                        if (BaseActivity.aCache.getAsString("token").equals("login")){
+                            mine_login_icon.setImageResource(R.mipmap.icon);
+                            mine_login_username.setText("用户：" + ((UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo")).getNick_name());
+                        }
+                    }else {
+                        mine_login_icon.setImageResource(R.mipmap.icon_login);
+                        mine_login_username.setText("登录让内容更精彩");
+                    }
+                }
             }
         });
-        getActivity().registerReceiver(commonDataReceiver, filter);
+        getContext().registerReceiver(commonDataReceiver, filter);
     }
 
     private void initFindId(View view) {
         mine_login_icon = (ImageView) view.findViewById(R.id.mine_login_icon);
         mine_login_username = (TextView) view.findViewById(R.id.mine_login_username);
         imageNight = (ImageView) view.findViewById(R.id.mine_night_icon);
-        imageCollection = (ImageView) view.findViewById(R.id.mine_collection_icon);
+        layoutNight = (LinearLayout) view.findViewById(R.id.mine_night_layout);
+        imageHistory = (ImageView) view.findViewById(R.id.mine_history_icon);
+        layoutHistory = (LinearLayout) view.findViewById(R.id.mine_history_layout);
         imageSettings = (ImageView) view.findViewById(R.id.mine_settings_icon);
+        layoutSettings = (LinearLayout) view.findViewById(R.id.mine_settings_layout);
         messagePush_layout = (FrameLayout) view.findViewById(R.id.mine_messagePush_layout);
         offLine_layout = (FrameLayout) view.findViewById(R.id.mine_offLine_layout);
         active_layout = (FrameLayout) view.findViewById(R.id.mine_active_layout);
@@ -99,10 +111,10 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         //用户名 头像
-        if (!Tools.isNull(aCache.getAsString("token"))){
-            if (aCache.getAsString("token").equals("login")){
+        if (!Tools.isNull(BaseActivity.aCache.getAsString("token"))){
+            if (BaseActivity.aCache.getAsString("token").equals("login")){
                 mine_login_icon.setImageResource(R.mipmap.icon);
-                mine_login_username.setText("用户：" + ((UserInfoBean) aCache.getAsObject("UserInfo")).getNick_name());
+                mine_login_username.setText("用户：" + ((UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo")).getNick_name());
             }
         }else {
             mine_login_icon.setImageResource(R.mipmap.icon_login);
@@ -126,9 +138,9 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
     private void initClick() {
         mine_login_icon.setOnClickListener(this);
-        imageNight.setOnClickListener(this);
-        imageCollection.setOnClickListener(this);
-        imageSettings.setOnClickListener(this);
+        layoutNight.setOnClickListener(this);
+        layoutHistory.setOnClickListener(this);
+        layoutSettings.setOnClickListener(this);
         messagePush_layout.setOnClickListener(this);
         offLine_layout.setOnClickListener(this);
         active_layout.setOnClickListener(this);
@@ -140,22 +152,25 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_login_icon:
-                if (Tools.isNull(aCache.getAsString("token"))){
+                if (Tools.isNull(BaseActivity.aCache.getAsString("token"))){
                     showPopupWindow();
                 }else {
-                    if (aCache.getAsString("token").equals("login")){
-                        Toast.makeText(getContext(), "已登录", Toast.LENGTH_SHORT).show();
+                    if (BaseActivity.aCache.getAsString("token").equals("login")){
+                        Intent intent = new Intent(getContext(), UserEditUserInfoActivity.class);
+                        intent.putExtra("edit_type","normal");
+                        startActivity(intent);
                     }else {
                         showPopupWindow();
                     }
                 }
                 break;
-            case R.id.mine_collection_icon:
+            case R.id.mine_history_layout:
                 break;
-            case R.id.mine_night_icon:
+            case R.id.mine_night_layout:
                 nightSwitch();
                 break;
-            case R.id.mine_settings_icon:
+            case R.id.mine_settings_layout:
+                startActivity(new Intent(getContext(), UserSettingsActivity.class ));
                 break;
             case R.id.mine_messagePush_layout:
                 break;
@@ -223,12 +238,13 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                             userInfoBean.setAge(list.get(0).getAge());
                             userInfoBean.setSex(list.get(0).getSex());
                             userInfoBean.setUser_desc(list.get(0).getUser_desc());
-                            aCache.put("UserInfo", ((Serializable) userInfoBean));
-                            aCache.put("token","login");
+                            BaseActivity.aCache.put("UserInfo", ((Serializable) userInfoBean));
+                            BaseActivity.aCache.put("token","login");
                             //发送登录成功 广播
                             Intent intent = new Intent();
                             intent.setAction(StringContents.ACTION_COMMENTDATA);
-                            getActivity().sendBroadcast(intent);
+                            intent.putExtra("label","login");
+                            getContext().sendBroadcast(intent);
                             mPopupWindow.dismiss();
                         }else {
                             Toast.makeText(getContext(), "密码错误", Toast.LENGTH_SHORT).show();
@@ -318,7 +334,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onDestroyView() {
-        getActivity().unregisterReceiver(commonDataReceiver);
+        getContext().unregisterReceiver(commonDataReceiver);
         super.onDestroyView();
     }
 }

@@ -46,10 +46,10 @@ import okhttp3.Response;
 
 public class LifeAllAssistantActivity extends BaseActivity implements LifeAssistantGridAdapter.LifeAssistantClickItem, View.OnClickListener {
     private String[] assistant_text1 = {"地图", "天气预报", "手机号码归属地", "邮编查询", "基站定位查询",
-            "空气质量", "身份证查询", "IP地址", "万年历", "中国彩票开奖", "微信精选"};
+            "空气质量", "身份证查询", "IP地址", "万年历", "中国彩票开奖"};
     private int[] assistant_image1 = {R.mipmap.icon_map, R.mipmap.icon_weather, R.mipmap.icon_phone,
             R.mipmap.icon_postcode, R.mipmap.icon_location, R.mipmap.icon_air, R.mipmap.icon_idcard,
-            R.mipmap.icon_ip, R.mipmap.icon_calendar, R.mipmap.icon_lottery, R.mipmap.icon_wechat_2};
+            R.mipmap.icon_ip, R.mipmap.icon_calendar, R.mipmap.icon_lottery};
 
     private String[] assistant_text2 = {"银行卡信息", "黄金数据", "货币汇率", "白银数据", "现货交易贵金属", "全球股指查询"};
     private int[] assistant_image2 = {R.mipmap.icon_bankcard, R.mipmap.icon_gold, R.mipmap.icon_exchange, R.mipmap.icon_silver, R.mipmap.icon_metal, R.mipmap.icon_stock};
@@ -264,8 +264,6 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
             case "万年历":
                 break;
             case "中国彩票开奖":
-                break;
-            case "微信精选":
                 break;
             case "银行卡信息":
                 break;
@@ -532,6 +530,75 @@ public class LifeAllAssistantActivity extends BaseActivity implements LifeAssist
      * 显示 基站定位查询 popupWindow
      */
     public void showBaseLocationWindow() {
+        View convertView = LayoutInflater.from(LifeAllAssistantActivity.this).inflate(R.layout.popupwindow_assistant_baselocation_query, null);
+        mPopupWindow4 = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow4.setAnimationStyle(R.style.loginPopupWindow);
+        mPopupWindow4.setOutsideTouchable(true);
+        mPopupWindow4.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        ImageView baseLoaction_close = (ImageView) convertView.findViewById(R.id.assistant_baseLocation_close);
+        final LinearLayout query_layout = (LinearLayout) convertView.findViewById(R.id.assistant_baseLocation_query_layout);
+        final LinearLayout result_layout = (LinearLayout) convertView.findViewById(R.id.assistant_baseLocation_result_layout);
+        final EditText mcc_input = (EditText) convertView.findViewById(R.id.assistant_mcc_input);
+        final EditText mnc_input = (EditText) convertView.findViewById(R.id.assistant_mnc_input);
+        final EditText lac_input = (EditText) convertView.findViewById(R.id.assistant_lac_input);
+        final EditText cell_input = (EditText) convertView.findViewById(R.id.assistant_cell_input);
+        TextView baseLocation_query = (TextView) convertView.findViewById(R.id.assistant_baseLocation_query);
+        baseLocation_lat = (TextView) convertView.findViewById(R.id.assistant_baseLocation_lat);
+        baseLocation_lon = (TextView) convertView.findViewById(R.id.assistant_baseLocation_lon);
+        baseLocation_g_lat = (TextView) convertView.findViewById(R.id.assistant_baseLocation_google_lat);
+        baseLocation_g_lon = (TextView) convertView.findViewById(R.id.assistant_baseLocation_google_lon);
+        baseLocation_range = (TextView) convertView.findViewById(R.id.assistant_baseLocation_range);
+        baseLocation_laocation = (TextView) convertView.findViewById(R.id.assistant_baseLocation_location);
+        baseLoaction_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow4.dismiss();
+            }
+        });
+        baseLocation_query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query_layout.setVisibility(View.GONE);
+                result_layout.setVisibility(View.VISIBLE);
+                final String mcc = mcc_input.getText().toString().trim();
+                final String mnc = mnc_input.getText().toString().trim();
+                final String lac = lac_input.getText().toString().trim();
+                final String cell = cell_input.getText().toString().trim();
+                String url = "http://apicloud.mob.com/station/query?key=" + StringContents.MobAPI_APPKEY + "&mcc=" + mcc + "&mnc=" + mnc + "&lac=" + lac + "&cell=" + cell;
+                HttpHelper.doGetCall(url, LifeAllAssistantActivity.this, new Callback() {
+
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~onFailure~~",e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        queryBean = ModelParseHelper.parseBaseQueryResult(response.body().string());
+                        if (!Tools.isNull(mcc) &&!Tools.isNull(mnc)&&!Tools.isNull(lac)&&!Tools.isNull(cell)){
+                            if (queryBean.getRetCode().equals("200")){
+                                Message message = new Message();
+                                message.what = 203;
+                                mHandler.sendMessage(message);
+                            }else {
+                                Message message = new Message();
+                                message.what = 403;
+                                mHandler.sendMessage(message);
+                            }
+                        }else {
+                            Toast.makeText(LifeAllAssistantActivity.this, "请填写完整", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+        View rootView = LayoutInflater.from(LifeAllAssistantActivity.this).inflate(R.layout.activity_life_all_assistant, null);
+        mPopupWindow4.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+    }
+    /**
+     * 显示 基站定位查询 popupWindow
+     */
+    public void showAirQulityWindow() {
         View convertView = LayoutInflater.from(LifeAllAssistantActivity.this).inflate(R.layout.popupwindow_assistant_baselocation_query, null);
         mPopupWindow4 = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow4.setAnimationStyle(R.style.loginPopupWindow);

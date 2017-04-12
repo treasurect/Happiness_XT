@@ -33,9 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.4"
-        android:background="#f556a6"
+        android:background="@color/colorWhite"
         android:orientation="horizontal">
         <LinearLayout
+            android:id="@+id/mine_history_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -43,20 +44,20 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
             <ImageView
-                android:id="@+id/mine_collection_icon"
+                android:id="@+id/mine_history_icon"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
-                android:src="@mipmap/icon_collection"/>
+                android:src="@mipmap/icon_history2"/>
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="收藏"
-                android:textColor="#f8f8f8"/>
+                android:text="历史"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/mine_night_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -75,28 +76,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="夜间"
-                android:textColor="#f8f8f8"/>
+                android:text="夜间"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/mine_settings_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="1dp"
             android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/mine_settings_icon"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_height="30dp"
                 android:src="@mipmap/icon_settings"/>
+
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="设置"
-                android:textColor="#f8f8f8"/>
+                android:text="设置"/>
         </LinearLayout>
     </LinearLayout>
     <FrameLayout
@@ -112,15 +114,13 @@
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="#efd9d9"
-            android:id="@+id/textView"/>
+            android:background="@color/colorWhite"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_right"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="#efd9d9"/>
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
     <FrameLayout
         android:id="@+id/mine_offLine_layout"
@@ -135,14 +135,13 @@
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="#efd9d9"/>
+            android:background="@color/colorWhite"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_right"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="#efd9d9"/>
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
     <FrameLayout
         android:id="@+id/mine_active_layout"
@@ -157,15 +156,13 @@
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="#efd9d9"
-            android:id="@+id/textView2"/>
+            android:background="@color/colorWhite"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_right"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="#efd9d9"/>
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
     <FrameLayout
         android:id="@+id/mine_shop_layout"
@@ -180,14 +177,13 @@
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="#efd9d9"/>
+            android:background="@color/colorWhite"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_right"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="#efd9d9"/>
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
     <FrameLayout
         android:id="@+id/mine_feedBack_layout"
@@ -202,17 +198,18 @@
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="#efd9d9"/>
+            android:background="@color/colorWhite"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_right"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="#efd9d9"/>
+            android:layout_marginRight="10dp"/>
     </FrameLayout>
-    <TextView
+    <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="2"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"/>
 </LinearLayout>

@@ -7,22 +7,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.bean.DynamicListViewBean;
+import com.treasure_ct.happiness_xt.bean.DynamicBean;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/3/31.
+ * Created by treasure on 2017.04.09.
  */
 
 public class DynamicListAdapter extends BaseAdapter {
     private Context context;
-    private List<DynamicListViewBean> list;
+    private List<DynamicBean> list;
     private LayoutInflater inflater;
 
-    public DynamicListAdapter(Context context, List<DynamicListViewBean> list) {
+    public DynamicListAdapter(Context context, List<DynamicBean> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -31,7 +33,7 @@ public class DynamicListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int ret = 0;
-        if (list != null){
+        if (list != null) {
             ret = list.size();
         }
         return ret;
@@ -48,51 +50,86 @@ public class DynamicListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        View ret = null;
-        if (view != null){
-            ret = view;
-        }else {
-            ret = inflater.inflate(R.layout.dynamic_listview_item,viewGroup,false);
+    public int getItemViewType(int position) {
+        int ret = 0;
+        DynamicBean listBean = list.get(position);
+        if (listBean.getImage().get(0).equals("0")) {
+            ret = 0;
+        } else {
+            ret = 1;
         }
-        ret.setTag(new ViewHolder(ret));
-        DynamicListViewBean listViewBean = list.get(position);
-        ViewHolder holder = (ViewHolder) ret.getTag();
-        holder.publisher_icon.setImageResource(R.mipmap.icon);
-        holder.publisher_name.setText(listViewBean.getPublisher_name());
-        holder.publish_image.setImageResource(R.mipmap.pic_fengjing);
-        holder.publish_title.setText(listViewBean.getPublish_title());
-        holder.publish_text.setText(listViewBean.getPublish_text());
-        holder.publisher_attention.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickPublishAttention.clickAttention();
-            }
-        });
         return ret;
     }
-    public class ViewHolder{
-        private ImageView publisher_icon;
-        private TextView publisher_name;
-        private TextView publisher_attention;
-        private ImageView publish_image;
-        private TextView publish_title;
-        private TextView publish_text;
-        public ViewHolder(View view) {
-            publisher_icon = (ImageView) view.findViewById(R.id.dynamic_publisher_icon);
-            publisher_name = (TextView) view.findViewById(R.id.dynamic_publisher_name);
-            publisher_attention = (TextView) view.findViewById(R.id.dynamic_publisher_attention);
-            publish_image = (ImageView) view.findViewById(R.id.dynamic_publish_image);
-            publish_title = (TextView) view.findViewById(R.id.dynamic_publish_title);
-            publish_text = (TextView) view.findViewById(R.id.dynamic_publish_text);
-        }
-    }
-    public interface OnClickPublishAttention {
-        void clickAttention();
-    }
-    public OnClickPublishAttention onClickPublishAttention;
 
-    public void setOnClickPublishAttention(OnClickPublishAttention onClickPublishAttention) {
-        this.onClickPublishAttention = onClickPublishAttention;
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View ret = null;
+        if (convertView != null) {
+            ret = convertView;
+        } else {
+            if (getItemViewType(position) == 0) {
+                ret = inflater.inflate(R.layout.assistant_dynamic_text_list_item, parent, false);
+            } else {
+                ret = inflater.inflate(R.layout.assistant_dynamic_image_list_item, parent, false);
+            }
+            ret.setTag(new ViewHolder(ret));
+            DynamicBean listBean = list.get(position);
+            ViewHolder holder = (ViewHolder) ret.getTag();
+//            holder.user_icon.setImageURI(Uri.parse());
+            holder.user_nick.setText(listBean.getUser_nick());
+            holder.publish_time.setText(listBean.getPublish_time());
+            holder.content.setText(listBean.getContent());
+            if (getItemViewType(position) == 1) {
+//                holder.image1.setImageURI(Uri.parse());
+//                holder.image2.setImageURI(Uri.parse());
+//                holder.image3.setImageURI(Uri.parse());
+                if (listBean.getImage().size() > 3){
+                    holder.image_num.setText(listBean.getImage().size() - 3);
+                    holder.image_num.setVisibility(View.VISIBLE);
+                }
+            }
+            holder.sendTop.setText(listBean.getSendTop()+"");
+            holder.comments.setText(listBean.getComments()+"");
+            holder.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "more", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        return ret;
+    }
+
+    private static class ViewHolder {
+        private SimpleDraweeView user_icon;
+        private TextView user_nick;
+        private TextView publish_time;
+        private ImageView more;
+        private TextView content;
+        private SimpleDraweeView image1;
+        private SimpleDraweeView image2;
+        private SimpleDraweeView image3;
+        private TextView image_num;
+        private TextView sendTop;
+        private TextView comments;
+
+        public ViewHolder(View view) {
+            user_icon = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_icon));
+            user_nick = ((TextView) view.findViewById(R.id.assistant_dynamic_item_nick));
+            publish_time = ((TextView) view.findViewById(R.id.assistant_dynamic_item_time));
+            more = ((ImageView) view.findViewById(R.id.assistant_dynamic_item_more));
+            content = ((TextView) view.findViewById(R.id.assistant_dynamic_item_content));
+            image1 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image1));
+            image2 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image2));
+            image3 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image3));
+            image_num = ((TextView) view.findViewById(R.id.assistant_record_image_num));
+            sendTop = ((TextView) view.findViewById(R.id.assistant_dynamic_item_good_num));
+            comments = ((TextView) view.findViewById(R.id.assistant_dynamic_item_comments_num));
+        }
     }
 }

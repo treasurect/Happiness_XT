@@ -58,8 +58,9 @@
             android:enabled="true"
             android:process=":remote"/>
 
-        <activity android:name=".activity.home.HomeNewsWebActivity">
-        </activity>
+        <activity android:name=".activity.home.HomeNewsWebActivity"/>
+        <activity android:name=".activity.assistant.LifeAssistantRecordActivity"/>
+        <activity android:name=".activity.user.UserSettingsActivity"/>
     </application>
 
 </manifest>

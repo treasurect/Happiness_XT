@@ -82,7 +82,7 @@ public class HomeJokerListAdapter extends BaseAdapter {
         HomeJokerListBean.BodyBean bodyBean = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
         if (!Tools.isNull(bodyBean.getContent())){
-            holder.title.setText(bodyBean.getContent());
+//            holder.title.setText(bodyBean.getContent());
         }
         if (getItemViewType(position)==2){
 //            holder.image.setImageURI(Uri.parse(bodyBean.getThumbnail()));
