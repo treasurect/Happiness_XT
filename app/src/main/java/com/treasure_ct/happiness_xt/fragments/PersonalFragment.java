@@ -27,6 +27,7 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
+import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserPushActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserRegisterActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserSettingsActivity;
@@ -182,6 +183,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_shop_layout:
                 break;
             case R.id.mine_feedBack_layout:
+                startActivity(new Intent(getContext(), UserFeedBackActivity.class));
                 break;
             case R.id.mine_popup_quit:
                 quitpopupWindow();

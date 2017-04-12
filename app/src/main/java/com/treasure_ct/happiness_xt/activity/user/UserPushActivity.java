@@ -29,7 +29,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.jpush.android.api.JPushInterface;
 
-public class UserPushActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class UserPushActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
     private ListView noti_listView;
     private ListView other_listView;
     private List<PushBean> list;
@@ -44,6 +44,7 @@ public class UserPushActivity extends BaseActivity implements RadioGroup.OnCheck
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
         push_RG.setVisibility(View.VISIBLE);
+        btn_back.setVisibility(View.VISIBLE);
 
         initFindId();
         initClick();
@@ -64,6 +65,7 @@ public class UserPushActivity extends BaseActivity implements RadioGroup.OnCheck
 
     private void initClick() {
         push_RG.setOnCheckedChangeListener(this);
+        btn_back.setOnClickListener(this);
     }
 
     private void initListView() {
@@ -133,5 +135,14 @@ public class UserPushActivity extends BaseActivity implements RadioGroup.OnCheck
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
+        }
     }
 }

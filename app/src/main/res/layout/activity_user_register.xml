@@ -29,6 +29,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/edittext_bg"
             android:hint="手机号"
+            android:inputType="number"
             android:paddingLeft="15dp"/>
         <LinearLayout
             android:layout_width="wrap_content"

@@ -41,7 +41,7 @@ public class LifeAssistantRecordActivity extends BaseActivity implements View.On
         initView();
         initFindId();
         initClick();
-        editDesc.addTextChangedListener(this);
+
         btn_send.setClickable(false);
         btn_send.setTextColor(getResources().getColor(R.color.colorGray2));
     }
@@ -69,6 +69,7 @@ public class LifeAssistantRecordActivity extends BaseActivity implements View.On
     private void initClick() {
         btn_back.setOnClickListener(this);
         btn_send.setOnClickListener(this);
+        editDesc.addTextChangedListener(this);
     }
 
     @Override
