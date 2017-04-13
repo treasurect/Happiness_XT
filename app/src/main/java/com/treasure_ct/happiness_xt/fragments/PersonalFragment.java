@@ -27,6 +27,7 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantRobotActivity;
+import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserPushActivity;
@@ -158,6 +159,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                     if (BaseActivity.aCache.getAsString("token").equals("login")){
                         Intent intent = new Intent(getContext(), UserEditUserInfoActivity.class);
                         intent.putExtra("edit_type","normal");
+                        intent.putExtra("UserPhone", ((UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo")).getUser_name());
                         startActivity(intent);
                     }else {
                         showPopupWindow();
@@ -182,7 +184,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), LifeAssistantRobotActivity.class));
                 break;
             case R.id.mine_vr_whole_scene_layout:
-                startActivity(new Intent(getContext(), UserFeedBackActivity.class));
+                startActivity(new Intent(getContext(), DynamicVrWholeActivity.class));
                 break;
             case R.id.mine_popup_quit:
                 quitpopupWindow();

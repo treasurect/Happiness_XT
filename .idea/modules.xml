@@ -4,6 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Happiness_XT.iml" filepath="$PROJECT_DIR$/Happiness_XT.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-common-1.40.0/sdk-common-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-common-1.40.0/sdk-common-1.40.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-common-1.40.0/sdk-common-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-common-1.40.0/sdk-common-1.40.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-commonwidget-1.40.0/sdk-commonwidget-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-commonwidget-1.40.0/sdk-commonwidget-1.40.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-commonwidget-1.40.0/sdk-commonwidget-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-commonwidget-1.40.0/sdk-commonwidget-1.40.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-panowidget-1.40.0/sdk-panowidget-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-panowidget-1.40.0/sdk-panowidget-1.40.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-panowidget-1.40.0/sdk-panowidget-1.40.0.iml" filepath="$PROJECT_DIR$/sdk-panowidget-1.40.0/sdk-panowidget-1.40.0.iml" />
     </modules>
   </component>
 </project>

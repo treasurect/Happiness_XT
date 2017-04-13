@@ -10,9 +10,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
@@ -26,13 +28,14 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-public class DynamicFragment extends Fragment {
+public class DynamicFragment extends Fragment implements View.OnClickListener {
     private CustomScrollListView listView;
     private List<DynamicBean> list;
     private DynamicListAdapter adapter;
     private NestedScrollView scrollView;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
+    private ImageView vr_whole;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +46,7 @@ public class DynamicFragment extends Fragment {
         receiveBroadCast();
         initListView();
         initScrollView();
+        initClick();
         requestDynamicList();
         return view;
     }
@@ -64,6 +68,7 @@ public class DynamicFragment extends Fragment {
     private void initFindId(View view) {
         scrollView = (NestedScrollView) view.findViewById(R.id.dynamic_scrollView);
         listView = (CustomScrollListView) view.findViewById(R.id.dynamic_listView);
+        vr_whole = (ImageView) view.findViewById(R.id.dynamic_vr_whole);
     }
 
     private void initListView() {
@@ -75,6 +80,19 @@ public class DynamicFragment extends Fragment {
     private void initScrollView() {
         scrollView.smoothScrollTo(0,20);
         listView.setFocusable(false);
+    }
+
+    private void initClick() {
+        vr_whole.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.dynamic_vr_whole:
+                startActivity(new Intent(getContext(), DynamicVrWholeActivity.class));
+                break;
+        }
     }
 
     private void requestDynamicList() {

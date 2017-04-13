@@ -47,6 +47,12 @@
                         android:layout_marginRight="5dp"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp"/>
+                    <ImageView
+                        android:id="@+id/dynamic_vr_whole"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/icon_vr"
+                        android:layout_gravity="right"/>
                 </FrameLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>

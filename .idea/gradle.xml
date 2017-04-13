@@ -9,6 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/sdk-common-1.40.0" />
+            <option value="$PROJECT_DIR$/sdk-commonwidget-1.40.0" />
+            <option value="$PROJECT_DIR$/sdk-panowidget-1.40.0" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

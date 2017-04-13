@@ -14,7 +14,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.treasure_ct.happiness_xt"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -54,4 +54,8 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.12.0'
     compile 'com.facebook.fresco:animated-gif:0.12.0'
     compile name: 'SMSSDK-2.1.4', ext: 'aar'
+    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
+    compile project(':sdk-common-1.40.0')
+    compile project(':sdk-commonwidget-1.40.0')
+    compile project(':sdk-panowidget-1.40.0')
 }

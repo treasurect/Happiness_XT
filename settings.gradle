@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':sdk-common-1.40.0', ':sdk-commonwidget-1.40.0', ':sdk-panowidget-1.40.0'

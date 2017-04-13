@@ -15,17 +15,20 @@ import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CountListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class UserEditUserInfoActivity extends BaseActivity implements View.OnClickListener {
 
-    private EditText editPhone;
+    private TextView editPhone;
     private EditText editNick;
     private EditText editPwd;
     private EditText editAge;
@@ -59,7 +62,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     }
 
     private void initFindId() {
-        editPhone = (EditText) findViewById(R.id.mine_edit_phone);
+        editPhone = (TextView) findViewById(R.id.mine_edit_phone);
         editNick = (EditText) findViewById(R.id.mine_edit_nickname);
         editPwd = (EditText) findViewById(R.id.mine_edit_password);
         editAge = (EditText) findViewById(R.id.mine_edit_age);
@@ -83,6 +86,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             if (edit_type.equals("normal")) {
                 btn_back.setVisibility(View.VISIBLE);
                 btn_back.setOnClickListener(this);
+                btnEnter.setText("修改资料");
             }
         }
         editAge.setText("0");
@@ -98,10 +102,6 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_user_edit_enter:
-                if (Tools.isNull(editPhone.getText().toString().trim())) {
-                    Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if (Tools.isNull(editPwd.getText().toString().trim())) {
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
@@ -118,7 +118,13 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                     Toast.makeText(this, "让更多人认识你", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                editRegister();
+                if (!Tools.isNull(edit_type)){
+                    if (edit_type.equals("normal")){
+                        editAccount();
+                    }else {
+                        editRegister();
+                    }
+                }
                 break;
             case R.id.btn_back:
                 UserEditUserInfoActivity.this.finish();
@@ -126,15 +132,57 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         }
     }
 
-    private void editRegister() {
-        /**
-         * 匹配手机号
-         */
-        Matcher m = p.matcher(editPhone.getText().toString().trim());
-        if (!m.matches()) {
-            Toast.makeText(UserEditUserInfoActivity.this, "手机号码不正确，请修改", Toast.LENGTH_SHORT).show();
-            return;
+    private void editAccount() {
+        BmobQuery<UserInfoBean> query = new BmobQuery<UserInfoBean>();
+        query.addWhereEqualTo("user_name", editPhone.getText().toString());
+        query.findObjects(new FindListener<UserInfoBean>() {
+            @Override
+            public void done(List<UserInfoBean> object, BmobException e) {
+                if(e==null){
+                    for (UserInfoBean gameScore : object) {
+                        toEdit(gameScore.getObjectId());
+                    }
+                }
+            }
+        });
+    }
+
+    private void toEdit(String objectId) {
+        if (sex_man.isChecked()) {
+            sex = 0;
+        } else if (sex_woman.isChecked()) {
+            sex = 1;
         }
+        final UserInfoBean infoBean = new UserInfoBean();
+        infoBean.setUser_name(editPhone.getText().toString().trim());
+        infoBean.setNick_name(editNick.getText().toString().trim() + "");
+        infoBean.setUser_pwd(editPwd.getText().toString().trim());
+        infoBean.setAge(Integer.parseInt(editAge.getText().toString().trim()));
+        infoBean.setSex(sex);
+        infoBean.setUser_desc(editDesc.getText().toString().trim() + "");
+        infoBean.setUser_icon("暂无头像");
+        infoBean.update(objectId, new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    Toast.makeText(UserEditUserInfoActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
+                    //缓存
+                    BaseActivity.aCache.put("UserInfo", (Serializable) infoBean);
+                    BaseActivity.aCache.put("token", "login");
+                    //发送登录成功 广播
+                    Intent intent = new Intent();
+                    intent.setAction(StringContents.ACTION_COMMENTDATA);
+                    intent.putExtra("label", "login");
+                    sendBroadcast(intent);
+                    UserEditUserInfoActivity.this.finish();
+                }else {
+                    Toast.makeText(UserEditUserInfoActivity.this, "更新失败"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void editRegister() {
         /**
          * 查询是否重复
          */
@@ -198,10 +246,12 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        if (edit_type.equals("normal")) {
-            super.onBackPressed();
-        } else if (edit_type.equals("register")) {
-            Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
+        if (!Tools.isNull(edit_type)){
+            if (edit_type.equals("normal")) {
+                super.onBackPressed();
+            } else if (edit_type.equals("register")) {
+                Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
