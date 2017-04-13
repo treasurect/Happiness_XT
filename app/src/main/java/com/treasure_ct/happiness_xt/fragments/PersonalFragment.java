@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantRobotActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserPushActivity;
@@ -51,7 +52,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private String user_name;
     private ImageView qqLogin, weChatLogin, sinaLogin, qqweiboLogin;
     private EditText editPwd, editPhone;
-    private FrameLayout messagePush_layout, offLine_layout, active_layout, feedBack_layout, shop_layout;
+    private FrameLayout messagePush_layout, feedBack_layout,turing_layout,vrWhole_layout;
     private XTApplication application;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
@@ -104,10 +105,9 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         imageSettings = (ImageView) view.findViewById(R.id.mine_settings_icon);
         layoutSettings = (LinearLayout) view.findViewById(R.id.mine_settings_layout);
         messagePush_layout = (FrameLayout) view.findViewById(R.id.mine_messagePush_layout);
-        offLine_layout = (FrameLayout) view.findViewById(R.id.mine_offLine_layout);
-        active_layout = (FrameLayout) view.findViewById(R.id.mine_active_layout);
         feedBack_layout = (FrameLayout) view.findViewById(R.id.mine_feedBack_layout);
-        shop_layout = (FrameLayout) view.findViewById(R.id.mine_shop_layout);
+        turing_layout = (FrameLayout) view.findViewById(R.id.mine_turing_layout);
+        vrWhole_layout = (FrameLayout) view.findViewById(R.id.mine_vr_whole_scene_layout);
     }
 
     private void initView() {
@@ -143,10 +143,9 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         layoutHistory.setOnClickListener(this);
         layoutSettings.setOnClickListener(this);
         messagePush_layout.setOnClickListener(this);
-        offLine_layout.setOnClickListener(this);
-        active_layout.setOnClickListener(this);
         feedBack_layout.setOnClickListener(this);
-        shop_layout.setOnClickListener(this);
+        turing_layout.setOnClickListener(this);
+        vrWhole_layout.setOnClickListener(this);
     }
 
     @Override
@@ -176,13 +175,13 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_messagePush_layout:
                 startActivity(new Intent(getContext(), UserPushActivity.class));
                 break;
-            case R.id.mine_offLine_layout:
-                break;
-            case R.id.mine_active_layout:
-                break;
-            case R.id.mine_shop_layout:
-                break;
             case R.id.mine_feedBack_layout:
+                startActivity(new Intent(getContext(), UserFeedBackActivity.class));
+                break;
+            case R.id.mine_turing_layout:
+                startActivity(new Intent(getContext(), LifeAssistantRobotActivity.class));
+                break;
+            case R.id.mine_vr_whole_scene_layout:
                 startActivity(new Intent(getContext(), UserFeedBackActivity.class));
                 break;
             case R.id.mine_popup_quit:

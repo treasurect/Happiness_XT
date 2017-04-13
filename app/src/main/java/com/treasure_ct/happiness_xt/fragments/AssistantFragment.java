@@ -30,6 +30,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAllAssistantActivity;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantMapActivity;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantRecordActivity;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantRobotActivity;
 import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantWeatherActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.adapter.LifeAssistantGridAdapter;
@@ -88,7 +89,7 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     private DynamicListAdapter adapter;
     private NestedScrollView scrollView;
     private TextView record;
-    private ImageView camera;
+    private ImageView camera,robot;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
     private FloatingActionButton refresh;
@@ -125,6 +126,7 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     }
 
     private void initFindId(View view) {
+        robot = (ImageView) view.findViewById(R.id.assistant_robot);
         gridView = (GridView) view.findViewById(R.id.assistant_gridView);
         listView = (CustomScrollListView) view.findViewById(R.id.assistant_listView);
         scrollView = (NestedScrollView) view.findViewById(R.id.assistant_scrollView);
@@ -158,6 +160,7 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     }
 
     private void initClick() {
+        robot.setOnClickListener(this);
         record.setOnClickListener(this);
         camera.setOnClickListener(this);
         refresh.setOnClickListener(this);
@@ -166,6 +169,9 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.assistant_robot:
+                startActivity(new Intent(getContext(), LifeAssistantRobotActivity.class));
+                break;
             case R.id.assistant_record:
             case R.id.assistant_camera:
                 showCameraSelectDialog();

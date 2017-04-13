@@ -47,6 +47,10 @@
         <activity android:name=".activity.assistant.LifeAssistantRecordActivity"/>
         <activity android:name=".activity.user.UserSettingsActivity"/>
         <activity android:name=".activity.user.UserPushActivity"/>
+        <activity android:name=".activity.user.UserFeedBackActivity"/>
+        <activity android:name=".activity.assistant.LifeAssistantRobotActivity"/>
+
+
 
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   Bmob云 添加 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -157,9 +161,6 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="553736f74275ad81b0a1f34a"/>
-
-        <activity android:name=".activity.user.UserFeedBackActivity">
-        </activity>
     </application>
 
 </manifest>

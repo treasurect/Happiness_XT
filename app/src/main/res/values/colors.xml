@@ -7,8 +7,10 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlock">#222222</color>
     <color name="colorGray">#cccccc</color>
+    <color name="colorGray3">#dddddd</color>
     <color name="colorGray2">#444444</color>
     <color name="colorWhite">#f8f8f8</color>
     <color name="colorYellow">#fdb70d</color>
+    <color name="colorGoldYellow">#c48c06</color>
     <color name="colorFull">#00000000</color>
 </resources>
