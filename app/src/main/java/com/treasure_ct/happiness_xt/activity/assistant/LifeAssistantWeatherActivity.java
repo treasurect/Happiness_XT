@@ -1,6 +1,7 @@
 package com.treasure_ct.happiness_xt.activity.assistant;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
     private ImageView btn_cityList;
     private TextView now_city;
     private ImageView btn_refresh;
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -74,6 +75,9 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
     };
     private AssistantWeatherResultBean resultBean;
     private NestedScrollView scrollView;
+    private String province;
+    private String city;
+    private String district;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +88,8 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
         initFindId();
         initListView();
         initClick();
-        getWeatherDetail(StringContents.MobAPI_APPKEY, "石景山", "北京");
         initScrollView();
+        receiveIntent();
     }
 
     private void initFindId() {
@@ -128,7 +132,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     resultBean = ModelParseHelper.parseWeatherResult(response.body().string());
                     Message message = new Message();
                     message.what = 200;
@@ -136,37 +140,37 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
                 }
             }
         });
-//        OkHttpUtils.get()
-//                .url(StringContents.MobAPI_BaseUrl + "weather/query")
-//                .addParams("key", key)
-//                .addParams("city", city)
-//                .addParams("province", province)
-//                .tag(this)
-//                .build().execute(new StringCallback() {
-//            @Override
-//            public void onError(Call call, Exception e, int id) {
-//                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~data:", e.getMessage());
-//            }
-//
-//            @Override
-//            public void onResponse(String response, int id) {
-//                AssistantWeatherResultBean resultBean = ModelParseHelper.parseWeatherResult(response);
-//                if (resultBean.getRetCode().equals("200")) {
-
-//                }
-//            }
-//        });
     }
 
     private void initScrollView() {
-        scrollView.smoothScrollTo(0,20);
+        scrollView.smoothScrollTo(0, 20);
         listView.setFocusable(false);
+    }
+
+    private void receiveIntent() {
+        Intent intent = new Intent();
+        if (!Tools.isNull(intent.getStringExtra("province"))) {
+             province = intent.getStringExtra("province");
+             city = intent.getStringExtra("city");
+             district = intent.getStringExtra("district");
+            if (province.equals("北京") || province.equals("天津") || province.equals("上海") || province.equals("重庆")) {
+                getWeatherDetail(StringContents.MobAPI_APPKEY, district, city);
+                now_city.setText(district);
+            } else {
+                getWeatherDetail(StringContents.MobAPI_APPKEY, city, province);
+                now_city.setText(city);
+            }
+        }else {
+            getWeatherDetail(StringContents.MobAPI_APPKEY, "石景山", "北京");
+            now_city.setText("石景山");
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.assistant_weather_cityList:
+                startActivityForResult(new Intent(LifeAssistantWeatherActivity.this, LifeAssistantWeatherCityListActivity.class),200);
                 break;
             case R.id.assistant_weather_refresh:
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(btn_refresh, "Rotation", -360, 0);
@@ -174,10 +178,39 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
                 objectAnimator.setDuration(1000);
                 // 设置循环播放
                 objectAnimator.setRepeatCount(1);
-
                 objectAnimator.start();
-                getWeatherDetail(StringContents.MobAPI_APPKEY, "石景山", "北京");
+                if (!Tools.isNull(province)){
+                    if (province.equals("北京")||province.equals("上海")||province.equals("天津")||province.equals("重庆")){
+                        getWeatherDetail(StringContents.MobAPI_APPKEY,district,province);
+                        now_city.setText(district);
+                    }else {
+                        getWeatherDetail(StringContents.MobAPI_APPKEY,city,province);
+                        now_city.setText(district);
+                    }
+                }else {
+                    getWeatherDetail(StringContents.MobAPI_APPKEY,"石景山","北京");
+                    now_city.setText("石景山");
+                }
                 Toast.makeText(this, "最新数据已更新", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case 201:
+                 province = data.getStringExtra("province");
+                 city = data.getStringExtra("city");
+                 district = data.getStringExtra("district");
+                if (province.equals("北京")||province.equals("上海")||province.equals("天津")||province.equals("重庆")){
+                    getWeatherDetail(StringContents.MobAPI_APPKEY,district,province);
+                    now_city.setText(district);
+                }else {
+                    getWeatherDetail(StringContents.MobAPI_APPKEY,city,province);
+                    now_city.setText(district);
+                }
                 break;
         }
     }

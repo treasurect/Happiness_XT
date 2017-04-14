@@ -19,6 +19,7 @@ import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
+import com.treasure_ct.happiness_xt.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,6 +98,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener {
 
     private void requestDynamicList() {
         BmobQuery<DynamicBean> query = new BmobQuery<>();
+        query.setLimit(10);
         query.findObjects(new FindListener<DynamicBean>() {
             @Override
             public void done(List<DynamicBean> data_list, BmobException e) {
@@ -108,7 +110,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener {
                         adapter.notifyDataSetChanged();
                     }
                 }else{
-                    Toast.makeText(getContext(), "失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~",e.getMessage());
                 }
             }
         });

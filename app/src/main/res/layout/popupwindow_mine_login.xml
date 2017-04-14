@@ -107,27 +107,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/image_qqlogin"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:src="@mipmap/icon_qq2"/>
 
                 <ImageView
                     android:id="@+id/image_wechatlogin"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:src="@mipmap/icon_weixin"/>
 
                 <ImageView
                     android:id="@+id/image_sinalogin"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:src="@mipmap/icon_sina"/>

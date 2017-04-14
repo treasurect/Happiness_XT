@@ -5,6 +5,7 @@ import com.treasure_ct.happiness_xt.bean.AssistantBaseLocationQueryBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
+import com.treasure_ct.happiness_xt.bean.AssistantWeatherCityListBean;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
@@ -45,6 +46,7 @@ public class ModelParseHelper {
 
     /**
      * 解析 助手-天气-未来几天
+     *
      * @param str
      * @return
      */
@@ -54,8 +56,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantWeatherResultBean.class);
 
     }
+
     /**
      * 解析 助手-手机归属地
+     *
      * @param str
      * @return
      */
@@ -65,8 +69,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantPhoneBelongBean.class);
 
     }
+
     /**
      * 解析 助手-邮编查城市
+     *
      * @param str
      * @return
      */
@@ -76,8 +82,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantPostCodeBean.class);
 
     }
+
     /**
      * 解析 助手-城市查邮编
+     *
      * @param str
      * @return
      */
@@ -87,8 +95,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantPostCode2Bean.class);
 
     }
+
     /**
      * 解析 助手-基站查询
+     *
      * @param str
      * @return
      */
@@ -98,8 +108,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, AssistantBaseLocationQueryBean.class);
 
     }
+
     /**
      * 解析 home-新闻头条
+     *
      * @param str
      * @return
      */
@@ -109,8 +121,10 @@ public class ModelParseHelper {
         return gson.fromJson(str, HomeNewsTopListBean.class);
 
     }
+
     /**
      * 解析 home-段子
+     *
      * @param str
      * @return
      */
@@ -118,6 +132,19 @@ public class ModelParseHelper {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
         return gson.fromJson(str, HomeJokerListBean.class);
+
+    }
+
+    /**
+     * 解析 assistant-天气-城市列表
+     *
+     * @param str
+     * @return
+     */
+    public static AssistantWeatherCityListBean parseCityListResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, AssistantWeatherCityListBean.class);
 
     }
 }

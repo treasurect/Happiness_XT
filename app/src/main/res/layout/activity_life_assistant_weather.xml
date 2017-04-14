@@ -33,7 +33,7 @@
                     android:orientation="horizontal">
                     <ImageView
                         android:id="@+id/assistant_weather_cityList"
-                        android:layout_width="30dp"
+                        android:layout_width="25dp"
                         android:layout_height="match_parent"
                         android:src="@mipmap/icon_city"/>
                     <TextView
@@ -41,8 +41,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="qwe"
                         android:gravity="center"
+                        android:textSize="18sp"
                         android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:id="@+id/assistant_weather_refresh"
@@ -52,6 +52,7 @@
                         android:src="@mipmap/icon_refresh"/>
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="400dp"

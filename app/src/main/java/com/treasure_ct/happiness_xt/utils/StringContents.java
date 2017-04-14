@@ -17,4 +17,7 @@ public class StringContents {
 
     public static final String Turing_Robot_APIKEY = "f88cd2cdc8ea4953b51154567ca356d7";
     public static final String Turing_Robot_url = "http://www.tuling123.com/openapi/api";
+
+    public static final String QQ_Login_APPID = "1106101064";
+    public static final String QQ_Login_APPKEY = "x3x5nI2XZ1vOklhp";
 }

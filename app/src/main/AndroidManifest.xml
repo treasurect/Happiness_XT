@@ -50,6 +50,7 @@
         <activity android:name=".activity.user.UserPushActivity"/>
         <activity android:name=".activity.user.UserFeedBackActivity"/>
         <activity android:name=".activity.assistant.LifeAssistantRobotActivity"/>
+        <activity android:name=".activity.dynatmic.DynamicVrWholeActivity"/>
 
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   Bmob云 添加 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -161,8 +162,24 @@
             android:name="JPUSH_APPKEY"
             android:value="553736f74275ad81b0a1f34a"/>
 
-        <activity android:name=".activity.dynatmic.DynamicVrWholeActivity">
+        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   QQLogin       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1106101064" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

@@ -23,6 +23,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
@@ -38,6 +43,8 @@ import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -58,6 +65,11 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
     private LinearLayout layoutNight, layoutHistory,layoutSettings;
+    private Tencent mTencent;
+    private IUiListener loginListener; //授权登录监听器
+    private IUiListener userInfoListener; //获取用户信息监听器
+    private String scope="all"; //获取信息的范围参数
+    private UserInfo userInfo; //qq用户信息
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +77,8 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
         application = (XTApplication) getActivity().getApplication();
+
+        mTencent = Tencent.createInstance(StringContents.QQ_Login_APPID, getContext().getApplicationContext());
 
         receiveBoradCast();
         initFindId(view);
@@ -197,12 +211,17 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), UserRegisterActivity.class));
                 break;
             case R.id.image_qqlogin:
+                initQQLogin();
+                requestQQLogin();
                 break;
             case R.id.image_wechatlogin:
+                Toast.makeText(getContext(), "正在开发中", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.image_sinalogin:
+                Toast.makeText(getContext(), "正在开发中", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.image_qqweibologin:
+                Toast.makeText(getContext(), "正在开发中", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -336,9 +355,104 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void initQQLogin() {
+        loginListener = new IUiListener() {
+            @Override
+            public void onComplete(Object value) {
+                LogUtil.d("~~~~~~~~~~~~~~~~~~value::",value.toString());
+                if (value == null) {
+                    return;
+                }
+
+                try {
+                    JSONObject jo = (JSONObject) value;
+
+                    int ret = jo.getInt("ret");
+
+                    if (ret == 0) {
+                        Toast.makeText(getContext(), "登录成功",Toast.LENGTH_LONG).show();
+
+                        String openID = jo.getString("openid");
+                        String accessToken = jo.getString("access_token");
+                        String expires = jo.getString("expires_in");
+                        mTencent.setOpenId(openID);
+                        mTencent.setAccessToken(accessToken, expires);
+                    }
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        };
+        userInfoListener = new IUiListener() {
+            @Override
+            public void onComplete(Object arg0) {
+                LogUtil.d("~~~~~~~~~~~~~~~~~~value::",arg0.toString());
+                if(arg0 == null){
+                    return;
+                }
+                try {
+                    JSONObject jo = (JSONObject) arg0;
+                    int ret = jo.getInt("ret");
+                    System.out.println("json=" + String.valueOf(jo));
+                    String nickName = jo.getString("nickname");
+                    String gender = jo.getString("gender");
+
+                    Toast.makeText(getContext(), "你好，" + nickName,Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        };
+    }
+
+    private void requestQQLogin() {
+        //如果session无效，就开始登录
+        if (!mTencent.isSessionValid()) {
+            //开始qq授权登录
+            mTencent.login(getActivity(), scope, loginListener);
+        }
+        userInfo = new UserInfo(getContext(), mTencent.getQQToken());
+        userInfo.getUserInfo(userInfoListener);
+    }
+
     @Override
     public void onDestroyView() {
         getContext().unregisterReceiver(commonDataReceiver);
+        if (mTencent != null) {
+            //注销登录
+            mTencent.logout(getContext());
+        }
         super.onDestroyView();
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_API) {
+            if (resultCode == Constants.REQUEST_LOGIN) {
+                Tencent.handleResultData(data, loginListener);
+                Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

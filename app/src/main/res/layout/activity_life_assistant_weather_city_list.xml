@@ -10,4 +10,28 @@
     android:fitsSystemWindows="true"
     tools:context="com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantWeatherCityListActivity">
     <include layout="@layout/top_view"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/weather_cityList_province_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorGray"
+            android:dividerHeight="1dp"/>
+        <ListView
+            android:id="@+id/weather_cityList_city_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorGray"
+            android:dividerHeight="1dp"
+            android:visibility="gone"/>
+        <ListView
+            android:id="@+id/weather_cityList_district_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorGray"
+            android:dividerHeight="1dp"
+            android:visibility="gone"/>
+    </FrameLayout>
 </LinearLayout>
