@@ -21,16 +21,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1.5">
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="登录后享受更多内容\n只为丰富你的知识"
-                android:textColor="#9222"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
+                android:src="@mipmap/icon"
+                android:padding="35dp"/>
 
             <ImageView
                 android:id="@+id/mine_popup_quit"
@@ -52,25 +50,38 @@
             android:inputType="number"
             android:paddingLeft="30dp"/>
 
-        <EditText
-            android:id="@+id/mine_login_password"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="请输入密码"
-            android:inputType="textPassword"
-            android:paddingLeft="30dp"/>
+            android:background="@drawable/edittext_bg">
+            <EditText
+                android:id="@+id/mine_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="请输入密码"
+                android:background="@null"
+                android:inputType="textPassword"
+                android:paddingLeft="30dp"/>
+            <ImageView
+                android:id="@+id/mine_login_password_visible"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/icon_eye_close"/>
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/mine_popup_register"
+            android:id="@+id/mine_popup_forget_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="未注册的，快来注册呀"
+            android:layout_margin="20dp"
+            android:gravity="right"
+            android:text="忘记密码"
+            android:textSize="18sp"
             android:textColor="@color/colorOrange"/>
 
         <TextView
@@ -80,16 +91,30 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/textview_bg"
+            android:background="@drawable/gradient_yellow_orange_radius25"
             android:gravity="center"
             android:text="进入XT"
             android:textColor="#fff"
-            android:textSize="20sp"/>
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/mine_popup_register"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_yellow_orange_radius25"
+            android:gravity="center"
+            android:text="注册"
+            android:textColor="#fff"
+            android:textSize="18sp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:id="@+id/view"/>
 
         <LinearLayout
             android:layout_width="match_parent"

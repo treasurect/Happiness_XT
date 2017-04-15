@@ -32,26 +32,24 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="手机"
+            android:text="手机："
             android:textSize="20sp"
-            android:gravity="center"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorBlock"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:gravity="center"
+            android:id="@+id/textView"/>
+
         <TextView
             android:id="@+id/mine_edit_phone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:textSize="18sp"
-            android:gravity="center"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/colorBlock"/>
     </LinearLayout>
 
@@ -104,7 +102,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.15"
             android:text="密码"
             android:textSize="20sp"
             android:gravity="center"
@@ -125,6 +123,12 @@
             android:inputType="textPassword"
             android:textColor="@color/colorOrange"
             android:paddingLeft="10dp"/>
+        <ImageView
+            android:id="@+id/mine_edit_pass_visible"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/icon_eye_close"/>
     </LinearLayout>
 
     <LinearLayout
@@ -196,7 +200,7 @@
         android:id="@+id/mine_edit_userDesc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
@@ -210,11 +214,11 @@
         android:id="@+id/btn_user_edit_enter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.25"
+        android:layout_weight="1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/textview_bg"
+        android:background="@drawable/gradient_yellow_orange_radius25"
         android:gravity="center"
         android:text="进入XT"
         android:textColor="#fff"

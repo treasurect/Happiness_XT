@@ -13,7 +13,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeNewsTopListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
-import com.treasure_ct.happiness_xt.custom.CustomRefreshListView;
+import com.treasure_ct.happiness_xt.widget.CustomRefreshListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;

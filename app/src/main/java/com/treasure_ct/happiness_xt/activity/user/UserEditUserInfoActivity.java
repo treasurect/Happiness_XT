@@ -2,8 +2,10 @@ package com.treasure_ct.happiness_xt.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +18,6 @@ import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobQuery;
@@ -48,6 +49,8 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
      */
     private Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$");
     private String edit_type;
+    private ImageView pass_visible;
+    private boolean isHind = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         sex_man = (RadioButton) findViewById(R.id.mine_edit_sex_man);
         sex_woman = (RadioButton) findViewById(R.id.mine_edit_sex_woman);
         btnEnter = (TextView) findViewById(R.id.btn_user_edit_enter);
+        pass_visible = (ImageView) findViewById(R.id.mine_edit_pass_visible);
     }
 
     private void receiveIntentData() {
@@ -96,6 +100,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     private void initClick() {
         btnEnter.setOnClickListener(this);
         btn_back.setOnClickListener(this);
+        pass_visible.setOnClickListener(this);
     }
 
     @Override
@@ -120,7 +125,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                 }
                 if (!Tools.isNull(edit_type)){
                     if (edit_type.equals("normal")){
-                        editAccount();
+                        updateAccount();
                     }else {
                         editRegister();
                     }
@@ -129,10 +134,31 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             case R.id.btn_back:
                 UserEditUserInfoActivity.this.finish();
                 break;
+            case R.id.mine_edit_pass_visible:
+                if (isHind){
+                    isHind = false;
+                    initNoHindPassInput();
+                }else {
+                    initHindPassInput();
+                    isHind = true;
+                }
+                break;
         }
     }
+    //不隐藏密码
+    private void initNoHindPassInput() {
+        pass_visible.setImageResource(R.mipmap.icon_eye_open);
+        editPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        editPwd.setSelection(editPwd.getText().length());
+    }
 
-    private void editAccount() {
+    //隐藏密码
+    private void initHindPassInput() {
+        pass_visible.setImageResource(R.mipmap.icon_eye_close);
+        editPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        editPwd.setSelection(editPwd.getText().length());
+    }
+    private void updateAccount() {
         BmobQuery<UserInfoBean> query = new BmobQuery<UserInfoBean>();
         query.addWhereEqualTo("user_name", editPhone.getText().toString());
         query.findObjects(new FindListener<UserInfoBean>() {
@@ -140,14 +166,14 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             public void done(List<UserInfoBean> object, BmobException e) {
                 if(e==null){
                     for (UserInfoBean gameScore : object) {
-                        toEdit(gameScore.getObjectId());
+                        toUpdate(gameScore.getObjectId());
                     }
                 }
             }
         });
     }
 
-    private void toEdit(String objectId) {
+    private void toUpdate(String objectId) {
         if (sex_man.isChecked()) {
             sex = 0;
         } else if (sex_woman.isChecked()) {
@@ -194,7 +220,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                 if (e == null) {
                     if (integer > 0) {
                         Toast.makeText(UserEditUserInfoActivity.this, "手机号已被注册", Toast.LENGTH_SHORT).show();
-                        return;
+                        UserEditUserInfoActivity.this.finish();
                     } else {
                         toRegister();
                     }

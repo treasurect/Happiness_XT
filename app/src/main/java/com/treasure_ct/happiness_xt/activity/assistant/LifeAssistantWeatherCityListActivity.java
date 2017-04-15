@@ -176,7 +176,6 @@ public class LifeAssistantWeatherCityListActivity extends BaseActivity implement
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~",view.getId()+"");
         switch (parent.getId()) {
             case R.id.weather_cityList_province_listView:
                 pro_listView.setVisibility(View.GONE);

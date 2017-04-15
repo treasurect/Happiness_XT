@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +16,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.AssistantWeatherFutureAdapter;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherFutureBean;
 import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
-import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
+import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;

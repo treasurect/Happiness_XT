@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.custom;
+package com.treasure_ct.happiness_xt.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,18 +17,18 @@ import android.widget.ImageView;
  * Created by Administrator on 2016/11/9.
  */
 
-public class CustomImageView extends ImageView {
+public class CustomCircleImageView extends ImageView {
     private Paint paint = new Paint();
 
-    public CustomImageView(Context context) {
+    public CustomCircleImageView(Context context) {
         super(context);
     }
 
-    public CustomImageView(Context context, AttributeSet attrs) {
+    public CustomCircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CustomCircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

@@ -58,7 +58,7 @@
 
 
 
-#Mob SMS
+#Mob SMS MOB BBS
 -keep class cn.smssdk.**{*;}
 -keep class com.mob.**{*;}
 

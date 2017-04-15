@@ -15,7 +15,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,7 @@ import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
-import com.treasure_ct.happiness_xt.custom.CustomScrollListView;
+import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -94,43 +93,43 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
                     if (weather.equals("多云") || weather.equals("少云")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_cloud))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_cloud))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("晴")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_fine))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_fine))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("阴")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_bad))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_bad))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("小雨") || weather.equals("雨") || weather.equals("中雨") || weather.equals("阵雨") || weather.equals("零散阵雨") || weather.equals("零散雷雨") || weather.equals("暴雨") || weather.equals("大雨")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_rain))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_rain))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("小雪") || weather.equals("雨夹雪") || weather.equals("阵雪") || weather.equals("大雪") || weather.equals("中雪")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_snow))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_snow))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("霾")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_bad))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_bad))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     } else if (weather.equals("雷阵雨")) {
                         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                                 .setAutoPlayAnimations(true)
-                                .setUri(Uri.parse("res://" + getContext().getPackageName() + "/" + R.mipmap.gif_thunder))//设置uri
+                                .setUri(Uri.parse("res://" + package_name + "/" + R.mipmap.gif_thunder))//设置uri
                                 .build();
                         weather_show.setController(mDraweeController);
                     }
@@ -158,6 +157,7 @@ public class AssistantFragment extends Fragment implements LifeAssistantGridAdap
     private SimpleDraweeView weather_show;
     private TextView title;
     private String province,city,district;
+    private String package_name = "com.treasure_ct.happiness_xt";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

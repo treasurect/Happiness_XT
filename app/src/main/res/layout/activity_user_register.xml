@@ -70,7 +70,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/textview_bg"
+        android:background="@drawable/gradient_yellow_orange_radius25"
         android:gravity="center"
         android:text="进入XT"
         android:textColor="#fff"

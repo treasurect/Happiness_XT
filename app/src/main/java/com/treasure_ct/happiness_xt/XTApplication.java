@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.mob.MobSDK;
+import com.mob.bbssdk.BBSSDK;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 
 import cn.bmob.v3.Bmob;
@@ -40,8 +42,10 @@ public class XTApplication extends Application {
         //fresco的初始化
         Fresco.initialize(this);
 
-        //Mob的初始化
+        //Mob的初始化     （短信    Mob    BBS）
         SMSSDK.initSDK(this, StringContents.SMSSDK_APPKEY, StringContents.SMSSDK_APPSECRET);
+        MobSDK.init(this);
+        BBSSDK.registerSDK();
 
         //JPush  初始化
         JPushInterface.setDebugMode(true);

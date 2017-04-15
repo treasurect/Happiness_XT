@@ -189,9 +189,9 @@ public class HomeMusicFragment extends BaseFragment implements View.OnClickListe
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
         if(small){	//返回小图片
-            return BitmapFactory.decodeStream(context.getResources().openRawResource(R.mipmap.icon_music), null, opts);
+            return BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_music,opts);
         }
-        return BitmapFactory.decodeStream(context.getResources().openRawResource(R.mipmap.icon_music), null, opts);
+        return BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_music, opts);
     }
 
     /**

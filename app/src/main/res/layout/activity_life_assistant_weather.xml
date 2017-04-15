@@ -331,7 +331,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/colorWhite" />
 
-            <com.treasure_ct.happiness_xt.custom.CustomScrollListView
+            <com.treasure_ct.happiness_xt.widget.CustomScrollListView
                 android:id="@+id/assistant_weather_now_listView"
                 android:layout_width="match_parent"
                 android:layout_height="720dp"

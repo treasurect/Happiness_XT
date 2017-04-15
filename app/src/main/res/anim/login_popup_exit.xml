@@ -7,4 +7,10 @@
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:toXDelta="-100%p"
         android:toYDelta="100%p"/>
+    <rotate
+        android:duration="1000"
+        android:fromDegrees="0"
+        android:pivotX="0"
+        android:pivotY="0"
+        android:toDegrees="90"/>
 </set>

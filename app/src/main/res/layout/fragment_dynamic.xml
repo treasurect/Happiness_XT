@@ -39,14 +39,33 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="动态"
-                        android:layout_marginRight="5dp"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"/>
+                    <RadioGroup
+                        android:id="@+id/dynamic_radioGroup"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/frame_white_radius25"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/dynamic_dynamic"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:text="动态"
+                            android:textColor="@color/colorWhite"
+                            android:gravity="center"
+                            android:button="@null"
+                            android:background="@drawable/radiobutton_white"/>
+                        <RadioButton
+                            android:id="@+id/dynamic_community"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:text="社区"
+                            android:textColor="@color/colorWhite"
+                            android:gravity="center"
+                            android:button="@null"
+                            android:background="@drawable/radiobutton_white"/>
+                    </RadioGroup>
                     <ImageView
                         android:id="@+id/dynamic_vr_whole"
                         android:layout_width="40dp"
@@ -63,17 +82,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <com.treasure_ct.happiness_xt.custom.CustomScrollListView
-            android:id="@+id/dynamic_listView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorWhite"
-            android:divider="@color/colorGray"
-            android:dividerHeight="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:scrollbars="none"/>
+            android:layout_height="match_parent">
+            <com.treasure_ct.happiness_xt.widget.CustomScrollListView
+                android:id="@+id/dynamic_listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:divider="@color/colorGray"
+                android:dividerHeight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:scrollbars="none"/>
+            <LinearLayout
+                android:id="@+id/dynamic_community_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </FrameLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
