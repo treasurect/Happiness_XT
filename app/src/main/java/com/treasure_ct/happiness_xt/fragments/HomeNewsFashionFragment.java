@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
@@ -37,6 +38,7 @@ public class HomeNewsFashionFragment extends BaseFragment implements HomeNewsTop
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
+                    loading.setVisibility(View.GONE);
                     List<HomeNewsTopListBean.ItemBean> beanList = newsResult.getItem();
                     for (int i = 0; i < beanList.size(); i++) {
                         HomeNewsTopListBean.ItemBean itemBean = beanList.get(i);
@@ -53,6 +55,7 @@ public class HomeNewsFashionFragment extends BaseFragment implements HomeNewsTop
     private List<HomeNewsTopListBean.ItemBean> list;
     private HomeNewsTopListAdapter adapter;
     private int page = 1;
+    private ProgressBar loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +70,7 @@ public class HomeNewsFashionFragment extends BaseFragment implements HomeNewsTop
 
     private void initFindId(View view) {
         listView = (CustomRefreshListView) view.findViewById(R.id.home_news_listView);
+        loading = (ProgressBar) view.findViewById(R.id.home_news_loading);
     }
 
     @Override

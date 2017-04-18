@@ -15,16 +15,89 @@
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
         android:clickable="true" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
-        android:background="@mipmap/pic_map_bg"/>
+        android:background="@mipmap/pic_map_bg">
+        <EditText
+            android:id="@+id/assistant_mapView_input"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:hint="输入你想去的地方"
+            android:background="@drawable/bottom_white_radius25"
+            android:paddingLeft="15dp"/>
+        <RadioGroup
+            android:id="@+id/assistant_mapView_line_layout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="60dp"
+            android:background="@color/colorGray"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <RadioButton
+                android:id="@+id/assistant_mapView_bus"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:text="公交"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:background="@drawable/radiobutton_orange"/>
+            <RadioButton
+                android:id="@+id/assistant_mapView_diver"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:text="驾车"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:background="@drawable/radiobutton_orange"/>
+            <RadioButton
+                android:id="@+id/assistant_mapView_walk"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:text="步行"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:background="@drawable/radiobutton_orange"/>
+            <RadioButton
+                android:id="@+id/assistant_mapView_bike"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:text="骑行"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:background="@drawable/radiobutton_orange"/>
+        </RadioGroup>
+    </FrameLayout>
+    <ImageView
+        android:id="@+id/assistant_mapView_more"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/icon_page"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="120dp"/>
+
     <ImageView
         android:id="@+id/assistant_mapView_location"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@mipmap/icon_location2"
         android:layout_gravity="bottom"
-        android:layout_margin="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"/>
 </FrameLayout>

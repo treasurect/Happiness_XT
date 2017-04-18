@@ -1,16 +1,20 @@
 package com.treasure_ct.happiness_xt.activity.assistant;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
@@ -19,7 +23,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -28,17 +31,39 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteLine;
+import com.baidu.mapapi.search.route.BikingRoutePlanOption;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteLine;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteLine;
+import com.baidu.mapapi.search.route.TransitRoutePlanOption;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.listener.MapOrientationListener;
+import com.treasure_ct.happiness_xt.utils.BikingRouteOverlay;
+import com.treasure_ct.happiness_xt.utils.DrivingRouteOverlay;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.Tools;
+import com.treasure_ct.happiness_xt.utils.TransitRouteOverlay;
+import com.treasure_ct.happiness_xt.utils.WalkingRouteOverlay;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LifeAssistantMapActivity extends BaseActivity implements BDLocationListener, View.OnClickListener {
+public class LifeAssistantMapActivity extends BaseActivity implements BDLocationListener, View.OnClickListener, BaiduMap.OnMapLoadedCallback, TextWatcher, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener, OnGetRoutePlanResultListener {
 
     private MapView mapView;
     private BaiduMap map;
@@ -56,6 +81,17 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
     private final static double DEF_R = 6370693.5; // 地球半径，m
     private MapOrientationListener orientationListener;
     private ImageView map_location;
+    private boolean isPageDestroy;
+    private EditText input;
+    private ImageView more;
+    private PopupWindow mPopupWindow;
+    private Switch map_sate, map_2D, map_hot, map_traffic;
+    private RadioGroup line_layout;
+    private RoutePlanSearch mSearch;
+    private String city;
+    private String addr;
+    private Switch mode_normal, mode_follow, mode_compass;
+    private MyLocationConfiguration.LocationMode mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +113,29 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
             childAt.setVisibility(View.INVISIBLE);
         }
         map = mapView.getMap();
+        map.setIndoorEnable(true);//开启室内图
+        mode = MyLocationConfiguration.LocationMode.NORMAL;
         initLocation();
         initClick();
+
+        mSearch = RoutePlanSearch.newInstance();
+        mSearch.setOnGetRoutePlanResultListener(this);
     }
 
     private void initFindId() {
         mapView = (MapView) findViewById(R.id.assistant_mapView);
         map_location = (ImageView) findViewById(R.id.assistant_mapView_location);
+        input = (EditText) findViewById(R.id.assistant_mapView_input);
+        more = (ImageView) findViewById(R.id.assistant_mapView_more);
+        line_layout = (RadioGroup) findViewById(R.id.assistant_mapView_line_layout);
     }
 
     private void initClick() {
         map_location.setOnClickListener(this);
         btn_back.setOnClickListener(this);
+        input.addTextChangedListener(this);
+        more.setOnClickListener(this);
+        line_layout.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -100,9 +147,160 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
             case R.id.btn_back:
                 finish();
                 break;
+            case R.id.assistant_mapView_more:
+                showPopupWindow();
+                break;
         }
     }
 
+    /**
+     * 常规逻辑
+     */
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (!Tools.isNull(s.toString().trim())) {
+            line_layout.setVisibility(View.VISIBLE);
+        } else {
+            line_layout.setVisibility(View.GONE);
+
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    private void showPopupWindow() {
+        View convertView = LayoutInflater.from(this).inflate(R.layout.assistant_map_pop_layout, null);
+        mPopupWindow = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        mPopupWindow.setAnimationStyle(R.style.loginPopupWindow);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x000000));
+        map_sate = (Switch) convertView.findViewById(R.id.map_satellite_switch);
+        map_2D = (Switch) convertView.findViewById(R.id.map_2D_switch);
+        map_hot = (Switch) convertView.findViewById(R.id.map_hot_switch);
+        map_traffic = (Switch) convertView.findViewById(R.id.map_traffic_switch);
+        mode_normal = ((Switch) convertView.findViewById(R.id.map_mode_normal_switch));
+        mode_follow = ((Switch) convertView.findViewById(R.id.map_mode_follow_switch));
+        mode_compass = ((Switch) convertView.findViewById(R.id.map_mode_compass_switch));
+
+        if (map.getMapType() == BaiduMap.MAP_TYPE_SATELLITE){
+            map_sate.setChecked(true);
+        }else {
+            map_2D.setChecked(true);
+        }
+        if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.NORMAL)){
+            mode_normal.setChecked(true);
+        }else if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.FOLLOWING)){
+            mode_follow.setChecked(true);
+        }else {
+            mode_compass.setChecked(true);
+        }
+        if (map.isBaiduHeatMapEnabled()){
+            map_hot.setChecked(true);
+        }
+        if (map.isTrafficEnabled()){
+            map_traffic.setChecked(true);
+        }
+
+        map_sate.setOnCheckedChangeListener(this);
+        map_2D.setOnCheckedChangeListener(this);
+        map_hot.setOnCheckedChangeListener(this);
+        map_traffic.setOnCheckedChangeListener(this);
+        mode_normal.setOnCheckedChangeListener(this);
+        mode_follow.setOnCheckedChangeListener(this);
+        mode_compass.setOnCheckedChangeListener(this);
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_assistant_map, null);
+        mPopupWindow.showAtLocation(rootView, Gravity.RIGHT, 0, 0);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.map_satellite_switch:
+                if (isChecked) {
+                    map_2D.setChecked(false);
+                    map.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                }
+                break;
+            case R.id.map_2D_switch:
+                if (isChecked) {
+                    map_sate.setChecked(false);
+                    map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                }
+                break;
+            case R.id.map_hot_switch:
+                if (isChecked) {
+                    map.setBaiduHeatMapEnabled(true);
+                } else {
+                    map.setBaiduHeatMapEnabled(false);
+                }
+                break;
+            case R.id.map_traffic_switch:
+                if (isChecked) {
+                    map.setTrafficEnabled(true);
+                } else {
+                    map.setTrafficEnabled(false);
+                }
+                break;
+            case R.id.map_mode_normal_switch:
+                if (isChecked) {
+                    mode_follow.setChecked(false);
+                    mode_compass.setChecked(false);
+                    mode = MyLocationConfiguration.LocationMode.NORMAL;
+                }
+                break;
+            case R.id.map_mode_follow_switch:
+                if (isChecked) {
+                    mode_normal.setChecked(false);
+                    mode_compass.setChecked(false);
+                    mode = MyLocationConfiguration.LocationMode.FOLLOWING;
+                }
+                break;
+            case R.id.map_mode_compass_switch:
+                if (isChecked) {
+                    mode_follow.setChecked(false);
+                    mode_normal.setChecked(false);
+                    mode = MyLocationConfiguration.LocationMode.COMPASS;
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        PlanNode stNode = PlanNode.withCityNameAndPlaceName(city, addr);
+        PlanNode enNode = PlanNode.withCityNameAndPlaceName(city, input.getText().toString().trim());
+        RadioButton radioButton = (RadioButton) findViewById(group.getCheckedRadioButtonId());
+        if (radioButton.getText().equals("公交")) {
+            mSearch.transitSearch((new TransitRoutePlanOption())
+                    .from(stNode)
+                    .city(city)
+                    .to(enNode));
+        } else if (radioButton.getText().equals("驾车")) {
+            mSearch.drivingSearch((new DrivingRoutePlanOption())
+                    .from(stNode)
+                    .to(enNode));
+        } else if (radioButton.getText().equals("步行")) {
+            mSearch.walkingSearch((new WalkingRoutePlanOption())
+                    .from(stNode)
+                    .to(enNode));
+        }else if (radioButton.getText().equals("骑行")) {
+            mSearch.bikingSearch((new BikingRoutePlanOption())
+                    .from(stNode)
+                    .to(enNode));
+        }
+    }
+
+    /**
+     * 地图设计
+     */
     //百度地图定位初始化
     private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());     //定位初始化
@@ -111,7 +309,7 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        option.setScanSpan(1000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setScanSpan(2000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
@@ -122,7 +320,7 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
         option.setNeedDeviceDirect(true);
         mLocationClient.setLocOption(option);
-
+        map.setOnMapLoadedCallback(this);
 //        useLocationOrientationListener();
     }
 
@@ -178,6 +376,35 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
             return dis + "m";
         }
     }
+
+    //定位到用户当前位置
+    private void showUserLocation() {
+        LatLng latLng = new LatLng(user_latitude, user_longitude);
+        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
+        map.animateMapStatus(msu);
+    }
+
+    @Override
+    public void onMapLoaded() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    if (!isPageDestroy) {
+                        LatLng latLng = new LatLng(user_latitude, user_longitude);
+                        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(19);// 设置地图放大比例
+                        map.setMapStatus(msu);
+                        msu = MapStatusUpdateFactory.newLatLng(latLng);
+                        map.animateMapStatus(msu);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         // 定位接口可能返回错误码,要根据结果错误码,来判断是否是正确的地址;
@@ -191,6 +418,8 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
                 radius = bdLocation.getRadius();
                 user_latitude = bdLocation.getLatitude();
                 user_longitude = bdLocation.getLongitude();
+                city = bdLocation.getCity().substring(0, bdLocation.getCity().length() - 1);
+                addr = bdLocation.getAddrStr().replace(bdLocation.getCountry(), "").replace(bdLocation.getCity(), "");
                 MyLocationData data = new MyLocationData.Builder()
                         .accuracy(radius)
                         .direction(mCurrentX)
@@ -198,7 +427,7 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
                         .longitude(user_longitude)
                         .build();
                 map.setMyLocationData(data);
-                MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, true, null);
+                MyLocationConfiguration config = new MyLocationConfiguration(mode, true, null);
                 map.setMyLocationConfigeration(config);
 
                 break;
@@ -207,11 +436,119 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
                 break;
         }
     }
-    //定位到用户当前位置
-    private void showUserLocation() {
-        LatLng latLng = new LatLng(user_latitude, user_longitude);
-        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
-        map.animateMapStatus(msu);
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+        map.clear();
+        if (walkingRouteResult == null || walkingRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(this, "未查找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (walkingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            Toast.makeText(this, "起终点或途经点地址有岐义", Toast.LENGTH_SHORT).show();
+            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo()
+            return;
+        }
+        if (walkingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+
+            WalkingRouteLine routeLine = walkingRouteResult.getRouteLines().get(0);
+            //创建公交路线规划线路覆盖物
+            WalkingRouteOverlay overlay = new WalkingRouteOverlay(map);
+            //设置公交路线规划数据
+            overlay.setData(routeLine);
+            //将公交路线规划覆盖物添加到地图中
+            overlay.addToMap();
+            overlay.zoomToSpan();
+        }
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+        map.clear();
+        if (transitRouteResult == null || transitRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(this, "未查找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (transitRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            Toast.makeText(this, "起终点或途经点地址有岐义", Toast.LENGTH_SHORT).show();
+            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo()
+            return;
+        }
+        if (transitRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+
+            TransitRouteLine routeLine = transitRouteResult.getRouteLines().get(0);
+            //创建公交路线规划线路覆盖物
+            TransitRouteOverlay overlay = new TransitRouteOverlay(map);
+            //设置公交路线规划数据
+            overlay.setData(routeLine);
+            //将公交路线规划覆盖物添加到地图中
+            overlay.addToMap();
+            overlay.zoomToSpan();
+        }
+    }
+
+    @Override
+    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+        LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~massTransitRouteResult", massTransitRouteResult.getTotal() + "///////");
+    }
+
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+        map.clear();
+        if (drivingRouteResult == null || drivingRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(this, "未查找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            Toast.makeText(this, "起终点或途经点地址有岐义", Toast.LENGTH_SHORT).show();
+            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo()
+            return;
+        }
+        if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+
+            DrivingRouteLine routeLine = drivingRouteResult.getRouteLines().get(0);
+            //创建公交路线规划线路覆盖物
+            DrivingRouteOverlay overlay = new DrivingRouteOverlay(map);
+            //设置公交路线规划数据
+            overlay.setData(routeLine);
+            //将公交路线规划覆盖物添加到地图中
+            overlay.addToMap();
+            overlay.zoomToSpan();
+        }
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+        map.clear();
+        if (bikingRouteResult == null || bikingRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(this, "未查找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (bikingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            Toast.makeText(this, "起终点或途经点地址有岐义", Toast.LENGTH_SHORT).show();
+            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo()
+            return;
+        }
+        if (bikingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+
+            BikingRouteLine routeLine = bikingRouteResult.getRouteLines().get(0);
+            //创建公交路线规划线路覆盖物
+            BikingRouteOverlay overlay = new BikingRouteOverlay(map);
+            //设置公交路线规划数据
+            overlay.setData(routeLine);
+            //将公交路线规划覆盖物添加到地图中
+            overlay.addToMap();
+            overlay.zoomToSpan();
+        }
     }
 
     /**
@@ -237,10 +574,12 @@ public class LifeAssistantMapActivity extends BaseActivity implements BDLocation
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mapView.onDestroy();
         mLocationClient.unRegisterLocationListener(this);
         orientationListener.stop();
+        isPageDestroy = true;
+        mSearch.destroy();
+        super.onDestroy();
     }
 }

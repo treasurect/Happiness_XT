@@ -10,4 +10,9 @@
         android:scrollbars="none"
         android:divider="@color/colorGray"
         android:dividerHeight="0.5dp"/>
+    <ProgressBar
+        android:id="@+id/home_news_loading"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"/>
 </FrameLayout>

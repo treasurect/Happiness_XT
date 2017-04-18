@@ -147,7 +147,7 @@ public class LifeAssistantWeatherActivity extends BaseActivity implements View.O
     }
 
     private void receiveIntent() {
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         if (!Tools.isNull(intent.getStringExtra("province"))) {
              province = intent.getStringExtra("province");
              city = intent.getStringExtra("city");
