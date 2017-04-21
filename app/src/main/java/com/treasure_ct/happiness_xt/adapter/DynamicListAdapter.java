@@ -112,7 +112,7 @@ public class DynamicListAdapter extends BaseAdapter {
             holder.comments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemClick.sendComments(listBean.getUser_nick(),listBean.getContent());
+                    mItemClick.sendComments(listBean.getUser_nick(),listBean.getContent(),listBean.getPublish_time(),listBean.getSendTop(),listBean.getComments());
                 }
             });
         }
@@ -153,7 +153,7 @@ public class DynamicListAdapter extends BaseAdapter {
     public interface ItemClick{
         void sendMore(String nick,String contents);
         void sendTop(String nick,String contents);
-        void sendComments(String nick,String contents);
+        void sendComments(String nick,String contents,String content,int top_num,int comments_num);
     }
     private ItemClick mItemClick;
 

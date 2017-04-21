@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -21,6 +22,7 @@ import com.mob.bbssdk.BBSSDK;
 import com.mob.bbssdk.api.ForumAPI;
 import com.mob.bbssdk.model.ForumForum;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
 import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
@@ -35,8 +37,10 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 
-public class DynamicFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class DynamicFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
     private CustomScrollListView dynamic_listView;
     private List<DynamicBean> dynamic_list;
     private DynamicListAdapter dynamic_adapter;
@@ -49,6 +53,7 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
     private View view;
     private LinearLayout community_layout;
     private ForumAPI bbsApi;
+    private int sendTopNum;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +116,8 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
     private void initClick() {
         vr_whole.setOnClickListener(this);
         dynamic_RG.setOnCheckedChangeListener(this);
+        dynamic_adapter.setItemClick(this);
+        dynamic_listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -176,5 +183,74 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
     public void onDestroyView() {
         getContext().unregisterReceiver(commonDataReceiver);
         super.onDestroyView();
+    }
+
+    @Override
+    public void sendMore( String nick,  String contents) {
+
+    }
+
+    @Override
+    public void sendTop(String nick, String contents) {
+        BmobQuery<DynamicBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("user_nick", nick);
+        query.addWhereEqualTo("content", contents);
+        query.findObjects(new FindListener<DynamicBean>() {
+            @Override
+            public void done(List<DynamicBean> list, BmobException e) {
+                if (e == null) {
+                    for (DynamicBean dynamicBean : list) {
+                        getTop(dynamicBean.getObjectId());
+                    }
+                }
+            }
+        });
+    }
+
+    private void getTop(final String objectId) {
+        BmobQuery<DynamicBean> query = new BmobQuery<>();
+        query.getObject(objectId, new QueryListener<DynamicBean>() {
+
+            @Override
+            public void done(DynamicBean dynamicBean, BmobException e) {
+                if (e == null) {
+                    sendTopNum = dynamicBean.getSendTop();
+                    toUpdateTop(objectId, sendTopNum);
+                }
+            }
+        });
+    }
+
+    private void toUpdateTop(String objectId, int sendTopNum) {
+        DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setSendTop(sendTopNum + 1);
+        dynamicBean.update(objectId, new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                requestDynamicList();
+            }
+        });
+    }
+
+    @Override
+    public void sendComments(String nick, String contents, String publish_time, int top_num, int comments_num) {
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
+        intent.putExtra("user_nick", nick);
+        intent.putExtra("publish_time", publish_time);
+        intent.putExtra("content", contents);
+        intent.putExtra("top", top_num + "");
+        intent.putExtra("comments", comments_num + "");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
+        intent.putExtra("user_nick", dynamic_list.get(position).getUser_nick());
+        intent.putExtra("publish_time", dynamic_list.get(position).getPublish_time());
+        intent.putExtra("content", dynamic_list.get(position).getContent());
+        intent.putExtra("top", dynamic_list.get(position).getSendTop() + "");
+        intent.putExtra("comments", dynamic_list.get(position).getComments() + "");
+        startActivity(intent);
     }
 }

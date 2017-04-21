@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.activity.assistant;
+package com.treasure_ct.happiness_xt.activity.life;
 
 import android.os.Handler;
 import android.os.Message;
@@ -30,8 +30,6 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class LifeRobotActivity extends BaseActivity implements View.OnClickListener, TextWatcher {

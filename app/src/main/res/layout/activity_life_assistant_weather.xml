@@ -9,7 +9,7 @@
     android:background="@color/colorBlue"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    tools:context=".activity.assistant.LifeWeatherActivity">
+    tools:context=".activity.life.LifeWeatherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

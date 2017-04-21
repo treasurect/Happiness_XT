@@ -32,7 +32,7 @@ import com.tencent.tauth.UiError;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeRobotActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeRobotActivity;
 import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;

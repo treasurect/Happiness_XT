@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,12 +39,13 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeAllActivity;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeMapActivity;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeMusicActivity;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeRecordActivity;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeRobotActivity;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeWeatherActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeAllActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeMapActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeMusicActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeRecordActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeRobotActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeWeatherActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.adapter.LifeGridAdapter;
 import com.treasure_ct.happiness_xt.bean.LifePhoneBelongBean;
@@ -69,11 +71,13 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssistantClickItem, View.OnClickListener, BDLocationListener, DynamicListAdapter.ItemClick {
+public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssistantClickItem, View.OnClickListener, BDLocationListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
     private GridView gridView;
     private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "邮编查询", "聆听好声音", "驾考题库", "全部"};
     private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
@@ -205,7 +209,7 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
     private TextView phoneBelong_city, phoneBelong_cityCode, phoneBelong_operator, phoneBelong_province, phoneBelong_zipCode;
     private CustomScrollListView listView;
     private List<DynamicBean> list;
-    private DynamicListAdapter adapter;
+    private DynamicListAdapter listAdapter;
     private NestedScrollView scrollView;
     private TextView record;
     private ImageView camera;
@@ -227,6 +231,9 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
     private LifePostCode2Bean postCodeResult2;
     private TextView postCode_city2, postCode_district2, postCode_post2, postCode_province2, postCode_pid, postCode_cid, postCode_did;
     private Spinner postCode_address2;
+
+    private int sendTopNum;
+    private PopupWindow mPopupWindow1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -286,9 +293,9 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
 
     private void initListView() {
         list = new ArrayList<>();
-        adapter = new DynamicListAdapter(getContext(), list);
-        listView.setAdapter(adapter);
-        adapter.setItemClick(this);
+        listAdapter = new DynamicListAdapter(getContext(), list);
+        listView.setAdapter(listAdapter);
+        listAdapter.setItemClick(this);
     }
 
     private void initScrollView() {
@@ -301,6 +308,7 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
         camera.setOnClickListener(this);
         refresh.setOnClickListener(this);
         weather_show.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
     }
 
     private void initiLocation() {
@@ -378,6 +386,7 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
                     intent.putExtra("district", district);
                 }
                 startActivity(intent);
+                break;
         }
     }
 
@@ -394,7 +403,7 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
                         list.clear();
                         Collections.reverse(data_list);
                         list.addAll(data_list);
-                        adapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetChanged();
                     }
                 } else {
                     LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", e.getMessage());
@@ -709,18 +718,112 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
     }
 
     @Override
-    public void sendMore(String nick, String contents) {
+    public void sendMore(final String nick, final String contents) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.life_dynamic_item_more_layout, null);
+        mPopupWindow1 = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow1.setOutsideTouchable(true);
+        mPopupWindow1.setBackgroundDrawable(new ColorDrawable(0x88000000));
+        LinearLayout delete = (LinearLayout) inflate.findViewById(R.id.life_dynamic_item_delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BmobQuery<DynamicBean> query = new BmobQuery<>();
+                query.addWhereEqualTo("user_nick", nick);
+                query.addWhereEqualTo("content", contents);
+                query.findObjects(new FindListener<DynamicBean>() {
+                    @Override
+                    public void done(List<DynamicBean> list, BmobException e) {
+                        if (e == null) {
+                            for (DynamicBean dynamicBean : list) {
+                                toDelete(dynamicBean.getObjectId());
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        mPopupWindow1.showAsDropDown(listView);
+    }
 
+    private void toDelete(String objectId) {
+        DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setObjectId(objectId);
+        dynamicBean.delete(new UpdateListener() {
+
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    mPopupWindow1.dismiss();
+                    requestDynamicList();
+                } else {
+
+                }
+            }
+        });
     }
 
     @Override
     public void sendTop(String nick, String contents) {
+        BmobQuery<DynamicBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("user_nick", nick);
+        query.addWhereEqualTo("content", contents);
+        query.findObjects(new FindListener<DynamicBean>() {
+            @Override
+            public void done(List<DynamicBean> list, BmobException e) {
+                if (e == null) {
+                    for (DynamicBean dynamicBean : list) {
+                        getTop(dynamicBean.getObjectId());
+                    }
+                }
+            }
+        });
+    }
 
+    private void getTop(final String objectId) {
+        BmobQuery<DynamicBean> query = new BmobQuery<>();
+        query.getObject(objectId, new QueryListener<DynamicBean>() {
+
+            @Override
+            public void done(DynamicBean dynamicBean, BmobException e) {
+                if (e == null) {
+                    sendTopNum = dynamicBean.getSendTop();
+                    toUpdateTop(objectId, sendTopNum);
+                }
+            }
+        });
+    }
+
+    private void toUpdateTop(String objectId, int sendTopNum) {
+        DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setSendTop(sendTopNum + 1);
+        dynamicBean.update(objectId, new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                requestDynamicList();
+            }
+        });
     }
 
     @Override
-    public void sendComments(String nick, String contents) {
+    public void sendComments(String nick, String contents, String publish_time, int top_num, int comments_num) {
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
+        intent.putExtra("user_nick", nick);
+        intent.putExtra("publish_time", publish_time);
+        intent.putExtra("content", contents);
+        intent.putExtra("top", top_num + "");
+        intent.putExtra("comments", comments_num + "");
+        startActivity(intent);
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
+        intent.putExtra("user_nick", list.get(position).getUser_nick());
+        intent.putExtra("publish_time", list.get(position).getPublish_time());
+        intent.putExtra("content", list.get(position).getContent());
+        intent.putExtra("top", list.get(position).getSendTop() + "");
+        intent.putExtra("comments", list.get(position).getComments() + "");
+        startActivity(intent);
     }
 }
 

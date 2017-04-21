@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.activity.assistant;
+package com.treasure_ct.happiness_xt.activity.life;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
