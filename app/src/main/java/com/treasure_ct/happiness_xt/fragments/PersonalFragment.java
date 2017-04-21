@@ -32,7 +32,7 @@ import com.tencent.tauth.UiError;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
-import com.treasure_ct.happiness_xt.activity.assistant.LifeAssistantRobotActivity;
+import com.treasure_ct.happiness_xt.activity.assistant.LifeRobotActivity;
 import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;
@@ -40,6 +40,7 @@ import com.treasure_ct.happiness_xt.activity.user.UserForgetPassActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserPushActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserRegisterActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserSettingsActivity;
+import com.treasure_ct.happiness_xt.activity.user.UserSignInActivity;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
@@ -62,7 +63,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     private String user_name;
     private ImageView qqLogin, weChatLogin, sinaLogin, qqweiboLogin;
     private EditText editPwd, editPhone;
-    private FrameLayout messagePush_layout, feedBack_layout, turing_layout, vrWhole_layout;
+    private FrameLayout signIn_layout,messagePush_layout, feedBack_layout, turing_layout, vrWhole_layout;
     private XTApplication application;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
@@ -122,6 +123,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         layoutHistory = (LinearLayout) view.findViewById(R.id.mine_history_layout);
         imageSettings = (ImageView) view.findViewById(R.id.mine_settings_icon);
         layoutSettings = (LinearLayout) view.findViewById(R.id.mine_settings_layout);
+        signIn_layout = (FrameLayout) view.findViewById(R.id.mine_signIn_layout);
         messagePush_layout = (FrameLayout) view.findViewById(R.id.mine_messagePush_layout);
         feedBack_layout = (FrameLayout) view.findViewById(R.id.mine_feedBack_layout);
         turing_layout = (FrameLayout) view.findViewById(R.id.mine_turing_layout);
@@ -160,6 +162,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         layoutNight.setOnClickListener(this);
         layoutHistory.setOnClickListener(this);
         layoutSettings.setOnClickListener(this);
+        signIn_layout.setOnClickListener(this);
         messagePush_layout.setOnClickListener(this);
         feedBack_layout.setOnClickListener(this);
         turing_layout.setOnClickListener(this);
@@ -191,6 +194,9 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_settings_layout:
                 startActivity(new Intent(getContext(), UserSettingsActivity.class));
                 break;
+            case R.id.mine_signIn_layout:
+                startActivity(new Intent(getContext(), UserSignInActivity.class));
+                break;
             case R.id.mine_messagePush_layout:
                 startActivity(new Intent(getContext(), UserPushActivity.class));
                 break;
@@ -198,7 +204,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), UserFeedBackActivity.class));
                 break;
             case R.id.mine_turing_layout:
-                startActivity(new Intent(getContext(), LifeAssistantRobotActivity.class));
+                startActivity(new Intent(getContext(), LifeRobotActivity.class));
                 break;
             case R.id.mine_vr_whole_scene_layout:
                 startActivity(new Intent(getContext(), DynamicVrWholeActivity.class));

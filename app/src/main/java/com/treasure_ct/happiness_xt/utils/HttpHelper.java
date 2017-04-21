@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.File;
 
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -157,5 +158,18 @@ public class HttpHelper {
                 .tag(context)
                 .build();
         new OkHttpClient().newCall(request).enqueue(callback);
+    }
+
+    /**
+     * okhttp的post请求
+     */
+    public static void doPostCall(String url, Context context, FormBody body, Callback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .tag(context)
+                .build();
+        okHttpClient.newCall(request).enqueue(callback);
     }
 }

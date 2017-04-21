@@ -50,6 +50,8 @@ public class HomeNewsWebActivity extends BaseActivity implements View.OnClickLis
     private void LoadUrl() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        settings.setSupportZoom(true); // 支持缩放
         webView.setWebViewClient(new WebViewClient()
 //        {
 //            @Override

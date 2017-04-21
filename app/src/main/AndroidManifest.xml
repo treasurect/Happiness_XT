@@ -40,16 +40,16 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".activity.user.UserRegisterActivity"/>
         <activity android:name=".activity.user.UserEditUserInfoActivity"/>
-        <activity android:name=".activity.assistant.LifeAllAssistantActivity"/>
-        <activity android:name=".activity.assistant.LifeAssistantWeatherActivity"/>
-        <activity android:name=".activity.assistant.LifeAssistantWeatherCityListActivity"/>
-        <activity android:name=".activity.assistant.LifeAssistantMapActivity"/>
+        <activity android:name=".activity.assistant.LifeAllActivity"/>
+        <activity android:name=".activity.assistant.LifeWeatherActivity"/>
+        <activity android:name=".activity.assistant.LifeWeatherCityListActivity"/>
+        <activity android:name=".activity.assistant.LifeMapActivity"/>
         <activity android:name=".activity.home.HomeNewsWebActivity"/>
-        <activity android:name=".activity.assistant.LifeAssistantRecordActivity"/>
+        <activity android:name=".activity.assistant.LifeRecordActivity"/>
         <activity android:name=".activity.user.UserSettingsActivity"/>
         <activity android:name=".activity.user.UserPushActivity"/>
         <activity android:name=".activity.user.UserFeedBackActivity"/>
-        <activity android:name=".activity.assistant.LifeAssistantRobotActivity"/>
+        <activity android:name=".activity.assistant.LifeRobotActivity"/>
         <activity android:name=".activity.dynatmic.DynamicVrWholeActivity"/>
 
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -190,6 +190,12 @@
             android:value="1d07430de8d54"/>
 
         <activity android:name=".activity.user.UserForgetPassActivity">
+        </activity>
+        <activity android:name=".activity.user.UserSignInActivity">
+        </activity>
+        <activity android:name=".activity.assistant.LifeMusicActivity">
+        </activity>
+        <activity android:name=".activity.home.HomeWeChatListItemActivity">
         </activity>
     </application>
 

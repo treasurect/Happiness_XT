@@ -38,12 +38,9 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
     }
 
     private void initTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText("微信精选"));
         tabLayout.addTab(tabLayout.newTab().setText("头条"));
-//        tabLayout.addTab(tabLayout.newTab().setText("段子"));
         tabLayout.addTab(tabLayout.newTab().setText("FUN"));
-//        tabLayout.addTab(tabLayout.newTab().setText("视频"));
-//        tabLayout.addTab(tabLayout.newTab().setText("美食"));
-        tabLayout.addTab(tabLayout.newTab().setText("音乐"));
         tabLayout.addTab(tabLayout.newTab().setText("科技"));
         tabLayout.addTab(tabLayout.newTab().setText("时尚"));
         tabLayout.addTab(tabLayout.newTab().setText("电影"));
@@ -52,12 +49,9 @@ public class HomeFragment extends Fragment implements TabLayout.OnTabSelectedLis
 
     private void initViewPager() {
         List<Fragment> list = new ArrayList<>();
+        list.add(new HomeWeChatSelectFragment());
         list.add(new HomeNewsTopFragment());
-//        list.add(new HomeJokerFragment());
         list.add(new HomeNewsFunFragment());
-//        list.add(new HomeVideoFragment());
-//        list.add(new HomeCateFragment());
-        list.add(new HomeMusicFragment());
         list.add(new HomeNewsTechFragment());
         list.add(new HomeNewsFashionFragment());
         list.add(new HomeNewsMoviesFragment());

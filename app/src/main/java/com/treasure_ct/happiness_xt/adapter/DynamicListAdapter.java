@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,12 +75,12 @@ public class DynamicListAdapter extends BaseAdapter {
             ret = convertView;
         } else {
             if (getItemViewType(position) == 0) {
-                ret = inflater.inflate(R.layout.assistant_dynamic_text_list_item, parent, false);
+                ret = inflater.inflate(R.layout.dynamic_text_list_item, parent, false);
             } else {
-                ret = inflater.inflate(R.layout.assistant_dynamic_image_list_item, parent, false);
+                ret = inflater.inflate(R.layout.dynamic_image_list_item, parent, false);
             }
             ret.setTag(new ViewHolder(ret));
-            DynamicBean listBean = list.get(position);
+            final DynamicBean listBean = list.get(position);
             ViewHolder holder = (ViewHolder) ret.getTag();
 //            holder.user_icon.setImageURI(Uri.parse());
             holder.user_nick.setText(listBean.getUser_nick());
@@ -94,11 +96,23 @@ public class DynamicListAdapter extends BaseAdapter {
                 }
             }
             holder.sendTop.setText(listBean.getSendTop()+"");
-            holder.comments.setText(listBean.getComments()+"");
+            holder.sendComments.setText(listBean.getComments()+"");
             holder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "more", Toast.LENGTH_SHORT).show();
+                    mItemClick.sendMore(listBean.getUser_nick(),listBean.getContent());
+                }
+            });
+            holder.top.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClick.sendTop(listBean.getUser_nick(),listBean.getContent());
+                }
+            });
+            holder.comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClick.sendComments(listBean.getUser_nick(),listBean.getContent());
                 }
             });
         }
@@ -109,27 +123,41 @@ public class DynamicListAdapter extends BaseAdapter {
         private SimpleDraweeView user_icon;
         private TextView user_nick;
         private TextView publish_time;
-        private ImageView more;
+        private FrameLayout more;
         private TextView content;
         private SimpleDraweeView image1;
         private SimpleDraweeView image2;
         private SimpleDraweeView image3;
         private TextView image_num;
         private TextView sendTop;
-        private TextView comments;
+        private TextView sendComments;
+        private LinearLayout top;
+        private LinearLayout comments;
 
         public ViewHolder(View view) {
             user_icon = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_icon));
             user_nick = ((TextView) view.findViewById(R.id.assistant_dynamic_item_nick));
             publish_time = ((TextView) view.findViewById(R.id.assistant_dynamic_item_time));
-            more = ((ImageView) view.findViewById(R.id.assistant_dynamic_item_more));
+            more = ((FrameLayout) view.findViewById(R.id.assistant_dynamic_item_more));
             content = ((TextView) view.findViewById(R.id.assistant_dynamic_item_content));
             image1 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image1));
             image2 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image2));
             image3 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image3));
             image_num = ((TextView) view.findViewById(R.id.assistant_record_image_num));
             sendTop = ((TextView) view.findViewById(R.id.assistant_dynamic_item_good_num));
-            comments = ((TextView) view.findViewById(R.id.assistant_dynamic_item_comments_num));
+            sendComments = ((TextView) view.findViewById(R.id.assistant_dynamic_item_comments_num));
+            top = ((LinearLayout) view.findViewById(R.id.assistant_dynamic_item_good));
+            comments = ((LinearLayout) view.findViewById(R.id.assistant_dynamic_item_comments));
         }
+    }
+    public interface ItemClick{
+        void sendMore(String nick,String contents);
+        void sendTop(String nick,String contents);
+        void sendComments(String nick,String contents);
+    }
+    private ItemClick mItemClick;
+
+    public void setItemClick(ItemClick itemClick) {
+        mItemClick = itemClick;
     }
 }

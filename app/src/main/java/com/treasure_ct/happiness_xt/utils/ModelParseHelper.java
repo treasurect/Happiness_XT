@@ -1,12 +1,14 @@
 package com.treasure_ct.happiness_xt.utils;
 
 import com.google.gson.Gson;
-import com.treasure_ct.happiness_xt.bean.AssistantBaseLocationQueryBean;
-import com.treasure_ct.happiness_xt.bean.AssistantPhoneBelongBean;
-import com.treasure_ct.happiness_xt.bean.AssistantPostCode2Bean;
-import com.treasure_ct.happiness_xt.bean.AssistantPostCodeBean;
-import com.treasure_ct.happiness_xt.bean.AssistantWeatherCityListBean;
-import com.treasure_ct.happiness_xt.bean.AssistantWeatherResultBean;
+import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectItemBean;
+import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectListBean;
+import com.treasure_ct.happiness_xt.bean.LifeBaseLocationQueryBean;
+import com.treasure_ct.happiness_xt.bean.LifePhoneBelongBean;
+import com.treasure_ct.happiness_xt.bean.LifePostCode2Bean;
+import com.treasure_ct.happiness_xt.bean.LifePostCodeBean;
+import com.treasure_ct.happiness_xt.bean.LifeWeatherCityListBean;
+import com.treasure_ct.happiness_xt.bean.LifeWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
 
@@ -50,10 +52,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantWeatherResultBean parseWeatherResult(String str) {
+    public static LifeWeatherResultBean parseWeatherResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantWeatherResultBean.class);
+        return gson.fromJson(str, LifeWeatherResultBean.class);
 
     }
 
@@ -63,10 +65,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantPhoneBelongBean parsePhoneBelongResult(String str) {
+    public static LifePhoneBelongBean parsePhoneBelongResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantPhoneBelongBean.class);
+        return gson.fromJson(str, LifePhoneBelongBean.class);
 
     }
 
@@ -76,10 +78,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantPostCodeBean parsePostCodeResult(String str) {
+    public static LifePostCodeBean parsePostCodeResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantPostCodeBean.class);
+        return gson.fromJson(str, LifePostCodeBean.class);
 
     }
 
@@ -89,10 +91,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantPostCode2Bean parsePostCode2Result(String str) {
+    public static LifePostCode2Bean parsePostCode2Result(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantPostCode2Bean.class);
+        return gson.fromJson(str, LifePostCode2Bean.class);
 
     }
 
@@ -102,10 +104,10 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantBaseLocationQueryBean parseBaseQueryResult(String str) {
+    public static LifeBaseLocationQueryBean parseBaseQueryResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantBaseLocationQueryBean.class);
+        return gson.fromJson(str, LifeBaseLocationQueryBean.class);
 
     }
 
@@ -141,10 +143,34 @@ public class ModelParseHelper {
      * @param str
      * @return
      */
-    public static AssistantWeatherCityListBean parseCityListResult(String str) {
+    public static LifeWeatherCityListBean parseCityListResult(String str) {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
-        return gson.fromJson(str, AssistantWeatherCityListBean.class);
+        return gson.fromJson(str, LifeWeatherCityListBean.class);
+
+    }
+    /**
+     * 解析 home-微信精选列表
+     *
+     * @param str
+     * @return
+     */
+    public static HomeWeChatSelectListBean parseWeChatListResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeWeChatSelectListBean.class);
+
+    }
+    /**
+     * 解析 home-微信精选列表-内容
+     *
+     * @param str
+     * @return
+     */
+    public static HomeWeChatSelectItemBean parseWeChatItemResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeWeChatSelectItemBean.class);
 
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_wechat_list_item_name"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:textColor="@color/colorOrange"
+    android:textSize="16sp"
+    android:textStyle="italic"
+    android:background="@color/colorGray4"
+    android:gravity="center"/>

@@ -6,14 +6,15 @@
     android:id="@+id/activity_life_assistant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorBlue"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    tools:context=".activity.assistant.LifeAssistantWeatherActivity">
+    tools:context=".activity.assistant.LifeWeatherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="380dp"
+        android:background="@color/colorBlue"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout

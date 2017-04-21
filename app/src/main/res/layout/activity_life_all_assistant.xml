@@ -9,7 +9,7 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.assistant.LifeAllAssistantActivity">
+    tools:context=".activity.assistant.LifeAllActivity">
 
     <include layout="@layout/top_view"/>
 

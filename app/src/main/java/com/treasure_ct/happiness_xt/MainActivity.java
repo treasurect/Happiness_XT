@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.treasure_ct.happiness_xt.fragments.AssistantFragment;
+import com.treasure_ct.happiness_xt.fragments.LifeFragment;
 import com.treasure_ct.happiness_xt.fragments.DynamicFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeFragment;
 import com.treasure_ct.happiness_xt.fragments.PersonalFragment;
@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView home_text,assistant_text,collection_text,personal_text;
     private FragmentTransaction transaction;
     private HomeFragment homeFragment;
-    private AssistantFragment assistantFragment;
+    private LifeFragment mLifeFragment;
     private DynamicFragment dynamicFragment;
     private PersonalFragment personalFragment;
 
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         collection_text = (TextView) findViewById(R.id.main_tab_collection_text);
         personal_text = (TextView) findViewById(R.id.main_tab_personal_text);
         homeFragment = new HomeFragment();
-        assistantFragment = new AssistantFragment();
+        mLifeFragment = new LifeFragment();
         dynamicFragment = new DynamicFragment();
         personalFragment = new PersonalFragment();
     }
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 assistant_image.setImageResource(R.mipmap.btn_assistant);
                 assistant_text.setTextColor(getResources().getColor(R.color.colorRed));
                 assistant_text.getPaint().setFakeBoldText(true);
-                transaction.replace(R.id.replace_fragment,assistantFragment);
+                transaction.replace(R.id.replace_fragment, mLifeFragment);
                 break;
             case R.id.main_tab_collection:
                 collection_image.setImageResource(R.mipmap.btn_collection);
