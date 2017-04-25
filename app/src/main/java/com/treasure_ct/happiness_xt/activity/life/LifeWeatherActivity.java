@@ -81,7 +81,7 @@ public class LifeWeatherActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_assistant_weather);
+        setContentView(R.layout.activity_life_weather);
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
         initFindId();

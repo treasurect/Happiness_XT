@@ -33,7 +33,7 @@ import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.XTApplication;
 import com.treasure_ct.happiness_xt.activity.life.LifeRobotActivity;
-import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeVrWholeActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserEditUserInfoActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserFeedBackActivity;
 import com.treasure_ct.happiness_xt.activity.user.UserForgetPassActivity;
@@ -207,7 +207,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), LifeRobotActivity.class));
                 break;
             case R.id.mine_vr_whole_scene_layout:
-                startActivity(new Intent(getContext(), DynamicVrWholeActivity.class));
+                startActivity(new Intent(getContext(), LifeVrWholeActivity.class));
                 break;
             case R.id.mine_popup_quit:
                 quitpopupWindow();

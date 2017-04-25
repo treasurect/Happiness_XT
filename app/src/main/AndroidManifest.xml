@@ -50,7 +50,7 @@
         <activity android:name=".activity.user.UserPushActivity"/>
         <activity android:name=".activity.user.UserFeedBackActivity"/>
         <activity android:name=".activity.life.LifeRobotActivity"/>
-        <activity android:name=".activity.dynatmic.DynamicVrWholeActivity"/>
+        <activity android:name=".activity.life.LifeVrWholeActivity"/>
 
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   Bmob云 添加 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -198,6 +198,10 @@
         <activity android:name=".activity.home.HomeWeChatListItemActivity">
         </activity>
         <activity android:name=".activity.life.LifeDynamicItemActivity">
+        </activity>
+        <activity android:name=".activity.life.LifeDeliciousActivity">
+        </activity>
+        <activity android:name=".activity.life.LifeDeliciousDetailActivity">
         </activity>
     </application>
 

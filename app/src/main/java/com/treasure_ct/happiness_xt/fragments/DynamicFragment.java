@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,7 +22,6 @@ import com.mob.bbssdk.api.ForumAPI;
 import com.mob.bbssdk.model.ForumForum;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
-import com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
@@ -40,14 +38,13 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class DynamicFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
+public class DynamicFragment extends Fragment implements RadioGroup.OnCheckedChangeListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
     private CustomScrollListView dynamic_listView;
     private List<DynamicBean> dynamic_list;
     private DynamicListAdapter dynamic_adapter;
     private NestedScrollView scrollView;
     private IntentFilter filter;
     private CommonDataReceiver commonDataReceiver;
-    private ImageView vr_whole;
     private RadioButton dynamic_RB,community_RB;
     private RadioGroup dynamic_RG;
     private View view;
@@ -95,7 +92,6 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
     private void initFindId(View view) {
         scrollView = (NestedScrollView) view.findViewById(R.id.dynamic_scrollView);
         dynamic_listView = (CustomScrollListView) view.findViewById(R.id.dynamic_listView);
-        vr_whole = (ImageView) view.findViewById(R.id.dynamic_vr_whole);
         dynamic_RB = (RadioButton) view.findViewById(R.id.dynamic_dynamic);
         community_RB = (RadioButton) view.findViewById(R.id.dynamic_community);
         dynamic_RG = (RadioGroup) view.findViewById(R.id.dynamic_radioGroup);
@@ -114,19 +110,9 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
     }
 
     private void initClick() {
-        vr_whole.setOnClickListener(this);
         dynamic_RG.setOnCheckedChangeListener(this);
         dynamic_adapter.setItemClick(this);
         dynamic_listView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.dynamic_vr_whole:
-                startActivity(new Intent(getContext(), DynamicVrWholeActivity.class));
-                break;
-        }
     }
 
     @Override
@@ -135,13 +121,13 @@ public class DynamicFragment extends Fragment implements View.OnClickListener, R
         if (radioButton.getText().equals("动态")){
             dynamic_RB.setTextColor(getResources().getColor(R.color.colorBlock));
             community_RB.setTextColor(getResources().getColor(R.color.colorWhite));
-            dynamic_listView.setVisibility(View.VISIBLE);
-            community_layout.setVisibility(View.GONE);
+//            dynamic_listView.setVisibility(View.VISIBLE);
+//            community_layout.setVisibility(View.GONE);
         }else {
             dynamic_RB.setTextColor(getResources().getColor(R.color.colorWhite));
             community_RB.setTextColor(getResources().getColor(R.color.colorBlock));
-            dynamic_listView.setVisibility(View.GONE);
-            community_layout.setVisibility(View.VISIBLE);
+//            dynamic_listView.setVisibility(View.GONE);
+//            community_layout.setVisibility(View.VISIBLE);
         }
     }
 

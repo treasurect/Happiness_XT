@@ -6,7 +6,6 @@
     android:layout_height="60dp"
     android:orientation="vertical"
     android:textColor="@color/colorOrange"
-    android:textSize="16sp"
-    android:textStyle="italic"
+    android:textSize="15sp"
     android:background="@color/colorGray4"
     android:gravity="center"/>

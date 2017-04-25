@@ -66,12 +66,6 @@
                             android:button="@null"
                             android:background="@drawable/radiobutton_white"/>
                     </RadioGroup>
-                    <ImageView
-                        android:id="@+id/dynamic_vr_whole"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/icon_vr"
-                        android:layout_gravity="right"/>
                 </FrameLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>

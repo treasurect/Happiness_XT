@@ -39,6 +39,8 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.life.LifeDeliciousActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeVrWholeActivity;
 import com.treasure_ct.happiness_xt.activity.life.LifeAllActivity;
 import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
 import com.treasure_ct.happiness_xt.activity.life.LifeMapActivity;
@@ -79,9 +81,9 @@ import okhttp3.Response;
 
 public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssistantClickItem, View.OnClickListener, BDLocationListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
     private GridView gridView;
-    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "邮编查询", "聆听好声音", "驾考题库", "全部"};
+    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "邮编查询", "聆听好声音", "VR 尝试", "美食菜谱", "全部", "全部", "全部", "全部"};
     private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
-            R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_driving, R.mipmap.icon_all};
+            R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_food, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
     private PopupWindow mPopupWindow;
     private Handler mHandler = new Handler() {
         @Override
@@ -481,7 +483,11 @@ public class LifeFragment extends Fragment implements LifeGridAdapter.LifeAssist
             case "聆听好声音":
                 startActivity(new Intent(getContext(), LifeMusicActivity.class));
                 break;
-            case "驾考题库":
+            case "VR 尝试":
+                startActivity(new Intent(getContext(),LifeVrWholeActivity.class));
+                break;
+            case "美食菜谱":
+                startActivity(new Intent(getContext(), LifeDeliciousActivity.class));
                 break;
             case "全部":
                 startActivity(new Intent(getContext(), LifeAllActivity.class));

@@ -96,7 +96,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_assistant_map);
+        setContentView(R.layout.activity_life_map);
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
         btn_back.setImageResource(R.mipmap.icon_return);
@@ -216,7 +216,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         mode_normal.setOnCheckedChangeListener(this);
         mode_follow.setOnCheckedChangeListener(this);
         mode_compass.setOnCheckedChangeListener(this);
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_assistant_map, null);
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_map, null);
         mPopupWindow.showAtLocation(rootView, Gravity.RIGHT, 0, 0);
     }
 

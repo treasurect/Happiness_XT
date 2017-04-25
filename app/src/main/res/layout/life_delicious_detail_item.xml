@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              tools:context=".activity.life.LifeDeliciousDetailActivity">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/delicious_detail_list_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"
+        fresco:placeholderImage="@mipmap/pic_pageloading"/>
+
+    <TextView
+        android:id="@+id/delicious_detail_list_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>

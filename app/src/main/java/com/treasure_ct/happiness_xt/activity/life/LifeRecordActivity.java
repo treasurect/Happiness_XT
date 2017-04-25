@@ -35,7 +35,7 @@ public class LifeRecordActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_assistant_record);
+        setContentView(R.layout.activity_life_record);
         initView();
         initFindId();
         initClick();

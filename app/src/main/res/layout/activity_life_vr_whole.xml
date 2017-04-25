@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.treasure_ct.happiness_xt.activity.dynatmic.DynamicVrWholeActivity">
+    tools:context="com.treasure_ct.happiness_xt.activity.life.LifeVrWholeActivity">
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/vrPanoramaView"
         android:layout_width="match_parent"

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectItemBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectListBean;
 import com.treasure_ct.happiness_xt.bean.LifeBaseLocationQueryBean;
+import com.treasure_ct.happiness_xt.bean.LifeDeliciousDetailBean;
+import com.treasure_ct.happiness_xt.bean.LifeDeliciousListBean;
 import com.treasure_ct.happiness_xt.bean.LifePhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.LifePostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.LifePostCodeBean;
@@ -172,5 +174,27 @@ public class ModelParseHelper {
         Gson gson = new Gson();
         return gson.fromJson(str, HomeWeChatSelectItemBean.class);
 
+    }
+    /**
+     * 解析 life-美食列表
+     *
+     * @param str
+     * @return
+     */
+    public static LifeDeliciousListBean parseDeliciousListResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, LifeDeliciousListBean.class);
+    }
+    /**
+     * 解析 life-美食-详情
+     *
+     * @param str
+     * @return
+     */
+    public static LifeDeliciousDetailBean parseDeliciousDetailResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, LifeDeliciousDetailBean.class);
     }
 }

@@ -1,8 +1,10 @@
 package com.treasure_ct.happiness_xt.activity.life;
 
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -65,16 +67,30 @@ public class LifeRobotActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_assistant_robot);
+        setContentView(R.layout.activity_life_robot);
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
         btn_back.setVisibility(View.VISIBLE);
         title.setText("智能机器人");
-
+        showHintDialog();
         initFindId();
         initListView();
         initClick();
         receiveMessage("回答");
+    }
+
+    private void showHintDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("你可以问我点什么");
+        builder.setMessage("吉凶查询、聊天对话、问答百科、生活百科、知识库、星座运势、新闻资讯、成语接龙、故事大全、菜谱大全、快递查询、笑话大全、天气查询、图片搜索、列车查询、航班查询、数字计算、日期查询、股票查询、路程报价、公交查询、绕口令、顺口溜、、租房信息、歇后语、影视搜索、实时路况、果蔬报价、汽油报价、脑筋急转弯、中英互译、城市邮编、附近酒店、附近餐厅");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     private void initFindId() {

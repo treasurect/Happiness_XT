@@ -1,4 +1,4 @@
-package com.treasure_ct.happiness_xt.activity.dynatmic;
+package com.treasure_ct.happiness_xt.activity.life;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,13 +14,13 @@ import com.treasure_ct.happiness_xt.R;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class DynamicVrWholeActivity extends AppCompatActivity {
+public class LifeVrWholeActivity extends AppCompatActivity {
     private VrPanoramaView vrPanoramaView;
     private ImagerLoaderTask imagerLoaderTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dynamic_vr_whole);
+        setContentView(R.layout.activity_life_vr_whole);
         vrPanoramaView = (VrPanoramaView) findViewById(R.id.vrPanoramaView);
 
         //隐藏信息详情  按钮
@@ -102,14 +102,14 @@ public class DynamicVrWholeActivity extends AppCompatActivity {
         @Override
         public void onLoadSuccess() {
             super.onLoadSuccess();
-            Toast.makeText(DynamicVrWholeActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LifeVrWholeActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
         }
 
         //当VR视图加载失败时回调；
         @Override
         public void onLoadError(String errorMessage) {
             super.onLoadError(errorMessage);
-            Toast.makeText(DynamicVrWholeActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LifeVrWholeActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -97,7 +97,7 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_assistant_weather_city_list);
+        setContentView(R.layout.activity_life_weather_city_list);
         initTitle();//基础activity里初始化标题栏
         Tools.setTranslucentStatus(this);//沉浸模式
         btn_back.setImageResource(R.mipmap.icon_return);

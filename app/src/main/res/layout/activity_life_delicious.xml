@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_life_delicious"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.treasure_ct.happiness_xt.activity.life.LifeDeliciousActivity">
+
+    <include layout="@layout/top_view"/>
+
+    <com.treasure_ct.happiness_xt.widget.CustomRefreshListView
+        android:id="@+id/life_delicious_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"/>
+    <ProgressBar
+        android:id="@+id/life_delicious_progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"/>
+</FrameLayout>
