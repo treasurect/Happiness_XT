@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/click_quan0" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan1" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan2" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan3" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan4" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan5" android:duration="150"></item>
+    <item android:drawable="@drawable/click_quan6" android:duration="150"></item>
+</animation-list>

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
+import com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeJokerListAdapter;
 import com.treasure_ct.happiness_xt.adapter.HomeNewsTopListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;

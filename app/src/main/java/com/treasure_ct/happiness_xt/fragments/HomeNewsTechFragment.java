@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.activity.home.HomeNewsWebActivity;
+import com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeNewsTopListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
 import com.treasure_ct.happiness_xt.widget.CustomRefreshListView;

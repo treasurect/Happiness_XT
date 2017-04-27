@@ -4,21 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
-import com.treasure_ct.happiness_xt.activity.home.HomeWeChatListItemActivity;
+import com.treasure_ct.happiness_xt.activity.entertainment.HomeWeChatListItemActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeWeChatSelectListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectListBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
-import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 
