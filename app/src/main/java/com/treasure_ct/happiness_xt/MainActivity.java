@@ -47,13 +47,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
-                    walk_right_anim.setVisibility(View.GONE);
-                    talk_anim.setVisibility(View.VISIBLE);
-                    click_anim.setVisibility(View.VISIBLE);
-                    talkAnimationDrawable.start();
-                    main_layout.setClickable(true);
-                    hint_text.setText("传统的页面让人疲倦，而我喜欢另辟蹊径\n\n随着社会飞速进步，我们的压力与日俱增\n" +
-                            "难得一寸净土，让我们尽情享受吧\n试着点击屏幕，进行下一步吧");
+                    if (!isJump){
+                        walk_right_anim.setVisibility(View.GONE);
+                        talk_anim.setVisibility(View.VISIBLE);
+                        click_anim.setVisibility(View.VISIBLE);
+                        talkAnimationDrawable.start();
+                        main_layout.setClickable(true);
+                        hint_text.setText("传统的页面让人疲倦，而我喜欢另辟蹊径\n\n随着社会飞速进步，我们的压力与日俱增\n" +
+                                "难得一寸净土，让我们尽情享受吧\n试着点击屏幕，进行下一步吧");
+                    }
                     break;
                 case 201:
                     walk_left_anim.setVisibility(View.GONE);
@@ -61,6 +63,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     main_layout.setClickable(true);
                     hint_text.setText("试着从下面的选项中寻找到你想要的吧\n\n点击即可进入，长按可以查看缩略图");
                     main_selectPage.setVisibility(View.VISIBLE);
+                    jump_next.setVisibility(View.GONE);
                     break;
             }
         }
@@ -76,6 +79,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PopupWindow popupWindow;
     private Bitmap bitmap;
     private Intent intent;
+    private TextView jump_next;
+    private boolean isJump;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         main_life = (TextView) findViewById(R.id.main_life);
         main_dynamic = (TextView) findViewById(R.id.main_dynamic);
         main_settings = (TextView) findViewById(R.id.main_settings);
+        jump_next = (TextView) findViewById(R.id.main_jump_next);
     }
 
     private void initFrameAnim() {
@@ -138,6 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         main_life.setOnClickListener(this);
         main_dynamic.setOnClickListener(this);
         main_settings.setOnClickListener(this);
+        jump_next.setOnClickListener(this);
 
         main_entertainment.setOnLongClickListener(this);
         main_life.setOnLongClickListener(this);
@@ -224,6 +231,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }else {
                     startActivity(intent);
                 }
+                break;
+            case R.id.main_jump_next:
+                click_flag = 3;
+                click_anim.setVisibility(View.GONE);
+                walk_left_anim.setVisibility(View.GONE);
+                walk_right_anim.setVisibility(View.GONE);
+                talk_anim.setVisibility(View.GONE);
+                isJump = true;
+                mHandler.sendMessage(mHandler.obtainMessage(201));
                 break;
         }
     }

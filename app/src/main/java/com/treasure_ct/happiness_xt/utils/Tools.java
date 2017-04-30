@@ -32,12 +32,17 @@ import com.treasure_ct.happiness_xt.manager.SystemBarTintManager;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -618,5 +623,26 @@ public class Tools{
 
 		}
 	}
+	//下载图片转化成bitmap
+	public static Bitmap getBitmap(String url) {
+		Bitmap bitmap = null;
+		try {
+			URL iconUrl = new URL(url);
+			URLConnection conn = iconUrl.openConnection();
+			HttpURLConnection http = (HttpURLConnection) conn;
 
+			int length = http.getContentLength();
+
+			conn.connect();
+			// 获得图像的字符流
+			InputStream is = conn.getInputStream();
+			BufferedInputStream bis = new BufferedInputStream(is, length);
+			bitmap = BitmapFactory.decodeStream(bis);
+			bis.close();
+			is.close();// 关闭流
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bitmap;
+	}
 }

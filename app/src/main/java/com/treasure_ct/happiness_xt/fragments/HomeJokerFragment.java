@@ -7,6 +7,8 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity;
@@ -26,33 +28,39 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class HomeJokerFragment extends BaseFragment implements CustomRefreshListView.OnRefreshListener, HomeNewsTopListAdapter.isClickItemInterface {
+public class HomeJokerFragment extends BaseFragment implements CustomRefreshListView.OnRefreshListener, HomeNewsTopListAdapter.isClickItemInterface, HomeJokerListAdapter.isClickItemInterface {
     //标志位，标志已经初始化完成
     private boolean isPrepared;
     private CustomRefreshListView listView;
-    private HomeJokerListBean newsResult;
+    private HomeJokerListBean jokerResult;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
-                    List<HomeJokerListBean.BodyBean> beanList = newsResult.getBody();
+                    List<HomeJokerListBean.DataBeanXX.DataBeanX> beanList = jokerResult.getData().getData();
                     for (int i = 0; i < beanList.size(); i++) {
-                        HomeJokerListBean.BodyBean itemBean = beanList.get(i);
+                        HomeJokerListBean.DataBeanXX.DataBeanX itemBean = beanList.get(i);
                         list.add(itemBean);
-                        adapter.notifyDataSetChanged();
                     }
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                     break;
                 case 300:
                     listView.completeRefresh();
                     break;
+                case 400:
+                    Toast.makeText(getContext(), "原因：" + error, Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
-    private List<HomeJokerListBean.BodyBean> list;
+    private List<HomeJokerListBean.DataBeanXX.DataBeanX> list;
     private HomeJokerListAdapter adapter;
     private int page = 1;
+    private String error;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,36 +80,39 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
         //填充数据
         initListView();
         listView.setOnRefreshListener(this);
-        getNewsInfo(page);
+        getJokerInfo(page);
     }
 
     private void initFindId(View view) {
         listView = (CustomRefreshListView) view.findViewById(R.id.home_joker_listView);
+        progressBar = (ProgressBar) view.findViewById(R.id.home_joker_progressBar);
     }
 
     private void initListView() {
         list = new ArrayList<>();
         adapter = new HomeJokerListAdapter(getContext(), list);
         listView.setAdapter(adapter);
+        adapter.setIsClickItemInterface(this);
+
     }
 
-    private void getNewsInfo(int page) {
-        String url = "http://api.3g.ifeng.com/clientShortNews?type=joke&page=" + page + "&uid=860797039338439";
+    private void getJokerInfo(int page) {
+        String url = "http://is.snssdk.com/neihan/stream/mix/v1/?mpic=" + page + "&webp=1&essence=1&content_type=-102&message_cursor=-1&double_col_mode=0&local_request_tag=1493341548924&iid=9871060169&device_id=33766398200&aid=7&app_name=joke_essay&uuid=860797039338439&openudid=cd9eeccf957d57d2";
         HttpHelper.doGetCall(url, getContext(), new Callback() {
+
             @Override
             public void onFailure(Call call, IOException e) {
-                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~onFailure~", e.getMessage());
+                error = e.getMessage();
+                mHandler.sendMessage(mHandler.obtainMessage(400));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                newsResult = ModelParseHelper.parseJokerResult(result);
-//                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~`",response.body().string());
-                if (newsResult.getBody().size() > 0) {
-                    Message message = new Message();
-                    message.what = 200;
-                    mHandler.sendMessage(message);
+                jokerResult = ModelParseHelper.parseJokerResult(result);
+
+                if (jokerResult.getData() != null) {
+                    mHandler.sendMessage(mHandler.obtainMessage(200));
                 }
             }
         });
@@ -117,15 +128,13 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
     @Override
     public void onPullRefresh() {
         list.clear();
-        getNewsInfo(1);
+        getJokerInfo(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    Message message = new Message();
-                    message.what = 300;
-                    mHandler.sendMessage(message);
+                    mHandler.sendMessage(mHandler.obtainMessage(300));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -136,7 +145,7 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
     @Override
     public void onLoadingMore() {
         page++;
-        getNewsInfo(page);
+        getJokerInfo(page);
         listView.completeRefresh();
     }
 }

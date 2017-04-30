@@ -33,6 +33,10 @@
         android:padding="10dp"
         android:layout_weight="8"
         android:textSize="16sp"/>
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        android:id="@+id/home_joker_item_video"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

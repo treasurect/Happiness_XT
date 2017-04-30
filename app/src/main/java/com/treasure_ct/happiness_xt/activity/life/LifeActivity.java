@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -14,13 +15,19 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +63,7 @@ import com.treasure_ct.happiness_xt.utils.Tools;
 import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +72,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -71,9 +80,9 @@ import okhttp3.Response;
 
 public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
     private GridView gridView;
-    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "邮编查询", "聆听好声音", "VR 尝试", "美食菜谱", "全部", "全部", "全部", "全部"};
+    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "美食菜谱", "邮编查询", "聆听好声音", "VR 尝试", "全部", "全部", "全部", "全部"};
     private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
-            R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_food, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
+            R.mipmap.icon_food, R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
     private PopupWindow mPopupWindow;
     private Handler mHandler = new Handler() {
         @Override
@@ -205,8 +214,6 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
     private NestedScrollView scrollView;
     private TextView record;
     private ImageView camera;
-    private IntentFilter filter;
-    private CommonDataReceiver commonDataReceiver;
     private FloatingActionButton refresh;
     public LocationClient mLocationClient = null;
     private SimpleDraweeView weather_show;
@@ -226,12 +233,21 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
 
     private int sendTopNum;
     private PopupWindow mPopupWindow1;
+    private FrameLayout hint_layout;
+    private ImageView hint_image, hint_click, hint_jump_image;
+    private TextView hint_text;
+    private TextView hint_jump;
+    private int screenWidth, screenHeight;
+    private int hint_flag = 0;
+    private ImageView hint_robot, hint_weather, hint_map, hint_delicious, hint_music, hint_vr;
+    private PopupWindow mPopupWindow4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_life);
+        Tools.setTranslucentStatus(this);
         initFindId();
-        receiveBoardCast();
         initGridView();
         initListView();
         initScrollView();
@@ -239,20 +255,30 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         if (!Tools.isNull(BaseActivity.aCache.getAsString("token"))) {
             requestDynamicList();
         }
-        initiLocation();
+        initLocation();
+
+        initHintLayout();
     }
-    private void receiveBoardCast() {
-        filter = new IntentFilter();
-        commonDataReceiver = new CommonDataReceiver();
-        commonDataReceiver.setDoUiReceiver(new CommonDataReceiver.DoUiReceiver() {
-            @Override
-            public void doUi(Context context, Intent intent) {
-                if (intent.getExtras().getString("label").equals("dynamic")) {
-                    requestDynamicList();
-                }
-            }
-        });
-        registerReceiver(commonDataReceiver, filter);
+
+    private void initHintLayout() {
+
+        ((AnimationDrawable) hint_image.getDrawable()).start();
+        ((AnimationDrawable) hint_click.getDrawable()).start();
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 300, 0, 0);
+        translateAnimation.setDuration(2000);
+        translateAnimation.setFillAfter(true);
+        translateAnimation.setRepeatMode(Animation.REVERSE);
+        translateAnimation.setRepeatCount(Animation.INFINITE);
+        hint_jump_image.startAnimation(translateAnimation);
+        /**
+         * 获取屏幕的宽高
+         */
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
+
+        hint_robot.setImageResource(R.mipmap.icon_robot);
+        hint_text.setText("无聊的时候，可以找机器人闲聊");
     }
 
     private void initFindId() {
@@ -264,6 +290,18 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         refresh = ((FloatingActionButton) findViewById(R.id.assistant_listView_refresh));
         weather_show = (SimpleDraweeView) findViewById(R.id.assistant_weather_show);
         title = (TextView) findViewById(R.id.assistant_title);
+        hint_layout = (FrameLayout) findViewById(R.id.assistant_hint_layout);
+        hint_image = (ImageView) findViewById(R.id.assistant_hint_image);
+        hint_click = (ImageView) findViewById(R.id.assistant_hint_click);
+        hint_text = (TextView) findViewById(R.id.assistant_hint_text);
+        hint_jump = (TextView) findViewById(R.id.assistant_hint_jump);
+        hint_jump_image = (ImageView) findViewById(R.id.assistant_hint_jump_image);
+        hint_robot = (ImageView) findViewById(R.id.assistant_hint_robot);
+        hint_weather = (ImageView) findViewById(R.id.assistant_hint_weather);
+        hint_map = (ImageView) findViewById(R.id.assistant_hint_map);
+        hint_delicious = (ImageView) findViewById(R.id.assistant_hint_delicious);
+        hint_music = (ImageView) findViewById(R.id.assistant_hint_music);
+        hint_vr = (ImageView) findViewById(R.id.assistant_hint_vr);
     }
 
     private void initGridView() {
@@ -297,9 +335,11 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         refresh.setOnClickListener(this);
         weather_show.setOnClickListener(this);
         listView.setOnItemClickListener(this);
+        hint_jump.setOnClickListener(this);
+        hint_layout.setOnClickListener(this);
     }
 
-    private void initiLocation() {
+    private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());     //定位初始化
         mLocationClient.registerLocationListener(this);//定位注册
 
@@ -317,6 +357,7 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
         option.setNeedDeviceDirect(true);
         mLocationClient.setLocOption(option);
+        mLocationClient.start();//开启定位
     }
 
     @Override
@@ -375,6 +416,45 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
                 }
                 startActivity(intent);
                 break;
+            case R.id.assistant_hint_jump:
+                hint_layout.setVisibility(View.GONE);
+                break;
+            case R.id.assistant_hint_layout:
+                hint_flag++;
+                if (hint_flag == 1) {
+                    hint_robot.setImageBitmap(null);
+                    hint_weather.setImageResource(R.mipmap.icon_weather);
+                    hint_text.setX(screenWidth / 4);
+                    hint_text.setY(screenHeight / 5);
+                    hint_text.setText("出门前记得看看天气预报");
+                } else if (hint_flag == 2) {
+                    hint_weather.setImageBitmap(null);
+                    hint_map.setImageResource(R.mipmap.icon_location);
+                    hint_text.setX(screenWidth / 2);
+                    hint_text.setY(screenHeight / 5);
+                    hint_text.setText("百度地图，为你导航");
+                } else if (hint_flag == 3) {
+                    hint_map.setImageBitmap(null);
+                    hint_delicious.setImageResource(R.mipmap.icon_food);
+                    hint_text.setX(0);
+                    hint_text.setY(screenHeight / 4);
+                    hint_text.setText("帮你做出美味");
+                } else if (hint_flag == 4) {
+                    hint_delicious.setImageBitmap(null);
+                    hint_music.setImageResource(R.mipmap.icon_music);
+                    hint_text.setX(screenWidth / 4);
+                    hint_text.setY(screenHeight / 4);
+                    hint_text.setText("音乐可以让你放松");
+                } else if (hint_flag == 5) {
+                    hint_music.setImageBitmap(null);
+                    hint_vr.setImageResource(R.mipmap.icon_vr);
+                    hint_text.setX(screenWidth / 2);
+                    hint_text.setY(screenHeight / 4);
+                    hint_text.setText("带你进入 简单的  虚拟现实");
+                } else {
+                    hint_layout.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
@@ -430,16 +510,105 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
-                    startActivity(new Intent(LifeActivity.this, LifeRecordActivity.class));
+                    showDynamicRecord();
                 } else if (which == 1) {
-                    startActivity(new Intent(LifeActivity.this, LifeRecordActivity.class));
+                    showDynamicRecord();
                 } else if (which == 2) {
-                    startActivity(new Intent(LifeActivity.this, LifeRecordActivity.class));
+                    showDynamicRecord();
                 }
                 dialog.dismiss();
             }
         }).create();
         builder.show();
+    }
+
+    private void showDynamicRecord() {
+        View convertView = LayoutInflater.from(this).inflate(R.layout.activity_life_record, null);
+        mPopupWindow4 = new PopupWindow(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        mPopupWindow4.setAnimationStyle(R.style.alpha_popupWindow_style);
+        mPopupWindow4.setOutsideTouchable(true);
+        mPopupWindow4.setBackgroundDrawable(new ColorDrawable(0x00000000));
+
+        ImageView record_back = (ImageView) convertView.findViewById(R.id.record_btn_back);
+        TextView record_title = (TextView) convertView.findViewById(R.id.record_text_title);
+        final TextView record_send = (TextView) convertView.findViewById(R.id.record_btn_send);
+        ImageView user_icon = (ImageView) convertView.findViewById(R.id.assistant_record_user_icon);
+        TextView user_name = (TextView) convertView.findViewById(R.id.assistant_record_user_name);
+        final EditText editDesc = (EditText) convertView.findViewById(R.id.assistant_record_desc);
+        ImageView image1 = (ImageView) convertView.findViewById(R.id.assistant_record_image1);
+        ImageView image2 = (ImageView) convertView.findViewById(R.id.assistant_record_image2);
+        ImageView image3 = (ImageView) convertView.findViewById(R.id.assistant_record_image3);
+        TextView image_num = (TextView) convertView.findViewById(R.id.assistant_record_image_num);
+        ImageView camera = (ImageView) convertView.findViewById(R.id.assistant_record_camera);
+        ImageView album = (ImageView) convertView.findViewById(R.id.assistant_record_album);
+        record_send.setClickable(false);
+        record_send.setTextColor(getResources().getColor(R.color.colorGray2));
+
+        editDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!Tools.isNull(s.toString().trim())) {
+                    record_send.setClickable(true);
+                    record_send.setTextColor(getResources().getColor(R.color.colorWhite));
+                } else {
+                    record_send.setClickable(false);
+                    record_send.setTextColor(getResources().getColor(R.color.colorGray2));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        record_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow4.dismiss();
+            }
+        });
+        record_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textDesc = editDesc.getText().toString().trim();
+                sendDynamic(textDesc);
+            }
+        });
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life, null);
+        mPopupWindow4.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+    }
+
+    private void sendDynamic(String textDesc) {
+
+        DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setUser_name(((UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo")).getUser_name());
+        dynamicBean.setUser_nick(((UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo")).getNick_name());
+        dynamicBean.setUser_icon("");
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Long(System.currentTimeMillis()));
+        dynamicBean.setPublish_time(time.substring(5, 7) + "月" + time.substring(8, 10) + "日" + time.substring(11, 16));
+        dynamicBean.setContent(textDesc);
+        List<String> image_list = new ArrayList<>();
+        image_list.add("0");
+        dynamicBean.setImage(image_list);
+        dynamicBean.setSendTop(0);
+        dynamicBean.setComments(0);
+        dynamicBean.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(LifeActivity.this, "恭喜你，发表成功", Toast.LENGTH_SHORT).show();
+                    mPopupWindow4.dismiss();
+                    requestDynamicList();
+                } else {
+                    Toast.makeText(LifeActivity.this, "很遗憾，发表失败\n原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -470,7 +639,7 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
                 startActivity(new Intent(LifeActivity.this, LifeMusicActivity.class));
                 break;
             case "VR 尝试":
-                startActivity(new Intent(LifeActivity.this,LifeVrWholeActivity.class));
+                startActivity(new Intent(LifeActivity.this, LifeVrWholeActivity.class));
                 break;
             case "美食菜谱":
                 startActivity(new Intent(LifeActivity.this, LifeDeliciousActivity.class));
@@ -690,24 +859,6 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         mPopupWindow3.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mLocationClient.start();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mLocationClient.stop();
-    }
-
-    @Override
-    public void onDestroy() {
-        unregisterReceiver(commonDataReceiver);
-        mLocationClient.unRegisterLocationListener(this);
-        super.onDestroy();
-    }
 
     @Override
     public void sendMore(final String nick, final String contents) {
@@ -816,5 +967,12 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         intent.putExtra("top", list.get(position).getSendTop() + "");
         intent.putExtra("comments", list.get(position).getComments() + "");
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        mLocationClient.stop();
+        mLocationClient.unRegisterLocationListener(this);
+        super.onDestroy();
     }
 }

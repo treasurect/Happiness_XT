@@ -48,7 +48,7 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
                     listView.completeRefresh();
                     break;
                 case 400:
-                    Toast.makeText(LifeDeliciousActivity.this, "原因："+error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LifeDeliciousActivity.this, "原因：" + error, Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -82,7 +82,7 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
     }
 
     private void initClick() {
-btn_back.setOnClickListener(this);
+        btn_back.setOnClickListener(this);
         adapter.setDeliciousItemClick(this);
     }
 
@@ -108,7 +108,7 @@ btn_back.setOnClickListener(this);
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
-                 deliciousListBean = ModelParseHelper.parseDeliciousListResult(string);
+                deliciousListBean = ModelParseHelper.parseDeliciousListResult(string);
                 mHandler.sendMessage(mHandler.obtainMessage(200));
             }
         });
@@ -141,7 +141,7 @@ btn_back.setOnClickListener(this);
     @Override
     public void itemClick(String dishes_id) {
         Intent intent = new Intent(this, LifeDeliciousDetailActivity.class);
-        intent.putExtra("dishes_id",String.valueOf(dishes_id));
+        intent.putExtra("dishes_id", String.valueOf(dishes_id));
         startActivity(intent);
     }
 }

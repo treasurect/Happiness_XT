@@ -71,7 +71,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         application = (XTApplication) getApplication();
-
+        Tools.setTranslucentStatus(this);
         mTencent = Tencent.createInstance(StringContents.QQ_Login_APPID, getApplicationContext());
 
         receiveBoradCast();

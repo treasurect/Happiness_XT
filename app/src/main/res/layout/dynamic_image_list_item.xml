@@ -110,6 +110,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <ImageView
+                android:id="@+id/assistant_dynamic_item_good_image"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"

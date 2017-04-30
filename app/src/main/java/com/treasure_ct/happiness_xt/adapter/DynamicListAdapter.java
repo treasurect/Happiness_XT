@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -79,9 +81,10 @@ public class DynamicListAdapter extends BaseAdapter {
             } else {
                 ret = inflater.inflate(R.layout.dynamic_image_list_item, parent, false);
             }
+        }
             ret.setTag(new ViewHolder(ret));
             final DynamicBean listBean = list.get(position);
-            ViewHolder holder = (ViewHolder) ret.getTag();
+            final ViewHolder holder = (ViewHolder) ret.getTag();
 //            holder.user_icon.setImageURI(Uri.parse());
             holder.user_nick.setText(listBean.getUser_nick());
             holder.publish_time.setText(listBean.getPublish_time());
@@ -115,7 +118,6 @@ public class DynamicListAdapter extends BaseAdapter {
                     mItemClick.sendComments(listBean.getUser_nick(),listBean.getContent(),listBean.getPublish_time(),listBean.getSendTop(),listBean.getComments());
                 }
             });
-        }
         return ret;
     }
 
@@ -130,6 +132,7 @@ public class DynamicListAdapter extends BaseAdapter {
         private SimpleDraweeView image3;
         private TextView image_num;
         private TextView sendTop;
+        private ImageView sendTopImage;
         private TextView sendComments;
         private LinearLayout top;
         private LinearLayout comments;
@@ -145,6 +148,7 @@ public class DynamicListAdapter extends BaseAdapter {
             image3 = ((SimpleDraweeView) view.findViewById(R.id.assistant_dynamic_item_image3));
             image_num = ((TextView) view.findViewById(R.id.assistant_record_image_num));
             sendTop = ((TextView) view.findViewById(R.id.assistant_dynamic_item_good_num));
+            sendTopImage = ((ImageView) view.findViewById(R.id.assistant_dynamic_item_good_image));
             sendComments = ((TextView) view.findViewById(R.id.assistant_dynamic_item_comments_num));
             top = ((LinearLayout) view.findViewById(R.id.assistant_dynamic_item_good));
             comments = ((LinearLayout) view.findViewById(R.id.assistant_dynamic_item_comments));

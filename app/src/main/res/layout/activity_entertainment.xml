@@ -6,6 +6,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:fitsSystemWindows="true"
+              android:clipToPadding="true"
               tools:context=".activity.entertainment.EntertainmentActivity">
     <android.support.design.widget.TabLayout
         android:id="@+id/home_tabLayout"

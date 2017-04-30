@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_life_assistant"
     android:layout_width="match_parent"
@@ -9,7 +10,6 @@
     android:background="@color/colorGray"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
@@ -44,22 +44,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin">
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/assistant_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginRight="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp"
+                            android:background="@drawable/frame_white_radius25"
+                            android:paddingBottom="2dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
-                            android:background="@drawable/frame_white_radius25"/>
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp"/>
                     </FrameLayout>
                 </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -95,9 +97,9 @@
                         android:id="@+id/assistant_icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/icon"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/icon"/>
 
                     <TextView
                         android:id="@+id/assistant_record"
@@ -121,21 +123,23 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:text="登录后可以看到自己的动态哦"
                         android:gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorOrange"/>
+                        android:text="登录后可以看到自己的动态哦"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="16sp"/>
+
                     <com.treasure_ct.happiness_xt.widget.CustomScrollListView
                         android:id="@+id/assistant_listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@color/colorGray"
+                        android:layout_marginTop="5dp"
                         android:background="@color/colorWhite"
-                        android:dividerHeight="5dp"
-                        android:layout_marginTop="5dp"/>
+                        android:divider="@color/colorGray"
+                        android:dividerHeight="5dp"/>
                 </FrameLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
@@ -149,6 +153,120 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        app:rippleColor="@color/colorWhite"
-        android:src="@mipmap/icon_refresh"/>
+        android:src="@mipmap/icon_refresh"
+        app:rippleColor="@color/colorWhite"/>
+
+    <FrameLayout
+        android:id="@+id/assistant_hint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorFullGray2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="200dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/assistant_hint_robot"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+
+            <ImageView
+                android:id="@+id/assistant_hint_weather"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+
+            <ImageView
+                android:id="@+id/assistant_hint_map"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="270dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/assistant_hint_delicious"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/assistant_hint_music"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+
+            <ImageView
+                android:id="@+id/assistant_hint_vr"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/assistant_hint_image"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/talk_anim_list"/>
+
+        <ImageView
+            android:id="@+id/assistant_hint_click"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:src="@drawable/click_anim_list"/>
+
+        <TextView
+            android:id="@+id/assistant_hint_text"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="150dp"
+            android:background="@mipmap/pic_background1"
+            android:gravity="center"
+            android:textColor="@color/colorOrange"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/assistant_hint_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="20dp"
+            android:text="跳过》"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"/>
+        <ImageView
+            android:id="@+id/assistant_hint_jump_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_jiantou_right"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"/>
+    </FrameLayout>
 </FrameLayout>

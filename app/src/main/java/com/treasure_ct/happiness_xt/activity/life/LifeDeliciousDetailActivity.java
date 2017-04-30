@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.treasure_ct.happiness_xt.adapter.LifeDeliciousDetailAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeDeliciousDetailBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
+import com.treasure_ct.happiness_xt.utils.Tools;
 import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
 
 import java.io.IOException;
@@ -33,10 +35,8 @@ import okhttp3.Response;
 public class LifeDeliciousDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private JCVideoPlayerStandard videoView;
-    private ImageView prepare1;
-    private TextView prepare2;
-    private ImageView later1;
-    private TextView later2;
+    private LinearLayout prepare;
+    private LinearLayout later;
     private TextView title;
     private TextView label01,label02,label03,label04,label05;
     private TextView content;
@@ -49,13 +49,14 @@ public class LifeDeliciousDetailActivity extends AppCompatActivity implements Vi
     private String dishes_id;
     private LifeDeliciousDetailBean detailBean;
     private String error;
+    private Bitmap mBitmap;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
-                    LifeDeliciousDetailBean.DataBean dataBean = detailBean.getData();
+                    final LifeDeliciousDetailBean.DataBean dataBean = detailBean.getData();
                     title.setText(dataBean.getDishes_title()+"");
                     content.setText(dataBean.getMaterial_desc()+"");
                     difficult.setText("难度："+dataBean.getHard_level());
@@ -77,7 +78,19 @@ public class LifeDeliciousDetailActivity extends AppCompatActivity implements Vi
                     list.addAll(stepBeen);
                     adapter.notifyDataSetChanged();
                     videoView.setUp(dataBean.getProcess_video()+"", JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, dataBean.getDishes_name()+"");
-                    videoView.thumbImageView.setImageURI(Uri.parse(dataBean.getImage()+""));
+                    if (dataBean.getImage() != null){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBitmap = Tools.getBitmap(dataBean.getImage());
+                                mHandler.sendMessage(mHandler.obtainMessage(201));
+                            }
+                        }).start();
+                    }
+
+                    break;
+                case 201:
+                    videoView.thumbImageView.setImageBitmap(mBitmap);
                     break;
                 case 400:
                     Toast.makeText(LifeDeliciousDetailActivity.this, "原因："+error, Toast.LENGTH_SHORT).show();
@@ -104,10 +117,8 @@ public class LifeDeliciousDetailActivity extends AppCompatActivity implements Vi
 
     private void initFindId() {
         videoView = (JCVideoPlayerStandard) findViewById(R.id.life_delicious_detail_videoView);
-        prepare1 = (ImageView) findViewById(R.id.life_delicious_detail_prepare1);
-        prepare2 = (TextView) findViewById(R.id.life_delicious_detail_prepare2);
-        later1 = (ImageView) findViewById(R.id.life_delicious_detail_later1);
-        later2 = (TextView) findViewById(R.id.life_delicious_detail_later2);
+        prepare = (LinearLayout) findViewById(R.id.life_delicious_detail_prepare);
+        later = (LinearLayout) findViewById(R.id.life_delicious_detail_later);
         title = (TextView) findViewById(R.id.life_delicious_detail_title);
         label01 = (TextView) findViewById(R.id.life_delicious_detail_label01);
         label02 = (TextView) findViewById(R.id.life_delicious_detail_label02);
@@ -148,24 +159,21 @@ public class LifeDeliciousDetailActivity extends AppCompatActivity implements Vi
     }
 
     private void initClick() {
-    prepare1.setOnClickListener(this);
-    prepare2.setOnClickListener(this);
-    later1.setOnClickListener(this);
-    later2.setOnClickListener(this);
+    prepare.setOnClickListener(this);
+    later.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.life_delicious_detail_prepare1:
-            case R.id.life_delicious_detail_prepare2:
+            case R.id.life_delicious_detail_prepare:
                 videoView.setUp(detailBean.getData().getMaterial_video()+"", JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailBean.getData().getDishes_name()+"");
-                videoView.thumbImageView.setImageURI(Uri.parse(detailBean.getData().getImage()+""));
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
+                videoView.thumbImageView.setImageBitmap(bitmap);
                 break;
-            case R.id.life_delicious_detail_later1:
-            case R.id.life_delicious_detail_later2:
+            case R.id.life_delicious_detail_later:
                 videoView.setUp(detailBean.getData().getProcess_video()+"", JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailBean.getData().getDishes_name()+"");
-                videoView.thumbImageView.setImageURI(Uri.parse(detailBean.getData().getImage()+""));
+                videoView.thumbImageView.setImageBitmap(mBitmap);
                 break;
         }
     }

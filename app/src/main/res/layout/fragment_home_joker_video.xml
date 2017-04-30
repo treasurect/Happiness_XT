@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.treasure_ct.happiness_xt.fragments.HomeJokerVideoFragment">
+
+   <com.treasure_ct.happiness_xt.widget.CustomRefreshListView
+       android:id="@+id/home_joker_image_listView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
+    <ProgressBar
+        android:id="@+id/home_joker_image_progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

@@ -23,6 +23,7 @@ import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
 import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
+import com.treasure_ct.happiness_xt.utils.Tools;
 import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class DynamicActivity extends AppCompatActivity implements RadioGroup.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic);
+        Tools.setTranslucentStatus(this);
         initFindId();
         receiveBroadCast();
         initListView();

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -110,7 +111,7 @@ public class LifeDeliciousListAdapter extends BaseAdapter{
         private TextView label03;
         private TextView label04;
         private TextView label05;
-        private FrameLayout play;
+        private LinearLayout play;
 
         public ViewHolder(View view) {
             icon = (SimpleDraweeView) view.findViewById(R.id.life_delicious_list_image);
@@ -121,7 +122,7 @@ public class LifeDeliciousListAdapter extends BaseAdapter{
             label03 = (TextView)view.findViewById(R.id.life_delicious_list_label03);
             label04 = (TextView)view.findViewById(R.id.life_delicious_list_label04);
             label05 = (TextView)view.findViewById(R.id.life_delicious_list_label05);
-            play = (FrameLayout) view.findViewById(R.id.life_delicious_list_play);
+            play = (LinearLayout) view.findViewById(R.id.life_delicious_list_play);
         }
     }
     public interface DeliciousItemClick{

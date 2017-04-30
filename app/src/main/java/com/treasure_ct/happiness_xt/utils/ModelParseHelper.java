@@ -1,6 +1,8 @@
 package com.treasure_ct.happiness_xt.utils;
 
 import com.google.gson.Gson;
+import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
+import com.treasure_ct.happiness_xt.bean.HomeJokerVideoListBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectItemBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectListBean;
 import com.treasure_ct.happiness_xt.bean.LifeBaseLocationQueryBean;
@@ -196,5 +198,27 @@ public class ModelParseHelper {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
         return gson.fromJson(str, LifeDeliciousDetailBean.class);
+    }
+    /**
+     * 解析 home - 段子  视频
+     *
+     * @param str
+     * @return
+     */
+    public static HomeJokerVideoListBean parseJokerVideoResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeJokerVideoListBean.class);
+    }
+    /**
+     * 解析 home - 段子  图片
+     *
+     * @param str
+     * @return
+     */
+    public static HomeJokerImageListBean parseJokerImageResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeJokerImageListBean.class);
     }
 }

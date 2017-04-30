@@ -103,10 +103,8 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
                 String result = response.body().string();
                 newsResult = ModelParseHelper.parseNewsTopResult(result.substring(1, result.length() - 1));
 //                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~`",response.body().string());
-                if (newsResult.getItem().size() > 0) {
-                    Message message = new Message();
-                    message.what = 200;
-                    mHandler.sendMessage(message);
+                if (newsResult.getItem()!=null) {
+                    mHandler.sendMessage(mHandler.obtainMessage(200));
                 }
             }
         });
@@ -128,9 +126,7 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    Message message = new Message();
-                    message.what = 300;
-                    mHandler.sendMessage(message);
+                    mHandler.sendMessage(mHandler.obtainMessage(300));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

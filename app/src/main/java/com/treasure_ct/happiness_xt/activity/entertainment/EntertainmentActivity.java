@@ -8,13 +8,14 @@ import android.os.Bundle;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.HomeFragmentPagerAdapter;
+import com.treasure_ct.happiness_xt.fragments.HomeJokerFragment;
+import com.treasure_ct.happiness_xt.fragments.HomeJokerImageFragment;
+import com.treasure_ct.happiness_xt.fragments.HomeJokerVideoFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeNewsFashionFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeNewsFunFragment;
-import com.treasure_ct.happiness_xt.fragments.HomeNewsMoviesFragment;
-import com.treasure_ct.happiness_xt.fragments.HomeNewsSportsFragment;
-import com.treasure_ct.happiness_xt.fragments.HomeNewsTechFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeNewsTopFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeWeChatSelectFragment;
+import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entertainment);
+        Tools.setTranslucentStatus(this);
         initFindId();
 
         tabLayout.addOnTabSelectedListener(this);
@@ -42,24 +44,24 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
     }
 
     private void initTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText("段子"));
+        tabLayout.addTab(tabLayout.newTab().setText("搞笑图片"));
+        tabLayout.addTab(tabLayout.newTab().setText("搞笑视频"));
         tabLayout.addTab(tabLayout.newTab().setText("头条"));
         tabLayout.addTab(tabLayout.newTab().setText("微信精选"));
         tabLayout.addTab(tabLayout.newTab().setText("FUN"));
-        tabLayout.addTab(tabLayout.newTab().setText("科技"));
         tabLayout.addTab(tabLayout.newTab().setText("时尚"));
-        tabLayout.addTab(tabLayout.newTab().setText("电影"));
-        tabLayout.addTab(tabLayout.newTab().setText("体育"));
     }
 
     private void initViewPager() {
         List<Fragment> list = new ArrayList<>();
+        list.add(new HomeJokerFragment());
+        list.add(new HomeJokerImageFragment());
+        list.add(new HomeJokerVideoFragment());
         list.add(new HomeNewsTopFragment());
         list.add(new HomeWeChatSelectFragment());
         list.add(new HomeNewsFunFragment());
-        list.add(new HomeNewsTechFragment());
         list.add(new HomeNewsFashionFragment());
-        list.add(new HomeNewsMoviesFragment());
-        list.add(new HomeNewsSportsFragment());
         HomeFragmentPagerAdapter pagerAdapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), list);
         viewPager.setAdapter(pagerAdapter);
     }

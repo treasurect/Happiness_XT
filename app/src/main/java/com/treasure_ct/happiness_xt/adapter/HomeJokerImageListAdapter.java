@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
@@ -20,12 +21,12 @@ import java.util.List;
  * Created by treasure on 2017.04.03.
  */
 
-public class HomeJokerListAdapter extends BaseAdapter {
+public class HomeJokerImageListAdapter extends BaseAdapter {
     private Context mContext;
-    private List<HomeJokerListBean.DataBeanXX.DataBeanX> list;
+    private List<HomeJokerImageListBean.DataBeanX.DataBean> list;
     private LayoutInflater mInflater;
 
-    public HomeJokerListAdapter(Context context, List<HomeJokerListBean.DataBeanXX.DataBeanX> list) {
+    public HomeJokerImageListAdapter(Context context, List<HomeJokerImageListBean.DataBeanX.DataBean> list) {
         mContext = context;
         this.list = list;
         mInflater = LayoutInflater.from(mContext);
@@ -56,10 +57,10 @@ public class HomeJokerListAdapter extends BaseAdapter {
         if (convertView != null) {
             ret = convertView;
         } else {
-            ret = mInflater.inflate(R.layout.home_joker_list_text_item, parent, false);
+            ret = mInflater.inflate(R.layout.home_joker_list_image_item, parent, false);
         }
         ret.setTag(new ViewHolder(ret));
-        final HomeJokerListBean.DataBeanXX.DataBeanX dataBeanX = list.get(position);
+        final HomeJokerImageListBean.DataBeanX.DataBean dataBeanX = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
 
         if (dataBeanX.getGroup().getUser() != null){
@@ -72,6 +73,13 @@ public class HomeJokerListAdapter extends BaseAdapter {
         }
         if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
             holder.content.setText(dataBeanX.getGroup().getContent());
+        }
+        if (dataBeanX.getGroup().getMiddle_image() != null){
+            if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null){
+                if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null){
+                    holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
+                }
+            }
         }
         if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
             holder.top.setText("顶：" + dataBeanX.getGroup().getDigg_count());
@@ -105,11 +113,13 @@ public class HomeJokerListAdapter extends BaseAdapter {
         private TextView low;
         private TextView comments;
         private TextView transPond;
+        private SimpleDraweeView image;
 
         public ViewHolder(View view) {
             userIcon = ((SimpleDraweeView) view.findViewById(R.id.home_joker_item_userIcon));
             userName = (TextView) view.findViewById(R.id.home_joker_item_userName);
             content = (TextView) view.findViewById(R.id.home_joker_item_content);
+            image = (SimpleDraweeView) view.findViewById(R.id.home_joker_item_image);
             top = (TextView) view.findViewById(R.id.home_joker_item_top);
             low = (TextView) view.findViewById(R.id.home_joker_item_low);
             comments = (TextView) view.findViewById(R.id.home_joker_item_comments);

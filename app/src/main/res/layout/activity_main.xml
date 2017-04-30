@@ -24,6 +24,16 @@
             android:textSize="16dp"
             android:padding="20dp"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/main_jump_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳过》"
+            android:textColor="@color/colorOrange"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="70dp"/>
     </FrameLayout>
     <ImageView
         android:id="@+id/main_walk_right_animList"

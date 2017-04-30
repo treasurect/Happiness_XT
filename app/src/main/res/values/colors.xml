@@ -11,6 +11,9 @@
     <color name="colorGray3">#dddddd</color>
     <color name="colorGray4">#edebeb</color>
     <color name="colorGray2">#444444</color>
+    <color name="colorGray5">#888888</color>
+    <color name="colorFullGray">#88888888</color>
+    <color name="colorFullGray2">#dd444444</color>
     <color name="colorWhite">#f8f8f8</color>
     <color name="colorYellow">#fdb70d</color>
     <color name="colorGoldYellow">#c48c06</color>

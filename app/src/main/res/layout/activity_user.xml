@@ -5,6 +5,8 @@
               android:orientation="vertical"
               android:background="#d1ced1"
               android:transitionName="settings"
+              android:fitsSystemWindows="true"
+              android:clipToPadding="true"
               tools:context="com.treasure_ct.happiness_xt.MainActivity">
 
     <LinearLayout

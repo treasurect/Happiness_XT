@@ -8,8 +8,46 @@
     android:orientation="vertical"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
+    android:background="@color/colorWhite"
     tools:context="com.treasure_ct.happiness_xt.activity.life.LifeRecordActivity">
-    <include layout="@layout/top_view"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorOrange">
+        <ImageView
+            android:id="@+id/record_btn_back"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/icon_return"/>
+
+        <TextView
+            android:id="@+id/record_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColor="#f8f8f8"
+            android:textSize="16sp"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:id="@+id/record_btn_send"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:text="发送"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginRight="12dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_gravity="right"
+            android:textColor="#f8f8f8"/>
+    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
