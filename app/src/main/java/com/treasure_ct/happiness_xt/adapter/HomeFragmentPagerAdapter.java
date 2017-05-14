@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.treasure_ct.happiness_xt.fragments.BaseFragment;
+
 import java.util.List;
 
 /**
@@ -11,8 +13,8 @@ import java.util.List;
  */
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter{
-    private List<Fragment> list;
-    public HomeFragmentPagerAdapter(FragmentManager fm,List<Fragment> list) {
+    private List<BaseFragment> list;
+    public HomeFragmentPagerAdapter(FragmentManager fm,List<BaseFragment> list) {
         super(fm);
         this.list = list;
     }
@@ -24,6 +26,10 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return list.size();
+        int ret = 0;
+        if (list != null){
+            ret = list.size();
+        }
+        return ret;
     }
 }

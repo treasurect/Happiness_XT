@@ -4,10 +4,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.HomeFragmentPagerAdapter;
+import com.treasure_ct.happiness_xt.fragments.BaseFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeJokerFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeJokerImageFragment;
 import com.treasure_ct.happiness_xt.fragments.HomeJokerVideoFragment;
@@ -20,7 +22,7 @@ import com.treasure_ct.happiness_xt.utils.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntertainmentActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
+public class EntertainmentActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -54,7 +56,7 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
     }
 
     private void initViewPager() {
-        List<Fragment> list = new ArrayList<>();
+        List<BaseFragment> list = new ArrayList<>();
         list.add(new HomeJokerFragment());
         list.add(new HomeJokerImageFragment());
         list.add(new HomeJokerVideoFragment());

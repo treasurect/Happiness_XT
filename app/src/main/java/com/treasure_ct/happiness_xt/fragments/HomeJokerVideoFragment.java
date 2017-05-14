@@ -59,10 +59,12 @@ public class HomeJokerVideoFragment extends BaseFragment implements CustomRefres
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_joker_video, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_news, container, false);
         initFindId(view);
         isPrepare = true;
-        lazyLoad();
+//        lazyLoad();
+        initListView();
+        getJokerVideoList(page);
         return view;
     }
 
@@ -75,8 +77,8 @@ public class HomeJokerVideoFragment extends BaseFragment implements CustomRefres
     }
 
     private void initFindId(View view) {
-        listView = ((CustomRefreshListView) view.findViewById(R.id.home_joker_image_listView));
-        progressBar = (ProgressBar) view.findViewById(R.id.home_joker_image_progressBar);
+        listView = ((CustomRefreshListView) view.findViewById(R.id.home_news_listView));
+        progressBar = (ProgressBar) view.findViewById(R.id.home_news_loading);
     }
 
     private void initListView() {

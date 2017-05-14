@@ -12,12 +12,13 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.MainActivity;
 import com.treasure_ct.happiness_xt.R;
 
 import java.io.IOException;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
     private Handler mHandler = new Handler();
     private SurfaceView videoView;
     private MediaPlayer mPlayer;

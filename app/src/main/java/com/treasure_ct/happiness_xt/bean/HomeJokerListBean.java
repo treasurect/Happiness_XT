@@ -31,7 +31,7 @@ public class HomeJokerListBean implements Serializable{
         this.data = data;
     }
 
-    public static class DataBeanXX {
+    public static class DataBeanXX implements Serializable{
 
         private boolean has_more;
         private String tip;
@@ -88,7 +88,7 @@ public class HomeJokerListBean implements Serializable{
             this.data = data;
         }
 
-        public static class DataBeanX {
+        public static class DataBeanX implements Serializable{
 
             private GroupBean group;
             private int type;
@@ -155,7 +155,7 @@ public class HomeJokerListBean implements Serializable{
                 this.data = data;
             }
 
-            public static class GroupBean {
+            public static class GroupBean implements Serializable{
                 /**
                  * text : 对于孙悟空打红孩儿的那一段 我一直有个疑问：孙悟空明明被三昧真火烧了七七四十九天都没事，为什么会怕红孩儿的三昧真火？
                  * neihan_hot_start_time : 00-00-00
@@ -205,7 +205,7 @@ public class HomeJokerListBean implements Serializable{
 
                 private String text;
                 private String neihan_hot_start_time;
-                private int create_time;
+                private double create_time;
                 private long id;
                 private int favorite_count;
                 private DanmakuAttrsBean danmaku_attrs;
@@ -231,7 +231,7 @@ public class HomeJokerListBean implements Serializable{
                 private int display_type;
                 private String neihan_hot_end_time;
                 private int user_digg;
-                private int online_time;
+                private double online_time;
                 private String category_name;
                 private boolean category_visible;
                 private int bury_count;
@@ -245,7 +245,7 @@ public class HomeJokerListBean implements Serializable{
                 private int user_repin;
                 private NeihanHotLinkBean neihan_hot_link;
                 private long group_id;
-                private int category_id;
+                private double category_id;
                 private List<?> dislike_reason;
 
                 public String getText() {
@@ -264,11 +264,11 @@ public class HomeJokerListBean implements Serializable{
                     this.neihan_hot_start_time = neihan_hot_start_time;
                 }
 
-                public int getCreate_time() {
+                public double getCreate_time() {
                     return create_time;
                 }
 
-                public void setCreate_time(int create_time) {
+                public void setCreate_time(double create_time) {
                     this.create_time = create_time;
                 }
 
@@ -472,11 +472,11 @@ public class HomeJokerListBean implements Serializable{
                     this.user_digg = user_digg;
                 }
 
-                public int getOnline_time() {
+                public double getOnline_time() {
                     return online_time;
                 }
 
-                public void setOnline_time(int online_time) {
+                public void setOnline_time(double online_time) {
                     this.online_time = online_time;
                 }
 
@@ -584,11 +584,11 @@ public class HomeJokerListBean implements Serializable{
                     this.group_id = group_id;
                 }
 
-                public int getCategory_id() {
+                public double getCategory_id() {
                     return category_id;
                 }
 
-                public void setCategory_id(int category_id) {
+                public void setCategory_id(double category_id) {
                     this.category_id = category_id;
                 }
 
@@ -600,10 +600,10 @@ public class HomeJokerListBean implements Serializable{
                     this.dislike_reason = dislike_reason;
                 }
 
-                public static class DanmakuAttrsBean {
+                public static class DanmakuAttrsBean implements Serializable{
                 }
 
-                public static class UserBean {
+                public static class UserBean implements Serializable{
                     private String name;
                     private String avatar_url;
 
@@ -624,14 +624,14 @@ public class HomeJokerListBean implements Serializable{
                     }
                 }
 
-                public static class ActivityBean {
+                public static class ActivityBean implements Serializable{
                 }
 
-                public static class NeihanHotLinkBean {
+                public static class NeihanHotLinkBean implements Serializable{
                 }
             }
 
-            public static class AdBean {
+            public static class AdBean implements Serializable{
                 /**
                  * log_extra : {"rit":11,"ad_price":"WQHkZgAEZJ5ZAeRmAARknvLzvAjd2xAE1NO3hA","req_id":"201704280908590100030231655643DF","convert_id":0}
                  * open_url :
@@ -1020,7 +1020,7 @@ public class HomeJokerListBean implements Serializable{
                 }
             }
 
-            public static class DataBean {
+            public static class DataBean implements Serializable{
                 /**
                  * reason : 1
                  * origin_reason : hot
@@ -1087,7 +1087,7 @@ public class HomeJokerListBean implements Serializable{
                      * screen_name : 鹅巨大
                      */
 
-                    private int user_id;
+                    private double user_id;
                     private String description;
                     private int point;
                     private int gender;
@@ -1098,19 +1098,19 @@ public class HomeJokerListBean implements Serializable{
                     private String name;
                     private int ugc_count;
                     private String avatar_url;
-                    private int create_time;
+                    private double create_time;
                     private String pro_user_desc;
                     private String large_avatar_url;
                     private boolean is_pro_user;
                     private boolean is_following;
-                    private int id;
+                    private double id;
                     private String screen_name;
 
-                    public int getUser_id() {
+                    public double getUser_id() {
                         return user_id;
                     }
 
-                    public void setUser_id(int user_id) {
+                    public void setUser_id(double user_id) {
                         this.user_id = user_id;
                     }
 
@@ -1194,11 +1194,11 @@ public class HomeJokerListBean implements Serializable{
                         this.avatar_url = avatar_url;
                     }
 
-                    public int getCreate_time() {
+                    public double getCreate_time() {
                         return create_time;
                     }
 
-                    public void setCreate_time(int create_time) {
+                    public void setCreate_time(double create_time) {
                         this.create_time = create_time;
                     }
 
@@ -1234,11 +1234,11 @@ public class HomeJokerListBean implements Serializable{
                         this.is_following = is_following;
                     }
 
-                    public int getId() {
+                    public double getId() {
                         return id;
                     }
 
-                    public void setId(int id) {
+                    public void setId(double id) {
                         this.id = id;
                     }
 

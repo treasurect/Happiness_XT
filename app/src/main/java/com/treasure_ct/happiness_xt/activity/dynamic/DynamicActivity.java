@@ -17,6 +17,7 @@ import com.mob.bbssdk.APICallback;
 import com.mob.bbssdk.BBSSDK;
 import com.mob.bbssdk.api.ForumAPI;
 import com.mob.bbssdk.model.ForumForum;
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
@@ -36,7 +37,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class DynamicActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
+public class DynamicActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener {
     private CustomScrollListView dynamic_listView;
     private List<DynamicBean> dynamic_list;
     private DynamicListAdapter dynamic_adapter;

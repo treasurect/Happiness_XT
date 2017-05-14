@@ -61,35 +61,36 @@ public class HomeJokerListAdapter extends BaseAdapter {
         ret.setTag(new ViewHolder(ret));
         final HomeJokerListBean.DataBeanXX.DataBeanX dataBeanX = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
-
-        if (dataBeanX.getGroup().getUser() != null){
-            if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
-                holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
+        if (dataBeanX.getGroup() != null){
+            if (dataBeanX.getGroup().getUser() != null){
+                if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
+                    holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
+                }
+                if (!Tools.isNull(dataBeanX.getGroup().getUser().getName())) {
+                    holder.userName.setText(dataBeanX.getGroup().getUser().getName());
+                }
             }
-            if (!Tools.isNull(dataBeanX.getGroup().getUser().getName())) {
-                holder.userName.setText(dataBeanX.getGroup().getUser().getName());
+            if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
+                holder.content.setText(dataBeanX.getGroup().getContent());
             }
-        }
-        if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
-            holder.content.setText(dataBeanX.getGroup().getContent());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
-            holder.top.setText("顶：" + dataBeanX.getGroup().getDigg_count());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getRepin_count()))) {
-            holder.low.setText("踩：" + dataBeanX.getGroup().getRepin_count());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getHas_comments()))) {
-            holder.comments.setText("留言：" + dataBeanX.getGroup().getHas_comments());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getShare_count()))) {
-            holder.transPond.setText("转发：" + dataBeanX.getGroup().getShare_count());
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
+                holder.top.setText("" + dataBeanX.getGroup().getDigg_count());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getRepin_count()))) {
+                holder.low.setText("" + dataBeanX.getGroup().getRepin_count());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getHas_comments()))) {
+                holder.comments.setText("" + dataBeanX.getGroup().getHas_comments());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getShare_count()))) {
+                holder.transPond.setText("" + dataBeanX.getGroup().getShare_count());
+            }
         }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Tools.isNull(dataBeanX.getGroup().getShare_url())){
-                    mIsClickItemInterface.isClickItem(dataBeanX.getGroup().getShare_url());
+                if (dataBeanX.getGroup() != null){
+                    mJokerItemInterface.isClickItem(dataBeanX.getGroup());
                 }
             }
         });
@@ -118,13 +119,13 @@ public class HomeJokerListAdapter extends BaseAdapter {
         }
     }
 
-    public interface isClickItemInterface {
-        void isClickItem(String url);
+    public interface jokerItemInterface {
+        void isClickItem(HomeJokerListBean.DataBeanXX.DataBeanX.GroupBean groupBean);
     }
 
-    private isClickItemInterface mIsClickItemInterface;
+    private jokerItemInterface mJokerItemInterface;
 
-    public void setIsClickItemInterface(isClickItemInterface isClickItemInterface) {
-        mIsClickItemInterface = isClickItemInterface;
+    public void setJokerItemInterface(jokerItemInterface jokerItemInterface) {
+        mJokerItemInterface = jokerItemInterface;
     }
 }

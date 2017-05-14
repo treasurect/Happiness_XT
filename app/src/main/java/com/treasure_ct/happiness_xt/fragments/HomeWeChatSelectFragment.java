@@ -63,7 +63,10 @@ public class HomeWeChatSelectFragment extends BaseFragment implements AdapterVie
         View view = inflater.inflate(R.layout.fragment_home_we_chat_select, container, false);
         initFindId(view);
         isPrepared = true;
-        lazyLoad();
+//        lazyLoad();
+        initGridView();
+        getWeChatSelectList();
+        gridView.setOnItemClickListener(this);
         return view;
     }
 

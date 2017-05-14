@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/home_joker_item_layout"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical">
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_home_joker_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.treasure_ct.happiness_xt.activity.entertainment.HomeJokerDetailActivity">
+    <include layout="@layout/top_view"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:orientation="horizontal">
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/home_joker_item_userIcon"
+            android:id="@+id/home_joker_detail_userIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom"
             fresco:placeholderImage="@mipmap/icon"
             fresco:roundAsCircle = "true"/>
         <TextView
-            android:id="@+id/home_joker_item_userName"
+            android:id="@+id/home_joker_detail_userName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp"
@@ -30,11 +35,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/home_joker_item_content"
+        android:id="@+id/home_joker_detail_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_weight="8"
         android:textSize="16sp"/>
     <View
         android:layout_width="match_parent"
@@ -42,8 +46,7 @@
         android:background="@color/colorGray"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="horizontal">
         <ImageView
@@ -52,9 +55,9 @@
             android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_top"/>
         <TextView
-            android:id="@+id/home_joker_item_top"
+            android:id="@+id/home_joker_detail_top"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:gravity="center_vertical"/>
@@ -64,7 +67,7 @@
             android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_low"/>
         <TextView
-            android:id="@+id/home_joker_item_low"
+            android:id="@+id/home_joker_detail_low"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -76,9 +79,9 @@
             android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_comments2"/>
         <TextView
-            android:id="@+id/home_joker_item_comments"
+            android:id="@+id/home_joker_detail_comments"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
@@ -89,9 +92,9 @@
             android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_transform"/>
         <TextView
-            android:id="@+id/home_joker_item_transPond"
+            android:id="@+id/home_joker_detail_transPond"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:gravity="center_vertical"/>

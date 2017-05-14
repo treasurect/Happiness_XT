@@ -27,7 +27,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class HomeNewsTopFragment extends BaseFragment implements HomeNewsTopListAdapter.isClickItemInterface, CustomRefreshListView.OnRefreshListener {
+public class HomeNewsTopFragment extends BaseFragment implements HomeNewsTopListAdapter.topItemInterface, CustomRefreshListView.OnRefreshListener {
     //标志位，标志已经初始化完成
     private boolean isPrepared;
     private CustomRefreshListView listView;
@@ -66,7 +66,11 @@ public class HomeNewsTopFragment extends BaseFragment implements HomeNewsTopList
         //初始化view各控件
         initFindId(view);
         isPrepared = true;
-        lazyLoad();
+//        lazyLoad();
+        initListView();
+        listView.setOnRefreshListener(this);
+        getNewsInfo(normal_url);
+        adapter.setTopItemInterface(this);
         return view;
     }
 
@@ -83,7 +87,7 @@ public class HomeNewsTopFragment extends BaseFragment implements HomeNewsTopList
         initListView();
         listView.setOnRefreshListener(this);
         getNewsInfo(normal_url);
-        adapter.setIsClickItemInterface(this);
+        adapter.setTopItemInterface(this);
     }
 
     private void initListView() {

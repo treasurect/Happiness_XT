@@ -2,11 +2,9 @@ package com.treasure_ct.happiness_xt;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.treasure_ct.happiness_xt.utils.ACache;

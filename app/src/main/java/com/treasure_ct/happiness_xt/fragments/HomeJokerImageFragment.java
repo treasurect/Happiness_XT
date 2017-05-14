@@ -65,16 +65,18 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home_joker_image, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_news, container, false);
         initFindId(view);
         isPrepare = true;
-        lazyLoad();
+//        lazyLoad();
+        initListView();
+        getJokerImageList(page);
         return view;
     }
 
     private void initFindId(View view) {
-        listView = (CustomRefreshListView) view.findViewById(R.id.home_joker_image_listView);
-        progressBar = (ProgressBar) view.findViewById(R.id.home_joker_image_progressBar);
+        listView = (CustomRefreshListView) view.findViewById(R.id.home_news_listView);
+        progressBar = (ProgressBar) view.findViewById(R.id.home_news_loading);
     }
 
     @Override
@@ -107,7 +109,13 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
                     public void onResponse(Call call, Response response) throws IOException {
                         String string = response.body().string();
                         listBean = ModelParseHelper.parseJokerImageResult(string);
-                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                        if (listBean != null){
+                            if (listBean.getData() != null){
+                                if (listBean.getData().getData() != null){
+                                    mHandler.sendMessage(mHandler.obtainMessage(200));
+                                }
+                            }
+                        }
                     }
                 });
     }

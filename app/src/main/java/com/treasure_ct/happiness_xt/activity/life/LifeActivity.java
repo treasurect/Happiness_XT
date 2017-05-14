@@ -78,7 +78,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
+public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
     private GridView gridView;
     private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "美食菜谱", "邮编查询", "聆听好声音", "VR 尝试", "全部", "全部", "全部", "全部"};
     private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
@@ -241,6 +241,7 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
     private int hint_flag = 0;
     private ImageView hint_robot, hint_weather, hint_map, hint_delicious, hint_music, hint_vr;
     private PopupWindow mPopupWindow4;
+    private ImageView hint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,29 +257,12 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
             requestDynamicList();
         }
         initLocation();
-
-        initHintLayout();
-    }
-
-    private void initHintLayout() {
-
-        ((AnimationDrawable) hint_image.getDrawable()).start();
-        ((AnimationDrawable) hint_click.getDrawable()).start();
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 300, 0, 0);
-        translateAnimation.setDuration(2000);
-        translateAnimation.setFillAfter(true);
-        translateAnimation.setRepeatMode(Animation.REVERSE);
-        translateAnimation.setRepeatCount(Animation.INFINITE);
-        hint_jump_image.startAnimation(translateAnimation);
         /**
          * 获取屏幕的宽高
          */
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
-
-        hint_robot.setImageResource(R.mipmap.icon_robot);
-        hint_text.setText("无聊的时候，可以找机器人闲聊");
     }
 
     private void initFindId() {
@@ -290,6 +274,7 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         refresh = ((FloatingActionButton) findViewById(R.id.assistant_listView_refresh));
         weather_show = (SimpleDraweeView) findViewById(R.id.assistant_weather_show);
         title = (TextView) findViewById(R.id.assistant_title);
+        hint = (ImageView) findViewById(R.id.assistant_hint);
         hint_layout = (FrameLayout) findViewById(R.id.assistant_hint_layout);
         hint_image = (ImageView) findViewById(R.id.assistant_hint_image);
         hint_click = (ImageView) findViewById(R.id.assistant_hint_click);
@@ -337,6 +322,7 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         listView.setOnItemClickListener(this);
         hint_jump.setOnClickListener(this);
         hint_layout.setOnClickListener(this);
+        hint.setOnClickListener(this);
     }
 
     private void initLocation() {
@@ -358,6 +344,22 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
         option.setNeedDeviceDirect(true);
         mLocationClient.setLocOption(option);
         mLocationClient.start();//开启定位
+    }
+
+    private void initHintLayout() {
+
+        ((AnimationDrawable) hint_image.getDrawable()).start();
+        ((AnimationDrawable) hint_click.getDrawable()).start();
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 300, 0, 0);
+        translateAnimation.setDuration(2000);
+        translateAnimation.setFillAfter(true);
+        translateAnimation.setRepeatMode(Animation.REVERSE);
+        translateAnimation.setRepeatCount(Animation.INFINITE);
+        hint_jump_image.startAnimation(translateAnimation);
+
+
+        hint_robot.setImageResource(R.mipmap.icon_robot);
+        hint_text.setText("无聊的时候，可以找机器人闲聊");
     }
 
     @Override
@@ -454,6 +456,11 @@ public class LifeActivity extends AppCompatActivity implements LifeGridAdapter.L
                 } else {
                     hint_layout.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.assistant_hint:
+                hint_layout.setVisibility(View.VISIBLE);
+                hint_flag = 0;
+                initHintLayout();
                 break;
         }
     }

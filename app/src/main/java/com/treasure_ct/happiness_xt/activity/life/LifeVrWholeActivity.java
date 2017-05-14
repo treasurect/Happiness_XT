@@ -9,12 +9,13 @@ import android.widget.Toast;
 
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LifeVrWholeActivity extends AppCompatActivity {
+public class LifeVrWholeActivity extends BaseActivity {
     private VrPanoramaView vrPanoramaView;
     private ImagerLoaderTask imagerLoaderTask;
     @Override

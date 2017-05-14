@@ -48,7 +48,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserActivity extends BaseActivity implements View.OnClickListener {
     private PopupWindow mPopupWindow;
     private ImageView imageNight, mine_login_icon, imageHistory, imageSettings;
     private TextView mine_login_username;

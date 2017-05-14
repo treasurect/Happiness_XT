@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.HomeNewsTopListBean;
-import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.util.List;
@@ -126,7 +125,7 @@ public class HomeNewsTopListAdapter extends BaseAdapter {
         holder.item_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIsClickItemInterface.isClickItem(bean.getLink().getWeburl());
+                mTopItemInterface.isClickItem(bean.getLink().getWeburl());
             }
         });
         return ret;
@@ -154,13 +153,13 @@ public class HomeNewsTopListAdapter extends BaseAdapter {
         }
     }
 
-    public interface isClickItemInterface {
+    public interface topItemInterface {
         void isClickItem(String url);
     }
 
-    private isClickItemInterface mIsClickItemInterface;
+    private topItemInterface mTopItemInterface;
 
-    public void setIsClickItemInterface(isClickItemInterface isClickItemInterface) {
-        mIsClickItemInterface = isClickItemInterface;
+    public void setTopItemInterface(topItemInterface topItemInterface) {
+        mTopItemInterface = topItemInterface;
     }
 }

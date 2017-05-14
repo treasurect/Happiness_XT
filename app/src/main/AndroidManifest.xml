@@ -211,6 +211,8 @@
         </activity>
         <activity android:name=".activity.user.UserActivity">
         </activity>
+        <activity android:name=".activity.entertainment.HomeJokerDetailActivity">
+        </activity>
     </application>
 
 </manifest>

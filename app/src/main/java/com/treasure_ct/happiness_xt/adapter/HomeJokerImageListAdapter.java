@@ -13,9 +13,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
+import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.Tools;
 
 import java.util.List;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by treasure on 2017.04.03.
@@ -63,7 +66,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         final HomeJokerImageListBean.DataBeanX.DataBean dataBeanX = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
 
-        if (dataBeanX.getGroup().getUser() != null){
+        if (dataBeanX.getGroup().getUser() != null) {
             if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
                 holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
             }
@@ -71,15 +74,44 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
                 holder.userName.setText(dataBeanX.getGroup().getUser().getName());
             }
         }
+        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getIs_gif()))) {
+            if (dataBeanX.getGroup().getIs_gif() == 0) {
+                holder.gif.setVisibility(View.GONE);
+                if (dataBeanX.getGroup().getLarge_image() != null) {
+                    if (dataBeanX.getGroup().getLarge_image().getUrl_list() != null) {
+                        if (dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl() != null) {
+                            holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl()));
+                        }
+                    }
+                } else if (dataBeanX.getGroup().getMiddle_image() != null) {
+                    if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null) {
+                        if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null) {
+                            holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
+                        }
+                    }
+                }
+            } else {
+                holder.image.setVisibility(View.GONE);
+//                if (!Tools.isNull(dataBeanX.getGroup().getGifvideo())){
+//                    holder.videoView.setUp(dataBeanX.getGroup().getMp4_url(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"");
+//                    if (dataBeanX.getGroup().getMedium_cover() != null){
+//                        if (dataBeanX.getGroup().getMedium_cover().getUrl_list() != null){
+//                            if (dataBeanX.getGroup().getMedium_cover().getUrl_list().get(0).getUrl() != null){
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        mBitmap = Tools.getBitmap(dataBeanX.getGroup().getMedium_cover().getUrl_list().get(0).getUrl());
+//                                        mHandler.sendMessage(mHandler.obtainMessage(200));
+//                                    }
+//                                }).start();
+//                            }
+//                        }
+//                    }
+//                }
+            }
+        }
         if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
             holder.content.setText(dataBeanX.getGroup().getContent());
-        }
-        if (dataBeanX.getGroup().getMiddle_image() != null){
-            if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null){
-                if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null){
-                    holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
-                }
-            }
         }
         if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
             holder.top.setText("顶：" + dataBeanX.getGroup().getDigg_count());
@@ -96,7 +128,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Tools.isNull(dataBeanX.getGroup().getShare_url())){
+                if (!Tools.isNull(dataBeanX.getGroup().getShare_url())) {
                     mIsClickItemInterface.isClickItem(dataBeanX.getGroup().getShare_url());
                 }
             }
@@ -105,7 +137,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        private  LinearLayout layout;
+        private LinearLayout layout;
         private TextView userName;
         private SimpleDraweeView userIcon;
         private TextView content;
@@ -114,12 +146,14 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         private TextView comments;
         private TextView transPond;
         private SimpleDraweeView image;
+        private JCVideoPlayerStandard gif;
 
         public ViewHolder(View view) {
             userIcon = ((SimpleDraweeView) view.findViewById(R.id.home_joker_item_userIcon));
             userName = (TextView) view.findViewById(R.id.home_joker_item_userName);
             content = (TextView) view.findViewById(R.id.home_joker_item_content);
             image = (SimpleDraweeView) view.findViewById(R.id.home_joker_item_image);
+            gif = (JCVideoPlayerStandard) view.findViewById(R.id.home_joker_item_gif);
             top = (TextView) view.findViewById(R.id.home_joker_item_top);
             low = (TextView) view.findViewById(R.id.home_joker_item_low);
             comments = (TextView) view.findViewById(R.id.home_joker_item_comments);
