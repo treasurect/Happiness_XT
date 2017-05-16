@@ -606,6 +606,8 @@ public class HomeJokerListBean implements Serializable{
                 public static class UserBean implements Serializable{
                     private String name;
                     private String avatar_url;
+                    private int followings;
+                    private int ugc_count;
 
                     public String getName() {
                         return name;
@@ -621,6 +623,22 @@ public class HomeJokerListBean implements Serializable{
 
                     public void setAvatar_url(String avatar_url) {
                         this.avatar_url = avatar_url;
+                    }
+
+                    public int getFollowings() {
+                        return followings;
+                    }
+
+                    public void setFollowings(int followings) {
+                        this.followings = followings;
+                    }
+
+                    public int getUgc_count() {
+                        return ugc_count;
+                    }
+
+                    public void setUgc_count(int ugc_count) {
+                        this.ugc_count = ugc_count;
                     }
                 }
 

@@ -96,8 +96,8 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
     }
 
     private void getJokerImageList(int page) {
-        HttpHelper.doGetCall("http://iu.snssdk.com/neihan/stream/mix/v1/?mpic=" + page + "&webp=1&essence=1&content_type=-103&message_cursor=-1&double_col_mode=0&local_request_tag=1493397617515&iid=9871060169&device_id=33766398200&uuid=860797039338439&openudid=cd9eeccf957d57d2",
-                getContext(), new Callback() {
+        String url = "http://iu.snssdk.com/neihan/stream/mix/v1/?mpic="+page+"&webp=1&essence=1&content_type=-103&message_cursor=-1&double_col_mode=0&local_request_tag=1494865429905&iid=10236690215&device_id=33766398200";
+        HttpHelper.doGetCall(url, getContext(), new Callback() {
 
                     @Override
                     public void onFailure(Call call, IOException e) {

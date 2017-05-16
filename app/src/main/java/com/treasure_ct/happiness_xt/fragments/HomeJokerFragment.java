@@ -98,7 +98,7 @@ public class HomeJokerFragment extends BaseFragment implements CustomRefreshList
     }
 
     private void getJokerInfo(int page) {
-        String url = "http://is.snssdk.com/neihan/stream/mix/v1/?mpic="+page+"&webp=1&essence=1&content_type=-102&message_cursor=-1&longitude=116.189369&latitude=39.913423&am_longitude=116.195464&am_latitude=39.914778&am_city=%E5%8C%97%E4%BA%AC%E5%B8%82&am_loc_time=1494700292868&count=30&min_time=1494700811&screen_width=1080&double_col_mode=0&local_request_tag=1494700820041&iid=10236690215&device_id=33766398200&ac=wifi&channel=huawei&aid=7&app_name=joke_essay&version_code=625&version_name=6.2.5&device_platform=android&ssmix=a&device_type=HUAWEI+NXT-AL10&device_brand=HUAWEI&os_api=24&os_version=7.0&uuid=860797039338439&openudid=cd9eeccf957d57d2&manifest_version_code=625&resolution=1080*1830&dpi=400&update_version_code=6253";
+        String url = "http://iu.snssdk.com/neihan/stream/mix/v1/?mpic=" + page + "&webp=1&essence=1&content_type=-102&message_cursor=-1&double_col_mode=0&local_request_tag=1494865297827&iid=10236690215&device_id=33766398200";
         HttpHelper.doGetCall(url, getContext(), new Callback() {
 
             @Override

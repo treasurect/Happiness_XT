@@ -65,33 +65,33 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         ret.setTag(new ViewHolder(ret));
         final HomeJokerImageListBean.DataBeanX.DataBean dataBeanX = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
-
-        if (dataBeanX.getGroup().getUser() != null) {
-            if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
-                holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
-            }
-            if (!Tools.isNull(dataBeanX.getGroup().getUser().getName())) {
-                holder.userName.setText(dataBeanX.getGroup().getUser().getName());
-            }
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getIs_gif()))) {
-            if (dataBeanX.getGroup().getIs_gif() == 0) {
-                holder.gif.setVisibility(View.GONE);
-                if (dataBeanX.getGroup().getLarge_image() != null) {
-                    if (dataBeanX.getGroup().getLarge_image().getUrl_list() != null) {
-                        if (dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl() != null) {
-                            holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl()));
-                        }
-                    }
-                } else if (dataBeanX.getGroup().getMiddle_image() != null) {
-                    if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null) {
-                        if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null) {
-                            holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
-                        }
-                    }
+        if (dataBeanX.getGroup() != null){
+            if (dataBeanX.getGroup().getUser() != null) {
+                if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
+                    holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
                 }
-            } else {
-                holder.image.setVisibility(View.GONE);
+                if (!Tools.isNull(dataBeanX.getGroup().getUser().getName())) {
+                    holder.userName.setText(dataBeanX.getGroup().getUser().getName());
+                }
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getIs_gif()))) {
+                if (dataBeanX.getGroup().getIs_gif() == 0) {
+                    holder.gif.setVisibility(View.GONE);
+                    if (dataBeanX.getGroup().getLarge_image() != null) {
+                        if (dataBeanX.getGroup().getLarge_image().getUrl_list() != null) {
+                            if (dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl() != null) {
+                                holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl()));
+                            }
+                        }
+                    } else if (dataBeanX.getGroup().getMiddle_image() != null) {
+                        if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null) {
+                            if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null) {
+                                holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
+                            }
+                        }
+                    }
+                } else {
+                    holder.image.setVisibility(View.GONE);
 //                if (!Tools.isNull(dataBeanX.getGroup().getGifvideo())){
 //                    holder.videoView.setUp(dataBeanX.getGroup().getMp4_url(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"");
 //                    if (dataBeanX.getGroup().getMedium_cover() != null){
@@ -108,22 +108,23 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
 //                        }
 //                    }
 //                }
+                }
             }
-        }
-        if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
-            holder.content.setText(dataBeanX.getGroup().getContent());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
-            holder.top.setText("顶：" + dataBeanX.getGroup().getDigg_count());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getRepin_count()))) {
-            holder.low.setText("踩：" + dataBeanX.getGroup().getRepin_count());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getHas_comments()))) {
-            holder.comments.setText("留言：" + dataBeanX.getGroup().getHas_comments());
-        }
-        if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getShare_count()))) {
-            holder.transPond.setText("转发：" + dataBeanX.getGroup().getShare_count());
+            if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
+                holder.content.setText(dataBeanX.getGroup().getContent());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getDigg_count()))) {
+                holder.top.setText("顶：" + dataBeanX.getGroup().getDigg_count());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getRepin_count()))) {
+                holder.low.setText("踩：" + dataBeanX.getGroup().getRepin_count());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getHas_comments()))) {
+                holder.comments.setText("留言：" + dataBeanX.getGroup().getHas_comments());
+            }
+            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getShare_count()))) {
+                holder.transPond.setText("转发：" + dataBeanX.getGroup().getShare_count());
+            }
         }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

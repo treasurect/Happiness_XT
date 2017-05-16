@@ -213,6 +213,8 @@
         </activity>
         <activity android:name=".activity.entertainment.HomeJokerDetailActivity">
         </activity>
+        <activity android:name=".activity.life.LifeTrafficActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.LifeDeliciousDetailAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeDeliciousDetailBean;
@@ -32,7 +33,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LifeDeliciousDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class LifeDeliciousDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private JCVideoPlayerStandard videoView;
     private LinearLayout prepare;

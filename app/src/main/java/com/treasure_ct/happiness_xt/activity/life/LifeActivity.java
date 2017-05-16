@@ -1,10 +1,8 @@
 package com.treasure_ct.happiness_xt.activity.life;
 
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -13,7 +11,6 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -54,7 +51,6 @@ import com.treasure_ct.happiness_xt.bean.LifePostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.LifePostCodeBean;
 import com.treasure_ct.happiness_xt.bean.LifeWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
-import com.treasure_ct.happiness_xt.receiver.CommonDataReceiver;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -80,9 +76,9 @@ import okhttp3.Response;
 
 public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
     private GridView gridView;
-    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "美食菜谱", "邮编查询", "聆听好声音", "VR 尝试", "全部", "全部", "全部", "全部"};
+    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "美食菜谱", "邮编查询", "聆听好声音", "VR 尝试", "航班火车查询", "全部", "全部", "全部"};
     private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
-            R.mipmap.icon_food, R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
+            R.mipmap.icon_food, R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_train, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
     private PopupWindow mPopupWindow;
     private Handler mHandler = new Handler() {
         @Override
@@ -650,6 +646,9 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 break;
             case "美食菜谱":
                 startActivity(new Intent(LifeActivity.this, LifeDeliciousActivity.class));
+                break;
+            case "航班火车查询":
+                startActivity(new Intent(LifeActivity.this, LifeTrafficActivity.class));
                 break;
             case "全部":
                 startActivity(new Intent(LifeActivity.this, LifeAllActivity.class));

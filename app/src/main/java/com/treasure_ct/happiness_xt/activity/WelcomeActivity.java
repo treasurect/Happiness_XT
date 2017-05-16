@@ -37,7 +37,7 @@ public class WelcomeActivity extends BaseActivity {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 WelcomeActivity.this.finish();
             }
-        },1000);
+        },3000);
     }
 
     private void setMediaPlayer() {

@@ -85,6 +85,8 @@ public class HomeJokerListAdapter extends BaseAdapter {
             if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getShare_count()))) {
                 holder.transPond.setText("" + dataBeanX.getGroup().getShare_count());
             }
+        }else {
+            list.remove(position);
         }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

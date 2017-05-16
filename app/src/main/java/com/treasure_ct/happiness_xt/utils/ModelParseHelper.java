@@ -1,6 +1,7 @@
 package com.treasure_ct.happiness_xt.utils;
 
 import com.google.gson.Gson;
+import com.treasure_ct.happiness_xt.bean.HomeJokerCommentsBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerVideoListBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectItemBean;
@@ -11,6 +12,8 @@ import com.treasure_ct.happiness_xt.bean.LifeDeliciousListBean;
 import com.treasure_ct.happiness_xt.bean.LifePhoneBelongBean;
 import com.treasure_ct.happiness_xt.bean.LifePostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.LifePostCodeBean;
+import com.treasure_ct.happiness_xt.bean.LifeTrafficAirBean;
+import com.treasure_ct.happiness_xt.bean.LifeTrafficTrainBean;
 import com.treasure_ct.happiness_xt.bean.LifeWeatherCityListBean;
 import com.treasure_ct.happiness_xt.bean.LifeWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerListBean;
@@ -220,5 +223,38 @@ public class ModelParseHelper {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
         return gson.fromJson(str, HomeJokerImageListBean.class);
+    }
+    /**
+     * 解析 home - 段子  详情 评论
+     *
+     * @param str
+     * @return
+     */
+    public static HomeJokerCommentsBean parseJokerCommentsResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeJokerCommentsBean.class);
+    }
+    /**
+     * 解析 life-traffic-train
+     *
+     * @param str
+     * @return
+     */
+    public static LifeTrafficTrainBean parsetrainResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, LifeTrafficTrainBean.class);
+    }
+    /**
+     * 解析 life-traffic-air
+     *
+     * @param str
+     * @return
+     */
+    public static LifeTrafficAirBean parseairResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, LifeTrafficAirBean.class);
     }
 }

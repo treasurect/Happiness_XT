@@ -47,23 +47,19 @@ public class EntertainmentActivity extends AppCompatActivity implements TabLayou
 
     private void initTabLayout() {
         tabLayout.addTab(tabLayout.newTab().setText("段子"));
-        tabLayout.addTab(tabLayout.newTab().setText("搞笑图片"));
-        tabLayout.addTab(tabLayout.newTab().setText("搞笑视频"));
-        tabLayout.addTab(tabLayout.newTab().setText("头条"));
         tabLayout.addTab(tabLayout.newTab().setText("微信精选"));
+        tabLayout.addTab(tabLayout.newTab().setText("搞笑图片"));
+        tabLayout.addTab(tabLayout.newTab().setText("头条"));
         tabLayout.addTab(tabLayout.newTab().setText("FUN"));
-        tabLayout.addTab(tabLayout.newTab().setText("时尚"));
     }
 
     private void initViewPager() {
         List<BaseFragment> list = new ArrayList<>();
         list.add(new HomeJokerFragment());
-        list.add(new HomeJokerImageFragment());
-        list.add(new HomeJokerVideoFragment());
-        list.add(new HomeNewsTopFragment());
         list.add(new HomeWeChatSelectFragment());
+        list.add(new HomeJokerImageFragment());
+        list.add(new HomeNewsTopFragment());
         list.add(new HomeNewsFunFragment());
-        list.add(new HomeNewsFashionFragment());
         HomeFragmentPagerAdapter pagerAdapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), list);
         viewPager.setAdapter(pagerAdapter);
     }
