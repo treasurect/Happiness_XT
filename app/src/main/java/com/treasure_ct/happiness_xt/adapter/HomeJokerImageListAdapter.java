@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
@@ -65,7 +67,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         ret.setTag(new ViewHolder(ret));
         final HomeJokerImageListBean.DataBeanX.DataBean dataBeanX = list.get(position);
         ViewHolder holder = (ViewHolder) ret.getTag();
-        if (dataBeanX.getGroup() != null){
+        if (dataBeanX.getGroup() != null) {
             if (dataBeanX.getGroup().getUser() != null) {
                 if (!Tools.isNull(dataBeanX.getGroup().getUser().getAvatar_url())) {
                     holder.userIcon.setImageURI(Uri.parse(dataBeanX.getGroup().getUser().getAvatar_url()));
@@ -74,40 +76,19 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
                     holder.userName.setText(dataBeanX.getGroup().getUser().getName());
                 }
             }
-            if (!Tools.isNull(String.valueOf(dataBeanX.getGroup().getIs_gif()))) {
-                if (dataBeanX.getGroup().getIs_gif() == 0) {
-                    holder.gif.setVisibility(View.GONE);
-                    if (dataBeanX.getGroup().getLarge_image() != null) {
-                        if (dataBeanX.getGroup().getLarge_image().getUrl_list() != null) {
-                            if (dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl() != null) {
-                                holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl()));
-                            }
-                        }
-                    } else if (dataBeanX.getGroup().getMiddle_image() != null) {
-                        if (dataBeanX.getGroup().getMiddle_image().getUrl_list() != null) {
-                            if (dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl() != null) {
-                                holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getMiddle_image().getUrl_list().get(0).getUrl()));
-                            }
-                        }
+            if (dataBeanX.getGroup().getLarge_image() != null) {
+                if (dataBeanX.getGroup().getLarge_image().getUrl_list() != null) {
+                    if (dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl() != null) {
+                        holder.image.setImageURI(Uri.parse(dataBeanX.getGroup().getLarge_image().getUrl_list().get(0).getUrl()));
                     }
-                } else {
-                    holder.image.setVisibility(View.GONE);
-//                if (!Tools.isNull(dataBeanX.getGroup().getGifvideo())){
-//                    holder.videoView.setUp(dataBeanX.getGroup().getMp4_url(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"");
-//                    if (dataBeanX.getGroup().getMedium_cover() != null){
-//                        if (dataBeanX.getGroup().getMedium_cover().getUrl_list() != null){
-//                            if (dataBeanX.getGroup().getMedium_cover().getUrl_list().get(0).getUrl() != null){
-//                                new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        mBitmap = Tools.getBitmap(dataBeanX.getGroup().getMedium_cover().getUrl_list().get(0).getUrl());
-//                                        mHandler.sendMessage(mHandler.obtainMessage(200));
-//                                    }
-//                                }).start();
-//                            }
-//                        }
-//                    }
-//                }
+                }
+            }else if (dataBeanX.getGroup().getLarge_image_list() != null){
+                if (!Tools.isNull(dataBeanX.getGroup().getLarge_image_list().get(0).getUrl())){
+                    DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
+                            .setAutoPlayAnimations(true)
+                            .setUri(Uri.parse(dataBeanX.getGroup().getLarge_image_list().get(0).getUrl()))//设置uri
+                            .build();
+                    holder.image.setController(mDraweeController);
                 }
             }
             if (!Tools.isNull(dataBeanX.getGroup().getContent())) {
@@ -147,14 +128,12 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
         private TextView comments;
         private TextView transPond;
         private SimpleDraweeView image;
-        private JCVideoPlayerStandard gif;
 
         public ViewHolder(View view) {
             userIcon = ((SimpleDraweeView) view.findViewById(R.id.home_joker_item_userIcon));
             userName = (TextView) view.findViewById(R.id.home_joker_item_userName);
             content = (TextView) view.findViewById(R.id.home_joker_item_content);
             image = (SimpleDraweeView) view.findViewById(R.id.home_joker_item_image);
-            gif = (JCVideoPlayerStandard) view.findViewById(R.id.home_joker_item_gif);
             top = (TextView) view.findViewById(R.id.home_joker_item_top);
             low = (TextView) view.findViewById(R.id.home_joker_item_low);
             comments = (TextView) view.findViewById(R.id.home_joker_item_comments);

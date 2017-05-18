@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.BaseActivity;
@@ -49,6 +50,7 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
                         pro_list.add(mResult.get(i).getProvince());
                     }
                     pro_adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
                     break;
                 case 201:
                     city_list.clear();
@@ -62,6 +64,7 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
                         }
                     }
                     city_adapter.notifyDataSetChanged();
+                    progress.setProgress(View.GONE);
                     break;
                 case 202:
                     dis_list.clear();
@@ -80,10 +83,11 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
                         }
                     }
                     dis_adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
                     break;
                 case 400:
-                    String error = msg.getData().getString("error");
                     Toast.makeText(LifeWeatherCityListActivity.this, "原因：" + error, Toast.LENGTH_SHORT).show();
+                    progress.setVisibility(View.GONE);
                     break;
             }
         }
@@ -93,6 +97,8 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
     private String province;
     private String city;
     private int item_num = 0;
+    private String error;
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +114,14 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
         initListView();
         initClick();
         getCityList();
+        progress.setVisibility(View.VISIBLE);
     }
 
     private void initFindId() {
         pro_listView = (ListView) findViewById(R.id.weather_cityList_province_listView);
         city_listView = (ListView) findViewById(R.id.weather_cityList_city_listView);
         dis_listView = (ListView) findViewById(R.id.weather_cityList_district_listView);
+        progress = (ProgressBar) findViewById(R.id.weather_cityList_listView_progress);
     }
 
     private void initListView() {
@@ -154,21 +162,20 @@ public class LifeWeatherCityListActivity extends BaseActivity implements View.On
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Bundle bundle = new Bundle();
-                bundle.putString("error", e.getMessage());
-                Message message = new Message();
-                message.setData(bundle);
-                message.what = 400;
-                mHandler.sendMessage(message);
+                error = e.getMessage();
+                mHandler.sendMessage(mHandler.obtainMessage(400));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
                 cityListBean = ModelParseHelper.parseCityListResult(string);
-                mResult = cityListBean.getResult();
-
-                mHandler.sendMessage(mHandler.obtainMessage(200));
+                if (cityListBean !=null){
+                    if (cityListBean.getResult() != null){
+                        mResult = cityListBean.getResult();
+                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                    }
+                }
             }
         });
     }

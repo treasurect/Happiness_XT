@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
@@ -17,6 +18,7 @@ public class HomeNewsWebActivity extends BaseActivity implements View.OnClickLis
 
     private WebView webView;
     private String url;
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,11 @@ public class HomeNewsWebActivity extends BaseActivity implements View.OnClickLis
 
     private void initFindId() {
         webView = (WebView) findViewById(R.id.news_webView);
+        progress = (ProgressBar) findViewById(R.id.news_webView_progress);
     }
 
     private void LoadUrl() {
+        progress.setVisibility(View.VISIBLE);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true); // 设置显示缩放按钮
@@ -77,6 +81,9 @@ public class HomeNewsWebActivity extends BaseActivity implements View.OnClickLis
             public void onProgressChanged(WebView view, int newProgress) {
                 //Activity的进度范围在0到10000之间,所以这里要乘以100
                 HomeNewsWebActivity.this.setProgress(newProgress * 100);
+                if (newProgress == 100){
+                    progress.setVisibility(View.GONE);
+                }
             }
         });
         webView.loadUrl(url);

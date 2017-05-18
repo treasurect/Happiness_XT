@@ -1,9 +1,11 @@
 package com.treasure_ct.happiness_xt.utils;
 
 import com.google.gson.Gson;
+import com.treasure_ct.happiness_xt.bean.HomeEmbarrassListBean;
+import com.treasure_ct.happiness_xt.bean.HomeGossipDetailBean;
+import com.treasure_ct.happiness_xt.bean.HomeGossipListBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerCommentsBean;
 import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
-import com.treasure_ct.happiness_xt.bean.HomeJokerVideoListBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectItemBean;
 import com.treasure_ct.happiness_xt.bean.HomeWeChatSelectListBean;
 import com.treasure_ct.happiness_xt.bean.LifeBaseLocationQueryBean;
@@ -203,17 +205,6 @@ public class ModelParseHelper {
         return gson.fromJson(str, LifeDeliciousDetailBean.class);
     }
     /**
-     * 解析 home - 段子  视频
-     *
-     * @param str
-     * @return
-     */
-    public static HomeJokerVideoListBean parseJokerVideoResult(String str) {
-        if (str == null || str.equals("")) return null;
-        Gson gson = new Gson();
-        return gson.fromJson(str, HomeJokerVideoListBean.class);
-    }
-    /**
      * 解析 home - 段子  图片
      *
      * @param str
@@ -256,5 +247,38 @@ public class ModelParseHelper {
         if (str == null || str.equals("")) return null;
         Gson gson = new Gson();
         return gson.fromJson(str, LifeTrafficAirBean.class);
+    }
+    /**
+     * 解析 home-embarrass
+     *
+     * @param str
+     * @return
+     */
+    public static HomeEmbarrassListBean parseembarrassResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeEmbarrassListBean.class);
+    }
+    /**
+     * 解析 home-gossip
+     *
+     * @param str
+     * @return
+     */
+    public static HomeGossipListBean parsegossipResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeGossipListBean.class);
+    }
+    /**
+     * 解析 home-gossip-detail
+     *
+     * @param str
+     * @return
+     */
+    public static HomeGossipDetailBean parsegossipDetailResult(String str) {
+        if (str == null || str.equals("")) return null;
+        Gson gson = new Gson();
+        return gson.fromJson(str, HomeGossipDetailBean.class);
     }
 }

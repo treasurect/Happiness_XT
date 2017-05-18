@@ -70,10 +70,20 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:gravity="center"/>
-    <ListView
-        android:id="@+id/train_station_result"
-        android:layout_marginTop="30dp"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="5dp"/>
+        android:layout_marginTop="30dp">
+        <ListView
+            android:id="@+id/train_station_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="5dp"/>
+        <ProgressBar
+            android:id="@+id/train_station_result_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
 </LinearLayout>

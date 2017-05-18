@@ -76,9 +76,9 @@ import okhttp3.Response;
 
 public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
     private GridView gridView;
-    private String[] assistant_list_text = {"智能机器人", "天气预报", "地图", "手机归属地", "美食菜谱", "邮编查询", "聆听好声音", "VR 尝试", "航班火车查询", "全部", "全部", "全部"};
-    private int[] assistant_list_image = {R.mipmap.icon_robot, R.mipmap.icon_weather, R.mipmap.icon_location, R.mipmap.icon_phone,
-            R.mipmap.icon_food, R.mipmap.icon_postcode, R.mipmap.icon_music, R.mipmap.icon_vr, R.mipmap.icon_train, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
+    private String[] assistant_list_text = {"地图", "天气预报", "手机归属地", "聆听好声音", "美食菜谱", "智能机器人", "邮编查询", "VR 尝试", "航班火车查询", "全部", "全部", "全部"};
+    private int[] assistant_list_image = {R.mipmap.icon_location, R.mipmap.icon_weather,  R.mipmap.icon_phone,R.mipmap.icon_music,
+            R.mipmap.icon_food, R.mipmap.icon_robot,R.mipmap.icon_postcode, R.mipmap.icon_vr, R.mipmap.icon_train, R.mipmap.icon_all, R.mipmap.icon_all, R.mipmap.icon_all};
     private PopupWindow mPopupWindow;
     private Handler mHandler = new Handler() {
         @Override

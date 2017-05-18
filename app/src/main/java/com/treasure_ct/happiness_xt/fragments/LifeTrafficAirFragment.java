@@ -14,6 +14,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +51,12 @@ public class LifeTrafficAirFragment extends Fragment implements View.OnClickList
                 case 200:
                     list.addAll(airBean.getResult());
                     adapter.notifyDataSetChanged();
+                    result_progress.setVisibility(View.GONE);
                     break;
                 case 201:
                     Toast.makeText(getContext(), "未查询到航班信息", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
+                    result_progress.setVisibility(View.GONE);
                     break;
                 case 202:
                     String start1 = station_start.getText().toString().trim();
@@ -63,12 +66,14 @@ public class LifeTrafficAirFragment extends Fragment implements View.OnClickList
                     break;
                 case 400:
                     Toast.makeText(getContext(), "原因：" + error, Toast.LENGTH_SHORT).show();
+                    result_progress.setVisibility(View.GONE);
                     break;
             }
         }
     };
     private int screen_width;
     private int screen_height;
+    private ProgressBar result_progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,6 +94,7 @@ public class LifeTrafficAirFragment extends Fragment implements View.OnClickList
         station_exchange = (ImageView) view.findViewById(R.id.train_station_exchange);
         station_query = (TextView) view.findViewById(R.id.train_station_query);
         station_result = (ListView) view.findViewById(R.id.train_station_result);
+        result_progress = (ProgressBar) view.findViewById(R.id.train_station_result_progress);
     }
 
     private void initClick() {
@@ -149,6 +155,7 @@ public class LifeTrafficAirFragment extends Fragment implements View.OnClickList
                 String start = station_start.getText().toString().trim();
                 String end = station_end.getText().toString();
                 getTrainInfo(start, end);
+                result_progress.setVisibility(View.VISIBLE);
                 break;
         }
     }

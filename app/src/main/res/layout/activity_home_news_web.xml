@@ -10,8 +10,18 @@
     android:fitsSystemWindows="true"
     tools:context="com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity">
     <include layout="@layout/top_view"/>
-    <WebView
-        android:id="@+id/news_webView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <WebView
+            android:id="@+id/news_webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:id="@+id/news_webView_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
 </LinearLayout>

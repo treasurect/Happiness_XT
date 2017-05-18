@@ -41,10 +41,6 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             fresco:placeholderImage="@mipmap/pic_pageloading"/>
-        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
-            android:id="@+id/home_joker_item_gif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </FrameLayout>
     <View
         android:layout_width="match_parent"

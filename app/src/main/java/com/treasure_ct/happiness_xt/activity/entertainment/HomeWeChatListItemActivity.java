@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.BaseActivity;
@@ -39,20 +40,21 @@ public class HomeWeChatListItemActivity extends BaseActivity implements View.OnC
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
-                    if (itemBean.getResult() != null) {
                         List<HomeWeChatSelectItemBean.ResultBean.ListBean> listBean = itemBean.getResult().getList();
                         list.addAll(listBean);
                         adapter.notifyDataSetChanged();
-                    }
+                    progress.setVisibility(View.GONE);
                     break;
                 case 400:
-                    String obj = (String) msg.obj;
-                    Toast.makeText(HomeWeChatListItemActivity.this, "原因："+obj, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeWeChatListItemActivity.this, "原因："+error, Toast.LENGTH_SHORT).show();
+                    progress.setVisibility(View.GONE);
                     break;
             }
         }
     };
     private HomeWeChatSelectItemBean itemBean;
+    private ProgressBar progress;
+    private String error;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class HomeWeChatListItemActivity extends BaseActivity implements View.OnC
         initListView();
         initClick();
         getListItem();
+        progress.setVisibility(View.VISIBLE);
     }
 
     private void initClick() {
@@ -75,6 +78,7 @@ public class HomeWeChatListItemActivity extends BaseActivity implements View.OnC
 
     private void initFinId() {
         listView = (ListView) findViewById(R.id.home_wechat_item_listView);
+        progress = (ProgressBar) findViewById(R.id.home_wechat_item_listView_progress);
     }
 
     private void getIntentData() {
@@ -96,17 +100,19 @@ public class HomeWeChatListItemActivity extends BaseActivity implements View.OnC
 
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Message message = mHandler.obtainMessage();
-                        message.obj = e.getMessage();
-                        message.what = 400;
-                        mHandler.sendMessage(message);
+                        error = e.getMessage();
+                        mHandler.sendMessage(mHandler.obtainMessage(400));
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String string = response.body().string();
                         itemBean = ModelParseHelper.parseWeChatItemResult(string);
-                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                        if (itemBean != null){
+                            if (itemBean.getResult() != null){
+                                mHandler.sendMessage(mHandler.obtainMessage(200));
+                            }
+                        }
                     }
                 });
     }

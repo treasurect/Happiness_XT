@@ -20,5 +20,6 @@
         android:id="@+id/life_delicious_progress"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </FrameLayout>

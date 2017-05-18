@@ -2,17 +2,18 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.treasure_ct.happiness_xt.fragments.HomeWeChatSelectFragment">
-    <GridView
-        android:id="@+id/home_wechat_grid"
+             android:background="@color/colorGray6"
+             tools:context="com.treasure_ct.happiness_xt.fragments.HomeGossipFragment">
+
+    <com.treasure_ct.happiness_xt.widget.CustomRefreshListView
+        android:id="@+id/home_gossip_listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3"
-        android:scrollbars="none"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"/>
+        android:layout_height="wrap_content"
+        android:divider="@color/colorFull"
+        android:dividerHeight="0dp"/>
+
     <ProgressBar
-        android:id="@+id/home_wechat_grid_progress"
+        android:id="@+id/home_gossip_progress"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"

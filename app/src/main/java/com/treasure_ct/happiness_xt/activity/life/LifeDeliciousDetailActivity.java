@@ -154,7 +154,11 @@ public class LifeDeliciousDetailActivity extends BaseActivity implements View.On
                     public void onResponse(Call call, Response response) throws IOException {
                         String string = response.body().string();
                         detailBean = ModelParseHelper.parseDeliciousDetailResult(string);
-                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                        if (detailBean != null){
+                            if (detailBean.getData() != null){
+                                mHandler.sendMessage(mHandler.obtainMessage(200));
+                            }
+                        }
                     }
                 });
     }

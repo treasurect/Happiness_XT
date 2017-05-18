@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,11 @@ public class LifeWeatherActivity extends BaseActivity implements View.OnClickLis
                         list.add(futureBean);
                     }
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
+                    break;
+                case 400:
+                    Toast.makeText(LifeWeatherActivity.this, "原因："+error, Toast.LENGTH_SHORT).show();
+                    progress.setVisibility(View.GONE);
                     break;
             }
         }
@@ -77,6 +83,8 @@ public class LifeWeatherActivity extends BaseActivity implements View.OnClickLis
     private String province;
     private String city;
     private String district;
+    private String error;
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +116,7 @@ public class LifeWeatherActivity extends BaseActivity implements View.OnClickLis
         now_city = (TextView) findViewById(R.id.assistant_weather_now_city);
         btn_refresh = (ImageView) findViewById(R.id.assistant_weather_refresh);
         scrollView = (NestedScrollView) findViewById(R.id.assistant_weather_now_scrollView);
+        progress = (ProgressBar) findViewById(R.id.loading_progress);
     }
 
     private void initListView() {
@@ -122,20 +131,24 @@ public class LifeWeatherActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void getWeatherDetail(String key, String city, String province) {
+        progress.setVisibility(View.VISIBLE);
         String url = StringContents.MobAPI_BaseUrl + "/v1/weather/query?key=" + key + "&city=" + city + "&province=" + province;
         HttpHelper.doGetCall(url, this, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                LogUtil.d("~~~~~~~~~~~~~~~~onFailure", e.getMessage());
+                error = e.getMessage();
+                mHandler.sendMessage(mHandler.obtainMessage(400));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() == 200) {
                     resultBean = ModelParseHelper.parseWeatherResult(response.body().string());
-                    Message message = new Message();
-                    message.what = 200;
-                    mHandler.sendMessage(message);
+                    if (resultBean != null){
+                        if (resultBean.getResult() != null){
+                            mHandler.sendMessage(mHandler.obtainMessage(200));
+                        }
+                    }
                 }
             }
         });

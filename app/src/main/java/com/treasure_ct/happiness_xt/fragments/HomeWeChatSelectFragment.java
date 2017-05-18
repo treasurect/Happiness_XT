@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
@@ -38,6 +39,7 @@ public class HomeWeChatSelectFragment extends BaseFragment implements AdapterVie
             super.handleMessage(msg);
             switch (msg.what) {
                 case 200:
+                    list.clear();
                     List<HomeWeChatSelectListBean.ResultBean> result = weChatSelectListBean.getResult();
                     for (int i = 0; i < result.size(); i++) {
                         HomeWeChatSelectListBean.ResultBean listBean = new HomeWeChatSelectListBean.ResultBean();
@@ -46,15 +48,18 @@ public class HomeWeChatSelectFragment extends BaseFragment implements AdapterVie
                         list.add(listBean);
                     }
                     adapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
                     break;
                 case 400:
-                    String obj = (String) msg.obj;
-                    Toast.makeText(getContext(), "原因：" + obj, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "原因：" + error, Toast.LENGTH_SHORT).show();
+                    progress.setVisibility(View.GONE);
                     break;
             }
         }
     };
     private HomeWeChatSelectListBean weChatSelectListBean;
+    private ProgressBar progress;
+    private String error;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +87,7 @@ public class HomeWeChatSelectFragment extends BaseFragment implements AdapterVie
 
     private void initFindId(View view) {
         gridView = (GridView) view.findViewById(R.id.home_wechat_grid);
+        progress = (ProgressBar) view.findViewById(R.id.home_wechat_grid_progress);
     }
 
     private void initGridView() {
@@ -91,22 +97,25 @@ public class HomeWeChatSelectFragment extends BaseFragment implements AdapterVie
     }
 
     private void getWeChatSelectList() {
-        HttpHelper.doGetCall(StringContents.MobAPI_BaseUrl + "/wx/article/category/query?key=" + StringContents.MobAPI_APPKEY,
-                getContext(), new Callback() {
+        progress.setVisibility(View.VISIBLE);
+        String url = StringContents.MobAPI_BaseUrl + "/wx/article/category/query?key=" + StringContents.MobAPI_APPKEY;
+        HttpHelper.doGetCall(url, getContext(), new Callback() {
 
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Message message = mHandler.obtainMessage();
-                        message.what = 400;
-                        message.obj = e.getMessage();
-                        mHandler.sendMessage(message);
+                        error = e.getMessage();
+                        mHandler.sendMessage(mHandler.obtainMessage(400));
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String string = response.body().string();
                         weChatSelectListBean = ModelParseHelper.parseWeChatListResult(string);
-                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                        if (weChatSelectListBean != null){
+                            if (weChatSelectListBean.getResult() != null){
+                                mHandler.sendMessage(mHandler.obtainMessage(200));
+                            }
+                        }
                     }
                 });
     }

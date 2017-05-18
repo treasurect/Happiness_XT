@@ -56,6 +56,7 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
                     break;
                 case 400:
                     Toast.makeText(getContext(), "原因：" + error, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     break;
             }
         }
@@ -68,9 +69,7 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
         View view = inflater.inflate(R.layout.fragment_home_news, container, false);
         initFindId(view);
         isPrepare = true;
-//        lazyLoad();
-        initListView();
-        getJokerImageList(page);
+        lazyLoad();
         return view;
     }
 
@@ -85,6 +84,7 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
             return;
         initListView();
         getJokerImageList(page);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void initListView() {
@@ -141,6 +141,7 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
     public void onLoadingMore() {
         page++;
         getJokerImageList(page);
+        progressBar.setVisibility(View.VISIBLE);
         listView.completeRefresh();
     }
 

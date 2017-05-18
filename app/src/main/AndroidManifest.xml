@@ -215,6 +215,10 @@
         </activity>
         <activity android:name=".activity.life.LifeTrafficActivity">
         </activity>
+        <activity android:name=".activity.entertainment.HomeEmbarrassDetailActivity">
+        </activity>
+        <activity android:name=".activity.entertainment.HomeGpssipDetailActivity">
+        </activity>
     </application>
 
 </manifest>

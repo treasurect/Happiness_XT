@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity;
@@ -45,9 +46,14 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
                         list.add(itemBean);
                         adapter.notifyDataSetChanged();
                     }
+                    loading.setVisibility(View.GONE);
                     break;
                 case 300:
                     listView.completeRefresh();
+                    break;
+                case 400:
+                    Toast.makeText(getContext(), "原因："+error, Toast.LENGTH_SHORT).show();
+                    loading.setVisibility(View.GONE);
                     break;
             }
         }
@@ -56,6 +62,7 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
     private HomeNewsTopListAdapter adapter;
     private int page = 1;
     private ProgressBar loading;
+    private String error;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,11 +71,7 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
         //初始化view各控件
         initFindId(view);
         isPrepared = true;
-//        lazyLoad();
-        initListView();
-        listView.setOnRefreshListener(this);
-        getNewsInfo(page);
-        adapter.setTopItemInterface(this);
+        lazyLoad();
         return view;
     }
 
@@ -86,6 +89,7 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
         listView.setOnRefreshListener(this);
         getNewsInfo(page);
         adapter.setTopItemInterface(this);
+        loading.setVisibility(View.VISIBLE);
     }
 
     private void initListView() {
@@ -99,16 +103,18 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
         HttpHelper.doGetCall(url, getContext(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~onFailure~", e.getMessage());
+                error = e.getMessage();
+                mHandler.sendMessage(mHandler.obtainMessage(400));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
                 newsResult = ModelParseHelper.parseNewsTopResult(result.substring(1, result.length() - 1));
-//                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~`",response.body().string());
-                if (newsResult.getItem()!=null) {
-                    mHandler.sendMessage(mHandler.obtainMessage(200));
+                if (newsResult != null){
+                    if (newsResult.getItem()!=null) {
+                        mHandler.sendMessage(mHandler.obtainMessage(200));
+                    }
                 }
             }
         });
@@ -142,6 +148,7 @@ public class HomeNewsFunFragment extends BaseFragment implements HomeNewsTopList
     public void onLoadingMore() {
         page++;
         getNewsInfo(page);
+        loading.setVisibility(View.VISIBLE);
         listView.completeRefresh();
     }
 }

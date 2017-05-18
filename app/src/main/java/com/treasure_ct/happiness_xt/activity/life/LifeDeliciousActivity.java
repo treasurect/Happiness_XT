@@ -49,6 +49,7 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
                     break;
                 case 400:
                     Toast.makeText(LifeDeliciousActivity.this, "原因：" + error, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     break;
             }
         }
@@ -67,6 +68,7 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
         initListView();
         initClick();
         getDeliciousList(id);
+        progressBar.setVisibility(View.VISIBLE);
         listView.setOnRefreshListener(this);
     }
 
@@ -109,7 +111,13 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
                 deliciousListBean = ModelParseHelper.parseDeliciousListResult(string);
-                mHandler.sendMessage(mHandler.obtainMessage(200));
+                if (deliciousListBean != null){
+                    if (deliciousListBean.getData() != null){
+                        if (deliciousListBean.getData().getData() != null){
+                            mHandler.sendMessage(mHandler.obtainMessage(200));
+                        }
+                    }
+                }
             }
         });
     }
@@ -135,6 +143,7 @@ public class LifeDeliciousActivity extends BaseActivity implements CustomRefresh
     public void onLoadingMore() {
         id++;
         getDeliciousList(id);
+        progressBar.setVisibility(View.VISIBLE);
         listView.completeRefresh();
     }
 

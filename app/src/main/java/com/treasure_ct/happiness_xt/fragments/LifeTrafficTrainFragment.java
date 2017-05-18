@@ -16,6 +16,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,10 +58,12 @@ public class LifeTrafficTrainFragment extends Fragment implements View.OnClickLi
                 case 200:
                     list.addAll(trainBean.getResult());
                     adapter.notifyDataSetChanged();
+                    result_progress.setVisibility(View.GONE);
                     break;
                 case 201:
                     Toast.makeText(getContext(), "未查询到火车信息", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
+                    result_progress.setVisibility(View.GONE);
                     break;
                 case 202:
                     String start1 = station_start.getText().toString().trim();
@@ -70,12 +73,14 @@ public class LifeTrafficTrainFragment extends Fragment implements View.OnClickLi
                     break;
                 case 400:
                     Toast.makeText(getContext(), "原因：" + error, Toast.LENGTH_SHORT).show();
+                    result_progress.setVisibility(View.GONE);
                     break;
             }
         }
     };
     private int screen_width;
     private int screen_height;
+    private ProgressBar result_progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +101,7 @@ public class LifeTrafficTrainFragment extends Fragment implements View.OnClickLi
         station_exchange = (ImageView) view.findViewById(R.id.train_station_exchange);
         station_query = (TextView) view.findViewById(R.id.train_station_query);
         station_result = (ListView) view.findViewById(R.id.train_station_result);
+        result_progress = (ProgressBar) view.findViewById(R.id.train_station_result_progress);
     }
 
     private void initClick() {
@@ -156,6 +162,7 @@ public class LifeTrafficTrainFragment extends Fragment implements View.OnClickLi
                 String start = station_start.getText().toString().trim();
                 String end = station_end.getText().toString();
                 getTrainInfo(start, end);
+                result_progress.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -166,6 +173,7 @@ public class LifeTrafficTrainFragment extends Fragment implements View.OnClickLi
             @Override
             public void onFailure(Call call, IOException e) {
                 error = e.getMessage();
+                handler.sendMessage(handler.obtainMessage(400));
             }
 
             @Override

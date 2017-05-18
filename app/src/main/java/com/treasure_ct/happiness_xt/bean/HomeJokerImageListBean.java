@@ -178,6 +178,7 @@ public class HomeJokerImageListBean implements Serializable{
                 private MiddleImageBean middle_image;
                 private double category_id;
                 private List<DislikeReasonBean> dislike_reason;
+                private List<LargeImageListBean> large_image_list;
 
                 public UserBean getUser() {
                     return user;
@@ -539,6 +540,28 @@ public class HomeJokerImageListBean implements Serializable{
                     this.dislike_reason = dislike_reason;
                 }
 
+                public boolean is_anonymous() {
+                    return is_anonymous;
+                }
+
+                public List<LargeImageListBean> getLarge_image_list() {
+                    return large_image_list;
+                }
+
+                public void setLarge_image_list(List<LargeImageListBean> large_image_list) {
+                    this.large_image_list = large_image_list;
+                }
+                public static class LargeImageListBean{
+                    private String url;
+
+                    public String getUrl() {
+                        return url;
+                    }
+
+                    public void setUrl(String url) {
+                        this.url = url;
+                    }
+                }
                 public static class UserBean {
                     /**
                      * user_id : 50283765700

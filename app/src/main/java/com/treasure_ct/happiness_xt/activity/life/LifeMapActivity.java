@@ -2,6 +2,8 @@ package com.treasure_ct.happiness_xt.activity.life;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -15,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
@@ -23,15 +26,27 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.BikingRouteLine;
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -51,6 +66,7 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.bean.MapMarkerInfoBean;
 import com.treasure_ct.happiness_xt.listener.MapOrientationListener;
 import com.treasure_ct.happiness_xt.utils.BikingRouteOverlay;
 import com.treasure_ct.happiness_xt.utils.DrivingRouteOverlay;
@@ -63,7 +79,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LifeMapActivity extends BaseActivity implements BDLocationListener, View.OnClickListener, BaiduMap.OnMapLoadedCallback, TextWatcher, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener, OnGetRoutePlanResultListener {
+public class LifeMapActivity extends BaseActivity implements BDLocationListener, View.OnClickListener, BaiduMap.OnMapLoadedCallback, TextWatcher, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener, OnGetRoutePlanResultListener, OnGetPoiSearchResultListener, BaiduMap.OnMarkerClickListener, BaiduMap.OnMapClickListener {
 
     private MapView mapView;
     private BaiduMap map;
@@ -92,6 +108,46 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
     private String addr;
     private Switch mode_normal, mode_follow, mode_compass;
     private MyLocationConfiguration.LocationMode mode;
+    private ImageView input_close;
+    private PoiSearch mPoiSearch;
+    private EditText poi_name, poi_city;
+    private TextView poi_query;
+    private BitmapDescriptor marker_bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.icon_marker);
+    private PoiResult poiResult;
+    private InfoWindow mInfoWindow;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 200:
+                    MyLocationData data = new MyLocationData.Builder()
+                            .accuracy(radius)
+                            .direction(mCurrentX)
+                            .latitude(user_latitude)
+                            .longitude(user_longitude)
+                            .build();
+                    map.setMyLocationData(data);
+                    MyLocationConfiguration config = new MyLocationConfiguration(mode, true, null);
+                    map.setMyLocationConfigeration(config);
+                    break;
+                case 201:
+                    map.clear();
+                    for (int i = 0; i < poiResult.getTotalPoiNum(); i++) {
+                        if (i < 10) {
+                            MapMarkerInfoBean infoBean = new MapMarkerInfoBean();
+                            infoBean.setAddress(poiResult.getAllPoi().get(i).address);
+                            infoBean.setLatLng(poiResult.getAllPoi().get(i).location);
+                            infoBean.setName(poiResult.getAllPoi().get(i).name);
+                            addOverlay(infoBean);
+                        }
+                    }
+                    Toast.makeText(LifeMapActivity.this, "获取数量：" + poiResult.getTotalPoiNum(), Toast.LENGTH_SHORT).show();
+                    mPopupWindow.dismiss();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +173,8 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         mode = MyLocationConfiguration.LocationMode.NORMAL;
         initLocation();
         initClick();
-
+        mPoiSearch = PoiSearch.newInstance();
+        mPoiSearch.setOnGetPoiSearchResultListener(this);
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
     }
@@ -128,6 +185,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         input = (EditText) findViewById(R.id.assistant_mapView_input);
         more = (ImageView) findViewById(R.id.assistant_mapView_more);
         line_layout = (RadioGroup) findViewById(R.id.assistant_mapView_line_layout);
+        input_close = (ImageView) findViewById(R.id.assistant_mapView_input_close);
     }
 
     private void initClick() {
@@ -136,6 +194,9 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         input.addTextChangedListener(this);
         more.setOnClickListener(this);
         line_layout.setOnCheckedChangeListener(this);
+        input_close.setOnClickListener(this);
+        map.setOnMarkerClickListener(this);
+        map.setOnMapClickListener(this);
     }
 
     @Override
@@ -149,6 +210,19 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
                 break;
             case R.id.assistant_mapView_more:
                 showPopupWindow();
+                break;
+            case R.id.assistant_mapView_input_close:
+                input.setText("");
+                break;
+            case R.id.map_poi_query:
+                String name = poi_name.getText().toString();
+                String city = poi_city.getText().toString();
+                if (!Tools.isNull(name) && !Tools.isNull(city)) {
+                    mPoiSearch.searchInCity((new PoiCitySearchOption())
+                            .city(city)
+                            .keyword(name)
+                            .pageNum(10));
+                }
                 break;
         }
     }
@@ -165,9 +239,10 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (!Tools.isNull(s.toString().trim())) {
             line_layout.setVisibility(View.VISIBLE);
+            input_close.setVisibility(View.VISIBLE);
         } else {
             line_layout.setVisibility(View.GONE);
-
+            input_close.setVisibility(View.GONE);
         }
     }
 
@@ -189,23 +264,30 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         mode_normal = ((Switch) convertView.findViewById(R.id.map_mode_normal_switch));
         mode_follow = ((Switch) convertView.findViewById(R.id.map_mode_follow_switch));
         mode_compass = ((Switch) convertView.findViewById(R.id.map_mode_compass_switch));
+        poi_name = ((EditText) convertView.findViewById(R.id.map_poi_name));
+        poi_city = ((EditText) convertView.findViewById(R.id.map_poi_city));
+        poi_query = ((TextView) convertView.findViewById(R.id.map_poi_query));
 
-        if (map.getMapType() == BaiduMap.MAP_TYPE_SATELLITE){
+        if (map.getMapType() == BaiduMap.MAP_TYPE_SATELLITE) {
             map_sate.setChecked(true);
-        }else {
+        } else {
             map_2D.setChecked(true);
         }
-        if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.NORMAL)){
+        if (map.getLocationConfigeration() != null) {
+            if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.NORMAL)) {
+                mode_normal.setChecked(true);
+            } else if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.FOLLOWING)) {
+                mode_follow.setChecked(true);
+            } else {
+                mode_compass.setChecked(true);
+            }
+        } else {
             mode_normal.setChecked(true);
-        }else if (map.getLocationConfigeration().locationMode.equals(MyLocationConfiguration.LocationMode.FOLLOWING)){
-            mode_follow.setChecked(true);
-        }else {
-            mode_compass.setChecked(true);
         }
-        if (map.isBaiduHeatMapEnabled()){
+        if (map.isBaiduHeatMapEnabled()) {
             map_hot.setChecked(true);
         }
-        if (map.isTrafficEnabled()){
+        if (map.isTrafficEnabled()) {
             map_traffic.setChecked(true);
         }
 
@@ -216,6 +298,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         mode_normal.setOnCheckedChangeListener(this);
         mode_follow.setOnCheckedChangeListener(this);
         mode_compass.setOnCheckedChangeListener(this);
+        poi_query.setOnClickListener(this);
         View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_map, null);
         mPopupWindow.showAtLocation(rootView, Gravity.RIGHT, 0, 0);
     }
@@ -291,13 +374,37 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
             mSearch.walkingSearch((new WalkingRoutePlanOption())
                     .from(stNode)
                     .to(enNode));
-        }else if (radioButton.getText().equals("骑行")) {
+        } else if (radioButton.getText().equals("骑行")) {
             mSearch.bikingSearch((new BikingRoutePlanOption())
                     .from(stNode)
                     .to(enNode));
         }
     }
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        MapMarkerInfoBean markerInfo = (MapMarkerInfoBean) marker.getExtraInfo().get("marker");
+        View inflate = LayoutInflater.from(LifeMapActivity.this).inflate(R.layout.map_marker_info_layout, null);
+        inflate.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        TextView name = (TextView) inflate.findViewById(R.id.map_marker_info_name);
+        TextView address = (TextView) inflate.findViewById(R.id.map_marker_info_address);
+        name.setText(markerInfo.getName()+"");
+        address.setText(markerInfo.getAddress()+"");
+        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+         mInfoWindow = new InfoWindow(inflate, markerInfo.getLatLng(), -100);
+        //显示InfoWindow
+        map.showInfoWindow(mInfoWindow);
+        return false;
+    }
 
+    @Override
+    public void onMapClick(LatLng latLng) {
+        map.hideInfoWindow();
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        return false;
+    }
     /**
      * 地图设计
      */
@@ -384,6 +491,22 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         map.animateMapStatus(msu);
     }
 
+    //添加标注
+    public void addOverlay(MapMarkerInfoBean Info) {
+        OverlayOptions overlayoptions = null;
+        Marker marker = null;
+        overlayoptions = new MarkerOptions()//
+                .position(Info.getLatLng())// 设置marker的位置
+                .icon(marker_bitmap)// 设置marker的图标
+                .animateType(MarkerOptions.MarkerAnimateType.drop)
+                .zIndex(9);// 設置marker的所在層級
+        marker = (Marker) map.addOverlay(overlayoptions);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("marker", Info);
+        marker.setExtraInfo(bundle);
+    }
+
     @Override
     public void onMapLoaded() {
         new Thread(new Runnable() {
@@ -405,6 +528,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         }).start();
     }
 
+    //定位回调
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         // 定位接口可能返回错误码,要根据结果错误码,来判断是否是正确的地址;
@@ -420,21 +544,31 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
                 user_longitude = bdLocation.getLongitude();
                 city = bdLocation.getCity().substring(0, bdLocation.getCity().length() - 1);
                 addr = bdLocation.getAddrStr().replace(bdLocation.getCountry(), "").replace(bdLocation.getCity(), "");
-                MyLocationData data = new MyLocationData.Builder()
-                        .accuracy(radius)
-                        .direction(mCurrentX)
-                        .latitude(user_latitude)
-                        .longitude(user_longitude)
-                        .build();
-                map.setMyLocationData(data);
-                MyLocationConfiguration config = new MyLocationConfiguration(mode, true, null);
-                map.setMyLocationConfigeration(config);
+                mHandler.sendMessage(mHandler.obtainMessage(200));
 
                 break;
             default:
                 String s = bdLocation.getLocTypeDescription();
                 break;
         }
+    }
+
+    //兴趣点回调
+    @Override
+    public void onGetPoiResult(PoiResult poiResult1) {
+        poiResult = poiResult1;
+        mHandler.sendMessage(mHandler.obtainMessage(201));
+    }
+
+    @Override
+    public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+        LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~11~~~~~~~~~", poiDetailResult.toString());
+    }
+
+    //路线回调
+    @Override
+    public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+
     }
 
     @Override
@@ -508,7 +642,6 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
             return;
         }
         if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
-
             DrivingRouteLine routeLine = drivingRouteResult.getRouteLines().get(0);
             //创建公交路线规划线路覆盖物
             DrivingRouteOverlay overlay = new DrivingRouteOverlay(map);
@@ -580,6 +713,7 @@ public class LifeMapActivity extends BaseActivity implements BDLocationListener,
         orientationListener.stop();
         isPageDestroy = true;
         mSearch.destroy();
+        mPoiSearch.destroy();
         super.onDestroy();
     }
 }

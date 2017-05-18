@@ -33,5 +33,11 @@
             android:divider="@color/colorGray"
             android:dividerHeight="1dp"
             android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/weather_cityList_listView_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
     </FrameLayout>
 </LinearLayout>
