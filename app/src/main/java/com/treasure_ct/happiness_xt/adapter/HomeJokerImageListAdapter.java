@@ -111,7 +111,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (!Tools.isNull(dataBeanX.getGroup().getShare_url())) {
-                    mIsClickItemInterface.isClickItem(dataBeanX.getGroup().getShare_url());
+                    mIsClickItemInterface.isClickItem(dataBeanX.getGroup());
                 }
             }
         });
@@ -143,7 +143,7 @@ public class HomeJokerImageListAdapter extends BaseAdapter {
     }
 
     public interface isClickItemInterface {
-        void isClickItem(String url);
+        void isClickItem(HomeJokerImageListBean.DataBeanX.DataBean.GroupBean groupBean);
     }
 
     private isClickItemInterface mIsClickItemInterface;

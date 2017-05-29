@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="#d1ced1"
+              android:background="@color/colorGray4"
               android:transitionName="settings"
               android:fitsSystemWindows="true"
               android:clipToPadding="true"
@@ -156,6 +156,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="反馈"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:background="@color/colorWhite"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_right"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/mine_pattern_layout"
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="模式选择"
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"

@@ -19,6 +19,7 @@ import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.LifeDeliciousDetailAdapter;
 import com.treasure_ct.happiness_xt.bean.LifeDeliciousDetailBean;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
+import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
 import com.treasure_ct.happiness_xt.utils.Tools;
 import com.treasure_ct.happiness_xt.widget.CustomScrollListView;
@@ -193,6 +194,10 @@ public class LifeDeliciousDetailActivity extends BaseActivity implements View.On
     @Override
     protected void onPause() {
         super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        try{
+            JCVideoPlayer.releaseAllVideos();
+        }catch (Exception e){
+            LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",e.getMessage());
+        }
     }
 }

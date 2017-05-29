@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.entertainment.HomeJokerImageDetailActivity;
 import com.treasure_ct.happiness_xt.activity.entertainment.HomeNewsWebActivity;
 import com.treasure_ct.happiness_xt.adapter.HomeJokerImageListAdapter;
 import com.treasure_ct.happiness_xt.bean.HomeJokerImageListBean;
@@ -21,6 +22,7 @@ import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
 import com.treasure_ct.happiness_xt.widget.CustomRefreshListView;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,9 +148,9 @@ public class HomeJokerImageFragment extends BaseFragment implements CustomRefres
     }
 
     @Override
-    public void isClickItem(String url) {
-        Intent intent = new Intent(getContext(), HomeNewsWebActivity.class);
-        intent.putExtra("webUrl",url);
+    public void isClickItem(HomeJokerImageListBean.DataBeanX.DataBean.GroupBean groupBean) {
+        Intent intent = new Intent(getContext(), HomeJokerImageDetailActivity.class);
+        intent.putExtra("groupBean", (Serializable) groupBean);
         startActivity(intent);
     }
 }

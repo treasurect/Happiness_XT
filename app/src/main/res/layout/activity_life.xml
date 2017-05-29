@@ -7,7 +7,7 @@
     android:id="@+id/activity_life_assistant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:background="@color/colorGray4"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
@@ -88,7 +88,7 @@
                 <GridView
                     android:id="@+id/assistant_gridView"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="140dp"
                     android:numColumns="4"
                     android:scrollbars="none"/>
 
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:background="@color/colorWhite"
-                        android:divider="@color/colorGray"
+                        android:divider="@color/colorGray4"
                         android:dividerHeight="5dp"/>
                 </FrameLayout>
             </LinearLayout>

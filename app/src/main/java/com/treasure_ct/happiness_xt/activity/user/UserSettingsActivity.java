@@ -3,6 +3,7 @@ package com.treasure_ct.happiness_xt.activity.user;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,7 +45,7 @@ public class UserSettingsActivity extends BaseActivity implements View.OnClickLi
         title.setText("设置");
 
         initFindViewById();
-        if (Tools.isNull(BaseActivity.aCache.getAsString("token"))){
+        if (Tools.isNull(getSharedPreferences("user",MODE_PRIVATE).getString("token",""))){
          logout.setVisibility(View.GONE);
         }
         initClick();
@@ -126,7 +127,10 @@ public class UserSettingsActivity extends BaseActivity implements View.OnClickLi
      * 请求退出
      */
     private void requestLogout() {
-        aCache.clear();
+        BaseActivity.aCache.clear();
+        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+        editor.putString("token","");
+        editor.apply();
         Intent intent = new Intent();
         intent.setAction(StringContents.ACTION_COMMENTDATA);
         intent.putExtra("label","login");

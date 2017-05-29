@@ -1,11 +1,13 @@
-package com.treasure_ct.happiness_xt.activity.entertainment;
+package com.treasure_ct.happiness_xt.fragments;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.adapter.HomeFragmentPagerAdapter;
 import com.treasure_ct.happiness_xt.fragments.BaseFragment;
@@ -21,16 +23,14 @@ import com.treasure_ct.happiness_xt.utils.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntertainmentActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
+public class EntertainmentFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entertainment);
-        Tools.setTranslucentStatus(this);
-        initFindId();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_entertainment,container,false);
+        initFindId(view);
 
         tabLayout.addOnTabSelectedListener(this);
         initTabLayout();
@@ -38,10 +38,11 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
         //联动
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setCurrentItem(0,false);
+        return view;
     }
-    private void initFindId() {
-        tabLayout = (TabLayout) findViewById(R.id.home_tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.home_viewPager);
+    private void initFindId(View view) {
+        tabLayout = (TabLayout) view.findViewById(R.id.home_tabLayout);
+        viewPager = (ViewPager) view.findViewById(R.id.home_viewPager);
     }
 
     private void initTabLayout() {
@@ -63,7 +64,7 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
         list.add(new HomeWeChatSelectFragment());
         list.add(new HomeNewsTopFragment());
         list.add(new HomeNewsFunFragment());
-        HomeFragmentPagerAdapter pagerAdapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), list);
+        HomeFragmentPagerAdapter pagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager(), list);
         viewPager.setAdapter(pagerAdapter);
     }
 
@@ -79,6 +80,11 @@ public class EntertainmentActivity extends BaseActivity implements TabLayout.OnT
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    protected void lazyLoad() {
 
     }
 }

@@ -1,6 +1,7 @@
 package com.treasure_ct.happiness_xt.activity.user;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -192,9 +193,18 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             public void done(BmobException e) {
                 if (e == null){
                     Toast.makeText(UserEditUserInfoActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
-                    //缓存
-                    BaseActivity.aCache.put("UserInfo", (Serializable) infoBean);
-                    BaseActivity.aCache.put("token", "login");
+                    //存入SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("token", "login");
+                    editor.putString("user_icon", "暂无头像");
+                    editor.putString("user_name", infoBean.getUser_name());
+                    editor.putString("user_nick", infoBean.getNick_name());
+                    editor.putString("user_pwd", infoBean.getUser_pwd());
+                    editor.putString("user_age", String.valueOf(infoBean.getAge()));
+                    editor.putString("user_sex", String.valueOf(infoBean.getSex()));
+                    editor.putString("user_desc", infoBean.getUser_desc());
+                    editor.apply();
                     //发送登录成功 广播
                     Intent intent = new Intent();
                     intent.setAction(StringContents.ACTION_COMMENTDATA);
@@ -254,9 +264,18 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
             public void done(String s, BmobException e) {
                 if (e == null) {
                     Toast.makeText(UserEditUserInfoActivity.this, "恭喜你，注册成功", Toast.LENGTH_SHORT).show();
-                    //缓存
-                    BaseActivity.aCache.put("UserInfo", (Serializable) infoBean);
-                    BaseActivity.aCache.put("token", "login");
+                    //存入SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("token", "login");
+                    editor.putString("user_icon", "暂无头像");
+                    editor.putString("user_name", infoBean.getUser_name());
+                    editor.putString("user_nick", infoBean.getNick_name());
+                    editor.putString("user_pwd", infoBean.getUser_pwd());
+                    editor.putString("user_age", String.valueOf(infoBean.getAge()));
+                    editor.putString("user_sex", String.valueOf(infoBean.getSex()));
+                    editor.putString("user_desc", infoBean.getUser_desc());
+                    editor.apply();
                     //发送登录成功 广播
                     Intent intent = new Intent();
                     intent.setAction(StringContents.ACTION_COMMENTDATA);

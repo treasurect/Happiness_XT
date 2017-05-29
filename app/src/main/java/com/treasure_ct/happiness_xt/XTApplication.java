@@ -19,6 +19,7 @@ import cn.smssdk.SMSSDK;
 
 public class XTApplication extends Application {
     private boolean isNight;
+    private String pattern;
 
     @Override
     public void onCreate() {
@@ -60,5 +61,13 @@ public class XTApplication extends Application {
 
     public void setNight(boolean night) {
         isNight = night;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 }

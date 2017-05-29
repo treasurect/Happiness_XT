@@ -150,8 +150,8 @@ public class HomeEmbarrassFragment extends BaseFragment implements CustomRefresh
 
     @Override
     public void isClickItem(HomeEmbarrassListBean.ItemsBean itemsBean) {
-        Intent intent = new Intent(getContext(), HomeEmbarrassDetailActivity.class);
-        intent.putExtra("itemsBean", (Serializable) itemsBean);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), HomeEmbarrassDetailActivity.class);
+//        intent.putExtra("itemsBean", (Serializable) itemsBean);
+//        startActivity(intent);
     }
 }

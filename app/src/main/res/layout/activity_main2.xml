@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/main_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorGray6"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/main_happy_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/main_happy_image"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@mipmap/icon_happy2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/main_happy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="娱乐"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_assistant_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_assistant_image"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_marginBottom="5dp"
+                android:src="@mipmap/icon_assistant2"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/main_assistant_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="生活"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_dynamic_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_dynamic_image"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@mipmap/icon_dynamic2"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/main_dynamic_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="动态"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_settings_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_settings_image"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_marginBottom="5dp"
+                android:src="@mipmap/icon_settings2"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/main_settings_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="我的"/>
+    </LinearLayout>
+</LinearLayout>
+
+    </LinearLayout>

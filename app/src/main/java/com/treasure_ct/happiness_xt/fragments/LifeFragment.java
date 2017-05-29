@@ -1,18 +1,19 @@
-package com.treasure_ct.happiness_xt.activity.life;
+package com.treasure_ct.happiness_xt.fragments;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -43,6 +44,13 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.life.LifeDeliciousActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeMapActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeRobotActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeTrafficActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeVrWholeActivity;
+import com.treasure_ct.happiness_xt.activity.life.LifeWeatherActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.adapter.LifeGridAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
@@ -52,6 +60,7 @@ import com.treasure_ct.happiness_xt.bean.LifePostCode2Bean;
 import com.treasure_ct.happiness_xt.bean.LifePostCodeBean;
 import com.treasure_ct.happiness_xt.bean.LifeWeatherResultBean;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
+import com.treasure_ct.happiness_xt.fragments.BaseFragment;
 import com.treasure_ct.happiness_xt.utils.HttpHelper;
 import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.ModelParseHelper;
@@ -75,7 +84,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
+public class LifeFragment extends BaseFragment implements LifeGridAdapter.LifeAssistantClickItem, BDLocationListener, DynamicListAdapter.ItemClick, View.OnClickListener, AdapterView.OnItemClickListener {
     private GridView gridView;
     private String[] assistant_list_text = {"地图", "天气预报", "航班火车查询", "手机归属地", "美食菜谱", "智能机器人", "邮编查询", "VR 尝试"};
     private int[] assistant_list_image = {R.mipmap.icon_location, R.mipmap.icon_weather, R.mipmap.icon_train, R.mipmap.icon_phone,
@@ -94,7 +103,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                     phoneBelong_zipCode.setText(resultBean.getResult().getZipCode());
                     break;
                 case 400:
-                    Toast.makeText(LifeActivity.this, resultBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), resultBean.getMsg(), Toast.LENGTH_SHORT).show();
                     break;
                 case 301:
                     String weather = resultBean2.getResult().get(0).getWeather();
@@ -152,7 +161,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                     postCode_district.setText(postCodeResult.getResult().getDistrict());
                     postCode_post.setText(postCodeResult.getResult().getPostNumber());
                     List<String> address = postCodeResult.getResult().getAddress();
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(LifeActivity.this, android.R.layout.simple_spinner_item, address);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, address);
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     postCode_address.setAdapter(adapter);
                     postCode_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -169,7 +178,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                     postCode_address.setVisibility(View.VISIBLE);
                     break;
                 case 401:
-                    Toast.makeText(LifeActivity.this, postCodeResult.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), postCodeResult.getMsg(), Toast.LENGTH_SHORT).show();
                     break;
                 case 202:
                     postCode_province2.setText(postCodeResult2.getResult().get(0).getProvince());
@@ -180,7 +189,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                     postCode_cid.setText(postCodeResult2.getResult().get(0).getCId());
                     postCode_did.setText(postCodeResult2.getResult().get(0).getDId());
                     List<String> address2 = postCodeResult2.getResult().get(0).getAddress();
-                    ArrayAdapter<String> adapter2 = new ArrayAdapter<>(LifeActivity.this, android.R.layout.simple_spinner_item, address2);
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, address2);
                     adapter2.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     postCode_address2.setAdapter(adapter2);
                     postCode_address2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -197,7 +206,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                     postCode_address2.setVisibility(View.VISIBLE);
                     break;
                 case 402:
-                    Toast.makeText(LifeActivity.this, postCodeResult2.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), postCodeResult2.getMsg(), Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -242,12 +251,10 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
     private SharedPreferences mPreferences;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life);
-        Tools.setTranslucentStatus(this);
-        mPreferences = getSharedPreferences("user",MODE_PRIVATE);
-        initFindId();
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_life,container,false);
+        mPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        initFindId(view);
         initGridView();
         initListView();
         initScrollView();
@@ -262,30 +269,31 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
+        return view;
     }
 
-    private void initFindId() {
-        gridView = (GridView) findViewById(R.id.assistant_gridView);
-        listView = (CustomScrollListView) findViewById(R.id.assistant_listView);
-        scrollView = (NestedScrollView) findViewById(R.id.assistant_scrollView);
-        record = (TextView) findViewById(R.id.assistant_record);
-        camera = (ImageView) findViewById(R.id.assistant_camera);
-        refresh = ((FloatingActionButton) findViewById(R.id.assistant_listView_refresh));
-        weather_show = (SimpleDraweeView) findViewById(R.id.assistant_weather_show);
-        title = (TextView) findViewById(R.id.assistant_title);
-        hint = (ImageView) findViewById(R.id.assistant_hint);
-        hint_layout = (FrameLayout) findViewById(R.id.assistant_hint_layout);
-        hint_image = (ImageView) findViewById(R.id.assistant_hint_image);
-        hint_click = (ImageView) findViewById(R.id.assistant_hint_click);
-        hint_text = (TextView) findViewById(R.id.assistant_hint_text);
-        hint_jump = (TextView) findViewById(R.id.assistant_hint_jump);
-        hint_jump_image = (ImageView) findViewById(R.id.assistant_hint_jump_image);
-        hint_robot = (ImageView) findViewById(R.id.assistant_hint_robot);
-        hint_weather = (ImageView) findViewById(R.id.assistant_hint_weather);
-        hint_map = (ImageView) findViewById(R.id.assistant_hint_map);
-        hint_delicious = (ImageView) findViewById(R.id.assistant_hint_delicious);
-        hint_music = (ImageView) findViewById(R.id.assistant_hint_music);
-        hint_vr = (ImageView) findViewById(R.id.assistant_hint_vr);
+    private void initFindId(View view) {
+        gridView = (GridView) view.findViewById(R.id.assistant_gridView);
+        listView = (CustomScrollListView) view.findViewById(R.id.assistant_listView);
+        scrollView = (NestedScrollView) view.findViewById(R.id.assistant_scrollView);
+        record = (TextView) view.findViewById(R.id.assistant_record);
+        camera = (ImageView) view.findViewById(R.id.assistant_camera);
+        refresh = ((FloatingActionButton) view.findViewById(R.id.assistant_listView_refresh));
+        weather_show = (SimpleDraweeView) view.findViewById(R.id.assistant_weather_show);
+        title = (TextView) view.findViewById(R.id.assistant_title);
+        hint = (ImageView) view.findViewById(R.id.assistant_hint);
+        hint_layout = (FrameLayout) view.findViewById(R.id.assistant_hint_layout);
+        hint_image = (ImageView) view.findViewById(R.id.assistant_hint_image);
+        hint_click = (ImageView) view.findViewById(R.id.assistant_hint_click);
+        hint_text = (TextView) view.findViewById(R.id.assistant_hint_text);
+        hint_jump = (TextView) view.findViewById(R.id.assistant_hint_jump);
+        hint_jump_image = (ImageView) view.findViewById(R.id.assistant_hint_jump_image);
+        hint_robot = (ImageView) view.findViewById(R.id.assistant_hint_robot);
+        hint_weather = (ImageView) view.findViewById(R.id.assistant_hint_weather);
+        hint_map = (ImageView) view.findViewById(R.id.assistant_hint_map);
+        hint_delicious = (ImageView) view.findViewById(R.id.assistant_hint_delicious);
+        hint_music = (ImageView) view.findViewById(R.id.assistant_hint_music);
+        hint_vr = (ImageView) view.findViewById(R.id.assistant_hint_vr);
     }
 
     private void initGridView() {
@@ -296,14 +304,14 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
             lifeGridBean.setImage(assistant_list_image[i]);
             list.add(lifeGridBean);
         }
-        LifeGridAdapter adapter = new LifeGridAdapter(this, list);
+        LifeGridAdapter adapter = new LifeGridAdapter(getContext(), list);
         gridView.setAdapter(adapter);
         adapter.setLifeAssistantClickItem(this);
     }
 
     private void initListView() {
         list = new ArrayList<>();
-        listAdapter = new DynamicListAdapter(this, list);
+        listAdapter = new DynamicListAdapter(getContext(), list);
         listView.setAdapter(listAdapter);
         listAdapter.setItemClick(this);
     }
@@ -325,7 +333,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
     }
 
     private void initLocation() {
-        mLocationClient = new LocationClient(getApplicationContext());     //定位初始化
+        mLocationClient = new LocationClient(getContext().getApplicationContext());     //定位初始化
         mLocationClient.registerLocationListener(this);//定位注册
 
         LocationClientOption option = new LocationClientOption();
@@ -409,7 +417,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 }
                 break;
             case R.id.assistant_weather_show:
-                Intent intent = new Intent(LifeActivity.this, LifeWeatherActivity.class);
+                Intent intent = new Intent(getContext(), LifeWeatherActivity.class);
                 if (!Tools.isNull(province)) {
                     intent.putExtra("province", province);
                     intent.putExtra("city", city);
@@ -488,7 +496,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
 
     private void getWeatherDetail(String key, String city, String province) {
         String url = StringContents.MobAPI_BaseUrl + "/v1/weather/query?key=" + key + "&city=" + city + "&province=" + province;
-        HttpHelper.doGetCall(url, this, new Callback() {
+        HttpHelper.doGetCall(url, getContext(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 LogUtil.d("~~~~~~~~~~~~~~~~onFailure", e.getMessage());
@@ -510,7 +518,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
     }
 
     private void showCameraSelectDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         String[] item_list = {"记录生活", "拍照", "从相册上中选取"};
         builder.setSingleChoiceItems(item_list, 0, new DialogInterface.OnClickListener() {
             @Override
@@ -529,7 +537,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
     }
 
     private void showDynamicRecord() {
-        View convertView = LayoutInflater.from(this).inflate(R.layout.activity_life_record, null);
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_life_record, null);
         mPopupWindow4 = new PopupWindow(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow4.setAnimationStyle(R.style.alpha_popupWindow_style);
         mPopupWindow4.setOutsideTouchable(true);
@@ -585,7 +593,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 sendDynamic(textDesc);
             }
         });
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life, null);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.activity_life, null);
         mPopupWindow4.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
@@ -607,11 +615,11 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(LifeActivity.this, "恭喜你，发表成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "恭喜你，发表成功", Toast.LENGTH_SHORT).show();
                     mPopupWindow4.dismiss();
                     requestDynamicList();
                 } else {
-                    Toast.makeText(LifeActivity.this, "很遗憾，发表失败\n原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "很遗憾，发表失败\n原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -621,10 +629,10 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
     public void assistantClickItem(String name) {
         switch (name) {
             case "智能机器人":
-                startActivity(new Intent(LifeActivity.this, LifeRobotActivity.class));
+                startActivity(new Intent(getContext(), LifeRobotActivity.class));
                 break;
             case "天气预报":
-                Intent intent = new Intent(LifeActivity.this, LifeWeatherActivity.class);
+                Intent intent = new Intent(getContext(), LifeWeatherActivity.class);
                 if (!Tools.isNull(province)) {
                     intent.putExtra("province", province);
                     intent.putExtra("city", city);
@@ -633,7 +641,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 startActivity(intent);
                 break;
             case "地图":
-                startActivity(new Intent(LifeActivity.this, LifeMapActivity.class));
+                startActivity(new Intent(getContext(), LifeMapActivity.class));
                 break;
             case "手机归属地":
                 showPhoneBelongWindow();
@@ -642,13 +650,13 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 showPostCodeItemDialog();
                 break;
             case "VR 尝试":
-                startActivity(new Intent(LifeActivity.this, LifeVrWholeActivity.class));
+                startActivity(new Intent(getContext(), LifeVrWholeActivity.class));
                 break;
             case "美食菜谱":
-                startActivity(new Intent(LifeActivity.this, LifeDeliciousActivity.class));
+                startActivity(new Intent(getContext(), LifeDeliciousActivity.class));
                 break;
             case "航班火车查询":
-                startActivity(new Intent(LifeActivity.this, LifeTrafficActivity.class));
+                startActivity(new Intent(getContext(), LifeTrafficActivity.class));
                 break;
         }
     }
@@ -657,7 +665,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
      * 显示 手机归属地 popupWindow
      */
     public void showPhoneBelongWindow() {
-        View convertView = LayoutInflater.from(LifeActivity.this).inflate(R.layout.popupwindow_life_phonebelong, null);
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.popupwindow_life_phonebelong, null);
         mPopupWindow = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setAnimationStyle(R.style.loginPopupWindow);
         mPopupWindow.setOutsideTouchable(true);
@@ -681,7 +689,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
             public void onClick(View v) {
                 if (!Tools.isNull(phoneBelong_input.getText().toString().trim())) {
                     String url = "http://apicloud.mob.com/v1/mobile/address/query?key=" + StringContents.MobAPI_APPKEY + "&phone=" + phoneBelong_input.getText().toString().trim();
-                    HttpHelper.doGetCall(url, LifeActivity.this, new Callback() {
+                    HttpHelper.doGetCall(url, getContext(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             LogUtil.d("~~~~~~~~~~~~~~~~~~onFailure~~~~~", e.getMessage());
@@ -702,11 +710,11 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                         }
                     });
                 } else {
-                    Toast.makeText(LifeActivity.this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "请输入手机号", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life, null);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.activity_life, null);
         mPopupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
@@ -715,7 +723,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
      */
     private void showPostCodeItemDialog() {
         String[] items = {"邮编查询地址", "地址查询邮编"};
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
         builder.setIcon(R.mipmap.icon);
         builder.setTitle("请选择查询选项");
         builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
@@ -738,7 +746,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
      * 显示 邮编查询城市 popupWindow
      */
     public void showPostCode1Window() {
-        View convertView = LayoutInflater.from(this).inflate(R.layout.popupwindow_life_postcode, null);
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.popupwindow_life_postcode, null);
         mPopupWindow2 = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow2.setAnimationStyle(R.style.loginPopupWindow);
         mPopupWindow2.setOutsideTouchable(true);
@@ -762,7 +770,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
             public void onClick(View v) {
                 if (!Tools.isNull(postCode_input.getText().toString().trim())) {
                     String url = "http://apicloud.mob.com/v1/postcode/query?key=" + StringContents.MobAPI_APPKEY + "&code=" + postCode_input.getText().toString().trim();
-                    HttpHelper.doGetCall(url, LifeActivity.this, new Callback() {
+                    HttpHelper.doGetCall(url, getContext(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             LogUtil.d("~~~~~~~~~~~~~~~~~~~onFailure~`", e.getMessage());
@@ -785,11 +793,11 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                         }
                     });
                 } else {
-                    Toast.makeText(LifeActivity.this, "请输入邮编号", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "请输入邮编号", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_all_assistant, null);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.activity_life_all_assistant, null);
         mPopupWindow2.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
@@ -797,7 +805,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
      * 显示 城市查询邮编 popupWindow
      */
     public void showPostCode2Window() {
-        View convertView = LayoutInflater.from(this).inflate(R.layout.popupwindow_life_postcode2, null);
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.popupwindow_life_postcode2, null);
         mPopupWindow3 = new PopupWindow(convertView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow3.setAnimationStyle(R.style.loginPopupWindow);
         mPopupWindow3.setOutsideTouchable(true);
@@ -831,7 +839,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                 String code4 = postCode_input5.getText().toString().trim();
                 if (!Tools.isNull(code1) && !Tools.isNull(code2) && !Tools.isNull(code3) && !Tools.isNull(code4)) {
                     String url = "http://apicloud.mob.com/v1/postcode/search?key=" + StringContents.MobAPI_APPKEY + "&pid=" + code1 + "&cid=" + code2 + "&did=" + code3 + "&word=" + code4;
-                    HttpHelper.doGetCall(url, LifeActivity.this, new Callback() {
+                    HttpHelper.doGetCall(url, getContext(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             LogUtil.d("~~~~~~~~~~~~~~~~~~~onFailure~`", e.getMessage());
@@ -854,18 +862,18 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
                         }
                     });
                 } else {
-                    Toast.makeText(LifeActivity.this, "请填写完整", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "请填写完整", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_life_all_assistant, null);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.activity_life_all_assistant, null);
         mPopupWindow3.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
 
     @Override
     public void sendMore(final String nick, final String contents) {
-        View inflate = LayoutInflater.from(this).inflate(R.layout.life_dynamic_item_more_layout, null);
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.life_dynamic_item_more_layout, null);
         mPopupWindow1 = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow1.setOutsideTouchable(true);
         mPopupWindow1.setBackgroundDrawable(new ColorDrawable(0x88000000));
@@ -952,7 +960,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
 
     @Override
     public void sendComments(String nick, String contents, String publish_time, int top_num, int comments_num) {
-        Intent intent = new Intent(LifeActivity.this, LifeDynamicItemActivity.class);
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
         intent.putExtra("user_nick", nick);
         intent.putExtra("publish_time", publish_time);
         intent.putExtra("content", contents);
@@ -963,7 +971,7 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(LifeActivity.this, LifeDynamicItemActivity.class);
+        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
         intent.putExtra("user_nick", list.get(position).getUser_nick());
         intent.putExtra("publish_time", list.get(position).getPublish_time());
         intent.putExtra("content", list.get(position).getContent());
@@ -977,5 +985,10 @@ public class LifeActivity extends BaseActivity implements LifeGridAdapter.LifeAs
         mLocationClient.stop();
         mLocationClient.unRegisterLocationListener(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void lazyLoad() {
+
     }
 }

@@ -28,7 +28,7 @@ public class HomeJokerImageListBean implements Serializable{
         this.data = data;
     }
 
-    public static class DataBeanX {
+    public static class DataBeanX implements Serializable{
         private boolean has_more;
         private String tip;
         private boolean has_new_message;
@@ -84,7 +84,7 @@ public class HomeJokerImageListBean implements Serializable{
             this.data = data;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Serializable{
             private GroupBean group;
             private int type;
             private double display_time;
@@ -131,7 +131,7 @@ public class HomeJokerImageListBean implements Serializable{
                 this.comments = comments;
             }
 
-            public static class GroupBean {
+            public static class GroupBean implements Serializable{
 
                 private UserBean user;
                 private String text;
@@ -551,7 +551,7 @@ public class HomeJokerImageListBean implements Serializable{
                 public void setLarge_image_list(List<LargeImageListBean> large_image_list) {
                     this.large_image_list = large_image_list;
                 }
-                public static class LargeImageListBean{
+                public static class LargeImageListBean implements Serializable{
                     private String url;
 
                     public String getUrl() {
@@ -562,7 +562,7 @@ public class HomeJokerImageListBean implements Serializable{
                         this.url = url;
                     }
                 }
-                public static class UserBean {
+                public static class UserBean implements Serializable{
                     /**
                      * user_id : 50283765700
                      * name : 回亿126536301
@@ -658,7 +658,7 @@ public class HomeJokerImageListBean implements Serializable{
                     }
                 }
 
-                public static class LargeImageBean {
+                public static class LargeImageBean implements Serializable{
                     /**
                      * width : 480
                      * r_height : 270
@@ -723,7 +723,7 @@ public class HomeJokerImageListBean implements Serializable{
                         this.url_list = url_list;
                     }
 
-                    public static class UrlListBean {
+                    public static class UrlListBean implements Serializable{
                         /**
                          * url : http://p9.pstatp.com/large/1cd10004b0461ba561c2
                          */
@@ -740,14 +740,14 @@ public class HomeJokerImageListBean implements Serializable{
                     }
                 }
 
-                public static class GifvideoBean {
+                public static class GifvideoBean implements Serializable{
 
                 }
 
-                public static class ActivityBean {
+                public static class ActivityBean implements Serializable{
                 }
 
-                public static class MiddleImageBean {
+                public static class MiddleImageBean implements Serializable{
                     private int width;
                     private int r_height;
                     private int r_width;
@@ -803,7 +803,7 @@ public class HomeJokerImageListBean implements Serializable{
                         this.url_list = url_list;
                     }
 
-                    public static class UrlListBean {
+                    public static class UrlListBean implements Serializable{
                         /**
                          * url : http://p9.pstatp.com/large/1cd10004b0461ba561c2
                          */
@@ -820,7 +820,7 @@ public class HomeJokerImageListBean implements Serializable{
                     }
                 }
 
-                public static class DislikeReasonBean {
+                public static class DislikeReasonBean implements Serializable{
                     /**
                      * type : 1
                      * id : 339

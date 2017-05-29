@@ -1,5 +1,6 @@
 package com.treasure_ct.happiness_xt.activity.user;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -63,10 +64,10 @@ public class UserFeedBackActivity extends BaseActivity implements View.OnClickLi
 
     private void sendFeedBack() {
         FeedBackBean feedBackBean = new FeedBackBean();
-        if (!Tools.isNull(BaseActivity.aCache.getAsString("token"))){
-            UserInfoBean userInfo = (UserInfoBean) BaseActivity.aCache.getAsObject("UserInfo");
-            feedBackBean.setUser_name(userInfo.getUser_name());
-            feedBackBean.setUser_nick(userInfo.getNick_name());
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        if (!Tools.isNull(sharedPreferences.getString("token",""))){
+            feedBackBean.setUser_name(sharedPreferences.getString("user_name",""));
+            feedBackBean.setUser_nick(sharedPreferences.getString("user_nick",""));
         }else {
             feedBackBean.setUser_name("匿名");
             feedBackBean.setUser_nick("匿名");

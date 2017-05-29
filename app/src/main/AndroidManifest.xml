@@ -30,7 +30,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.WelcomeActivity">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -218,6 +218,12 @@
         <activity android:name=".activity.entertainment.HomeEmbarrassDetailActivity">
         </activity>
         <activity android:name=".activity.entertainment.HomeGpssipDetailActivity">
+        </activity>
+        <activity android:name=".activity.entertainment.HomeJokerImageDetailActivity">
+        </activity>
+        <activity android:name=".Main2Activity">
+        </activity>
+        <activity android:name=".activity.user.UserPatternActivity">
         </activity>
     </application>
 
