@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
@@ -99,11 +101,15 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 if (intent.getExtras().getString("label").equals("login")) {
                     String user_nick = mPreferences.getString("user_nick", "");
                     String user_icon = mPreferences.getString("user_icon", "");
-                    if (!Tools.isNull(user_nick)){
+                    if (!Tools.isNull(user_nick)) {
                         mine_login_username.setText(user_nick);
                     }
-                    if (!Tools.isNull(user_icon)){
-                        mine_login_icon.setImageResource(R.mipmap.icon);
+                    if (!Tools.isNull(user_icon)) {
+                        if (user_icon.equals("暂无头像")){
+                            mine_login_icon.setImageResource(R.mipmap.icon);
+                        }else {
+                            mine_login_icon.setImageURI(Uri.parse(user_icon));
+                        }
                     }
                 }
             }
@@ -112,7 +118,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initFindId() {
-        mine_login_icon = (ImageView) findViewById(R.id.mine_login_icon);
+        mine_login_icon = (SimpleDraweeView) findViewById(R.id.mine_login_icon);
         mine_login_username = (TextView) findViewById(R.id.mine_login_username);
         imageNight = (ImageView) findViewById(R.id.mine_night_icon);
         layoutNight = (LinearLayout) findViewById(R.id.mine_night_layout);
@@ -131,10 +137,22 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         //用户名 头像
         String token = mPreferences.getString("token", "");
-        if (!Tools.isNull(token)){
+        if (!Tools.isNull(token)) {
             mine_login_icon.setImageResource(R.mipmap.icon);
-            mine_login_username.setText(mPreferences.getString("user_nick",""));
-        }else {
+            mine_login_username.setText(mPreferences.getString("user_nick", ""));
+            BmobQuery<UserInfoBean> query = new BmobQuery<>();
+            query.addWhereEqualTo("user_name", mPreferences.getString("user_name",""));
+            query.findObjects(new FindListener<UserInfoBean>() {
+                @Override
+                public void done(List<UserInfoBean> list, BmobException e) {
+                    if (list.get(0).getUser_icon().equals("暂无头像")){
+                        mine_login_icon.setImageResource(R.mipmap.icon_login);
+                    }else {
+                        mine_login_icon.setImageURI(Uri.parse(list.get(0).getUser_icon()));
+                    }
+                }
+            });
+        } else {
             mine_login_icon.setImageResource(R.mipmap.icon_login);
             mine_login_username.setText("登录让内容更精彩");
         }
@@ -171,13 +189,13 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_login_icon:
-                if (Tools.isNull(mPreferences.getString("token",""))) {
+                if (Tools.isNull(mPreferences.getString("token", ""))) {
                     showPopupWindow();
                 } else {
-                    if (mPreferences.getString("token","").equals("login")) {
+                    if (mPreferences.getString("token", "").equals("login")) {
                         Intent intent = new Intent(UserActivity.this, UserEditUserInfoActivity.class);
                         intent.putExtra("edit_type", "normal");
-                        intent.putExtra("UserPhone", mPreferences.getString("user_name",""));
+                        intent.putExtra("UserPhone", mPreferences.getString("user_name", ""));
                         startActivity(intent);
                     } else {
                         showPopupWindow();
@@ -248,7 +266,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(UserActivity.this, "正在开发中", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mine_pattern_layout:
-                startActivity(new Intent(UserActivity.this,UserPatternActivity.class));
+                startActivity(new Intent(UserActivity.this, UserPatternActivity.class));
                 break;
         }
     }
@@ -406,7 +424,6 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         loginListener = new IUiListener() {
             @Override
             public void onComplete(Object value) {
-                LogUtil.d("~~~~~~~~~~~~~~~~~~loginListener::", value.toString());
                 if (value == null) {
                     return;
                 }
@@ -444,7 +461,6 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         userInfoListener = new IUiListener() {
             @Override
             public void onComplete(Object arg0) {
-                LogUtil.d("~~~~~~~~~~~~~~~~~~userInfoListener::", arg0.toString());
                 if (arg0 == null) {
                     return;
                 }

@@ -402,7 +402,7 @@ public class Tools{
         return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
     }
 	
-	private static File compressImage(Bitmap image) {
+	public static File compressImage(Bitmap image) {
 		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/temp.jpg");
 		try {
 			if(!file.exists()){

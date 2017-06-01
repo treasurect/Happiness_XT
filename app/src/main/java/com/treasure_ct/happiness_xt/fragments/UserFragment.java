@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -104,8 +105,18 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 if (intent.getExtras().getString("label").equals("login")) {
                     if (!Tools.isNull(mPreferences.getString("token",""))) {
                         if (mPreferences.getString("token","").equals("login")) {
-                            mine_login_icon.setImageResource(R.mipmap.icon);
-                            mine_login_username.setText(mPreferences.getString("user_nick",""));
+                            String user_nick = mPreferences.getString("user_nick", "");
+                            String user_icon = mPreferences.getString("user_icon", "");
+                            if (!Tools.isNull(user_nick)) {
+                                mine_login_username.setText(user_nick);
+                            }
+                            if (!Tools.isNull(user_icon)) {
+                                if (user_icon.equals("暂无头像")){
+                                    mine_login_icon.setImageResource(R.mipmap.icon);
+                                }else {
+                                    mine_login_icon.setImageURI(Uri.parse(user_icon));
+                                }
+                            }
                         }
                     } else {
                         mine_login_icon.setImageResource(R.mipmap.icon_login);
@@ -140,6 +151,19 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
             if (mPreferences.getString("token","").equals("login")) {
                 mine_login_icon.setImageResource(R.mipmap.icon);
                 mine_login_username.setText(mPreferences.getString("user_nick",""));
+                BmobQuery<UserInfoBean> query = new BmobQuery<>();
+                query.addWhereEqualTo("user_name", mPreferences.getString("user_name",""));
+                query.findObjects(new FindListener<UserInfoBean>() {
+                    @Override
+                    public void done(List<UserInfoBean> list, BmobException e) {
+
+                        if (list.get(0).getUser_icon().equals("暂无头像")){
+                            mine_login_icon.setImageResource(R.mipmap.icon_login);
+                        }else {
+                            mine_login_icon.setImageURI(Uri.parse(list.get(0).getUser_icon()));
+                        }
+                    }
+                });
             }
         } else {
             mine_login_icon.setImageResource(R.mipmap.icon_login);

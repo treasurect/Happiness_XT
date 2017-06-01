@@ -18,30 +18,6 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/main_happy_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/main_happy_image"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:src="@mipmap/icon_happy2"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/main_happy_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="娱乐"/>
-    </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/main_assistant_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -53,9 +29,9 @@
                 android:id="@+id/main_assistant_image"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:src="@mipmap/icon_assistant2"
-                android:layout_gravity="center_horizontal"/>
+                android:src="@mipmap/icon_assistant2"/>
 
             <TextView
                 android:id="@+id/main_assistant_text"
@@ -63,7 +39,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="生活"/>
-    </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_happy_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_happy_image"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:src="@mipmap/icon_happy2"/>
+
+            <TextView
+                android:id="@+id/main_happy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="发现"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/main_dynamic_layout"
@@ -77,17 +77,17 @@
                 android:id="@+id/main_dynamic_image"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:src="@mipmap/icon_dynamic2"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:layout_gravity="center_horizontal"/>
+                android:src="@mipmap/icon_dynamic2"/>
 
             <TextView
                 android:id="@+id/main_dynamic_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="动态"/>
-    </LinearLayout>
+                android:text="消息"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/main_settings_layout"
@@ -101,17 +101,17 @@
                 android:id="@+id/main_settings_image"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:src="@mipmap/icon_settings2"
-                android:layout_gravity="center_horizontal"/>
+                android:src="@mipmap/icon_settings2"/>
 
             <TextView
                 android:id="@+id/main_settings_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="我的"/>
+                android:text="我"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>

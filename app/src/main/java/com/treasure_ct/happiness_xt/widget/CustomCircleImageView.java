@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.treasure_ct.happiness_xt.utils.LogUtil;
+
 /**
  * Created by Administrator on 2016/11/9.
  */
@@ -59,19 +61,27 @@ public class CustomCircleImageView extends ImageView {
     protected void onDraw(Canvas canvas) {
         Drawable drawable = getDrawable();
         if (null != drawable) {
-            Bitmap rawBitmap =((BitmapDrawable)drawable).getBitmap();
+           try {
+               Bitmap rawBitmap =((BitmapDrawable)drawable).getBitmap();
 
-            //处理Bitmap 转成正方形
-            Bitmap newBitmap = dealRawBitmap(rawBitmap);
-            //将newBitmap 转换成圆形
-            Bitmap circleBitmap = toRoundCorner(newBitmap, 14);
+               //处理Bitmap 转成正方形
+               Bitmap newBitmap = dealRawBitmap(rawBitmap);
+               //将newBitmap 转换成圆形
+               Bitmap circleBitmap = toRoundCorner(newBitmap, 14);
 
-            final Rect rect = new Rect(0, 0, circleBitmap.getWidth(), circleBitmap.getHeight());
-            paint.reset();
-            //绘制到画布上
-            canvas.drawBitmap(circleBitmap, rect, rect, paint);
+               final Rect rect = new Rect(0, 0, circleBitmap.getWidth(), circleBitmap.getHeight());
+               paint.reset();
+               //绘制到画布上
+               canvas.drawBitmap(circleBitmap, rect, rect, paint);
+           }catch (Exception e){
+               LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~",e.getMessage());
+           }
         } else {
-            super.onDraw(canvas);
+            try {
+                super.onDraw(canvas);
+            }catch (Exception e){
+                LogUtil.d("~~~~~~~~~~~~~",e.getMessage());
+            }
         }
     }
 

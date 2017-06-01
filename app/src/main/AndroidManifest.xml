@@ -225,6 +225,8 @@
         </activity>
         <activity android:name=".activity.user.UserPatternActivity">
         </activity>
+        <activity android:name=".activity.dynamic.DynamicAllActivity">
+        </activity>
     </application>
 
 </manifest>

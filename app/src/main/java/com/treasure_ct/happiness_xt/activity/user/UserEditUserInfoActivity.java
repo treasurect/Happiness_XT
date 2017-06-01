@@ -1,8 +1,12 @@
 package com.treasure_ct.happiness_xt.activity.user;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -11,22 +15,27 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.UserInfoBean;
+import com.treasure_ct.happiness_xt.utils.LogUtil;
 import com.treasure_ct.happiness_xt.utils.StringContents;
 import com.treasure_ct.happiness_xt.utils.Tools;
+import com.treasure_ct.happiness_xt.widget.CustomCircleImageView;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class UserEditUserInfoActivity extends BaseActivity implements View.OnClickListener {
 
@@ -52,6 +61,10 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
     private String edit_type;
     private ImageView pass_visible;
     private boolean isHind = true;
+    private SimpleDraweeView editIcon;
+    private String mFileUrl;
+    private String userPhone;
+    private String mObjectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +78,19 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         initClick();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BmobQuery<UserInfoBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("user_name", userPhone);
+        query.findObjects(new FindListener<UserInfoBean>() {
+            @Override
+            public void done(List<UserInfoBean> list, BmobException e) {
+                editIcon.setImageURI(Uri.parse(list.get(0).getUser_icon()));
+            }
+        });
+    }
+
     private void initFindId() {
         editPhone = (TextView) findViewById(R.id.mine_edit_phone);
         editNick = (EditText) findViewById(R.id.mine_edit_nickname);
@@ -75,12 +101,13 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         sex_woman = (RadioButton) findViewById(R.id.mine_edit_sex_woman);
         btnEnter = (TextView) findViewById(R.id.btn_user_edit_enter);
         pass_visible = (ImageView) findViewById(R.id.mine_edit_pass_visible);
+        editIcon = (SimpleDraweeView) findViewById(R.id.mine_edit_icon);
     }
 
     private void receiveIntentData() {
         Intent intent = getIntent();
         if (!Tools.isNull(intent.getStringExtra("UserPhone"))) {
-            String userPhone = intent.getStringExtra("UserPhone");
+            userPhone = intent.getStringExtra("UserPhone");
             editPhone.setText(userPhone);
             editNick.setText(userPhone);
         } else {
@@ -102,6 +129,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         btnEnter.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         pass_visible.setOnClickListener(this);
+        editIcon.setOnClickListener(this);
     }
 
     @Override
@@ -124,10 +152,10 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                     Toast.makeText(this, "让更多人认识你", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!Tools.isNull(edit_type)){
-                    if (edit_type.equals("normal")){
+                if (!Tools.isNull(edit_type)) {
+                    if (edit_type.equals("normal")) {
                         updateAccount();
-                    }else {
+                    } else {
                         editRegister();
                     }
                 }
@@ -136,16 +164,21 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                 UserEditUserInfoActivity.this.finish();
                 break;
             case R.id.mine_edit_pass_visible:
-                if (isHind){
+                if (isHind) {
                     isHind = false;
                     initNoHindPassInput();
-                }else {
+                } else {
                     initHindPassInput();
                     isHind = true;
                 }
                 break;
+            case R.id.mine_edit_icon:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 200);
+                break;
         }
     }
+
     //不隐藏密码
     private void initNoHindPassInput() {
         pass_visible.setImageResource(R.mipmap.icon_eye_open);
@@ -159,13 +192,14 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         editPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         editPwd.setSelection(editPwd.getText().length());
     }
+
     private void updateAccount() {
         BmobQuery<UserInfoBean> query = new BmobQuery<UserInfoBean>();
         query.addWhereEqualTo("user_name", editPhone.getText().toString());
         query.findObjects(new FindListener<UserInfoBean>() {
             @Override
             public void done(List<UserInfoBean> object, BmobException e) {
-                if(e==null){
+                if (e == null) {
                     for (UserInfoBean gameScore : object) {
                         toUpdate(gameScore.getObjectId());
                     }
@@ -191,7 +225,7 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
         infoBean.update(objectId, new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                if (e == null){
+                if (e == null) {
                     Toast.makeText(UserEditUserInfoActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
                     //存入SharedPreferences
                     SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
@@ -211,8 +245,8 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
                     intent.putExtra("label", "login");
                     sendBroadcast(intent);
                     UserEditUserInfoActivity.this.finish();
-                }else {
-                    Toast.makeText(UserEditUserInfoActivity.this, "更新失败"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UserEditUserInfoActivity.this, "更新失败" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -291,11 +325,54 @@ public class UserEditUserInfoActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        if (!Tools.isNull(edit_type)){
+        if (!Tools.isNull(edit_type)) {
             if (edit_type.equals("normal")) {
                 super.onBackPressed();
             } else if (edit_type.equals("register")) {
                 Toast.makeText(this, "请提交自己的信息", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                final BmobFile bmobFile = new BmobFile(Tools.compressImage(bitmap));
+                bmobFile.uploadblock(new UploadFileListener() {
+
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null) {
+                            mFileUrl = bmobFile.getFileUrl();
+                            editIcon.setImageURI(Uri.parse(mFileUrl));
+                            BmobQuery<UserInfoBean> query = new BmobQuery<>();
+                            query.addWhereEqualTo("user_name", userPhone);
+                            query.findObjects(new FindListener<UserInfoBean>() {
+
+                                @Override
+                                public void done(List<UserInfoBean> list, BmobException e) {
+                                    mObjectId = list.get(0).getObjectId();
+                                    UserInfoBean userInfoBean = new UserInfoBean();
+                                    userInfoBean.setUser_icon(mFileUrl);
+                                    userInfoBean.update(mObjectId, new UpdateListener() {
+                                        @Override
+                                        public void done(BmobException e) {
+                                            if (e == null){
+                                                SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+                                                editor.putString("user_icon",mFileUrl);
+                                                editor.apply();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    }
+                });
             }
         }
     }

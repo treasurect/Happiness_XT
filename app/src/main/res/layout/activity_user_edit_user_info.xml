@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
@@ -15,12 +16,13 @@
         android:layout_height="0dp"
         android:layout_weight="4">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/mine_edit_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@mipmap/icon"
-            android:id="@+id/imageView"/>
+            fresco:placeholderImage="@mipmap/icon"
+            fresco:roundAsCircle = "true"/>
     </FrameLayout>
 
     <LinearLayout

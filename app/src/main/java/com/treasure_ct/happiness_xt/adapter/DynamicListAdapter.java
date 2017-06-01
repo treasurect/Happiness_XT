@@ -1,6 +1,7 @@
 package com.treasure_ct.happiness_xt.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.treasure_ct.happiness_xt.R;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
+import com.treasure_ct.happiness_xt.utils.LogUtil;
 
 import java.util.List;
 
@@ -82,42 +84,47 @@ public class DynamicListAdapter extends BaseAdapter {
                 ret = inflater.inflate(R.layout.dynamic_image_list_item, parent, false);
             }
         }
-            ret.setTag(new ViewHolder(ret));
-            final DynamicBean listBean = list.get(position);
-            final ViewHolder holder = (ViewHolder) ret.getTag();
-//            holder.user_icon.setImageURI(Uri.parse());
-            holder.user_nick.setText(listBean.getUser_nick());
-            holder.publish_time.setText(listBean.getPublish_time());
-            holder.content.setText(listBean.getContent());
-            if (getItemViewType(position) == 1) {
+        ret.setTag(new ViewHolder(ret));
+        final DynamicBean listBean = list.get(position);
+        final ViewHolder holder = (ViewHolder) ret.getTag();
+        if (listBean.getUser_icon().equals("暂无头像")) {
+
+        } else {
+            holder.user_icon.setImageURI(Uri.parse(listBean.getUser_icon()));
+        }
+        LogUtil.d("~~~~~~~~~~~~~~~",listBean.getUser_icon()+"........................");
+        holder.user_nick.setText(listBean.getUser_nick());
+        holder.publish_time.setText(listBean.getPublish_time());
+        holder.content.setText(listBean.getContent());
+        if (getItemViewType(position) == 1) {
 //                holder.image1.setImageURI(Uri.parse());
 //                holder.image2.setImageURI(Uri.parse());
 //                holder.image3.setImageURI(Uri.parse());
-                if (listBean.getImage().size() > 3){
-                    holder.image_num.setText(listBean.getImage().size() - 3);
-                    holder.image_num.setVisibility(View.VISIBLE);
-                }
+            if (listBean.getImage().size() > 3) {
+                holder.image_num.setText(listBean.getImage().size() - 3);
+                holder.image_num.setVisibility(View.VISIBLE);
             }
-            holder.sendTop.setText(listBean.getSendTop()+"");
-            holder.sendComments.setText(listBean.getComments()+"");
-            holder.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemClick.sendMore(listBean.getUser_nick(),listBean.getContent());
-                }
-            });
-            holder.top.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemClick.sendTop(listBean.getUser_nick(),listBean.getContent());
-                }
-            });
-            holder.comments.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemClick.sendComments(listBean.getUser_nick(),listBean.getContent(),listBean.getPublish_time(),listBean.getSendTop(),listBean.getComments());
-                }
-            });
+        }
+        holder.sendTop.setText(listBean.getSendTop() + "");
+        holder.sendComments.setText(listBean.getComments() + "");
+        holder.more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClick.sendMore(listBean.getUser_nick(), listBean.getContent());
+            }
+        });
+        holder.top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClick.sendTop(listBean.getUser_nick(), listBean.getContent());
+            }
+        });
+        holder.comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClick.sendComments(listBean.getUser_nick(), listBean.getContent(), listBean.getPublish_time(), listBean.getSendTop(), listBean.getComments());
+            }
+        });
         return ret;
     }
 
@@ -154,11 +161,15 @@ public class DynamicListAdapter extends BaseAdapter {
             comments = ((LinearLayout) view.findViewById(R.id.assistant_dynamic_item_comments));
         }
     }
-    public interface ItemClick{
-        void sendMore(String nick,String contents);
-        void sendTop(String nick,String contents);
-        void sendComments(String nick,String contents,String content,int top_num,int comments_num);
+
+    public interface ItemClick {
+        void sendMore(String nick, String contents);
+
+        void sendTop(String nick, String contents);
+
+        void sendComments(String nick, String contents, String content, int top_num, int comments_num);
     }
+
     private ItemClick mItemClick;
 
     public void setItemClick(ItemClick itemClick) {

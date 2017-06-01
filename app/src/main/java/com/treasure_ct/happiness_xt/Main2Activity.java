@@ -39,12 +39,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         dynamic = new DynamicFragment();
         user = new UserFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_frame,entertainment);
+        transaction.replace(R.id.main_frame,life);
         transaction.commit();
         initBottom();
-        happy_image.setImageResource(R.mipmap.icon_happy);
-        happy_text.setTextColor(getResources().getColor(R.color.colorOrange));
-        happy_text.setTextSize(14.0f);
+        assistant_image.setImageResource(R.mipmap.icon_assistant);
+        assistant_text.setTextColor(getResources().getColor(R.color.colorOrange));
+        assistant_text.setTextSize(14.0f);
     }
 
     private void initFindId() {

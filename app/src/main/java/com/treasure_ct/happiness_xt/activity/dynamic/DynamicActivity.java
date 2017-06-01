@@ -111,7 +111,6 @@ public class DynamicActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private void requestDynamicList() {
         BmobQuery<DynamicBean> query = new BmobQuery<>();
-        query.setLimit(10);
         query.findObjects(new FindListener<DynamicBean>() {
             @Override
             public void done(List<DynamicBean> data_list, BmobException e) {
