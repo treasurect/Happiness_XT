@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mob.bbssdk.API;
@@ -23,6 +25,7 @@ import com.mob.bbssdk.api.ForumAPI;
 import com.mob.bbssdk.model.ForumForum;
 import com.treasure_ct.happiness_xt.BaseActivity;
 import com.treasure_ct.happiness_xt.R;
+import com.treasure_ct.happiness_xt.activity.dynamic.DynamicAllActivity;
 import com.treasure_ct.happiness_xt.activity.life.LifeDynamicItemActivity;
 import com.treasure_ct.happiness_xt.adapter.DynamicListAdapter;
 import com.treasure_ct.happiness_xt.bean.DynamicBean;
@@ -42,171 +45,52 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class DynamicFragment extends BaseFragment implements DynamicListAdapter.ItemClick, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
-    private ListView dynamic_listView;
-    private List<DynamicBean> dynamic_list;
-    private DynamicListAdapter dynamic_adapter;
-    private RadioButton dynamic_RB,community_RB;
-    private RadioGroup dynamic_RG;
-    private LinearLayout community_layout;
-    private ForumAPI bbsApi;
-    private int sendTopNum;
+public class DynamicFragment extends BaseFragment implements View.OnClickListener {
+    private FrameLayout all_layout;
+    private FrameLayout friend_layout;
+    private CustomScrollListView listView;
+    private TextView dynamic_title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_dynamic, container, false);
+
         initFindId(view);
+        dynamic_title.setText("消息");
         initListView();
         initClick();
-
-        requestDynamicList();
-
-        bbsApi = BBSSDK.getApi(ForumAPI.class);
-        requestCommunityData();
-
-        dynamic_RB.setChecked(true);
-        dynamic_RB.setTextColor(getResources().getColor(R.color.colorBlock));
-        community_RB.setTextColor(getResources().getColor(R.color.colorWhite));
         return view;
     }
 
     private void initFindId(View view) {
-        dynamic_listView = (ListView) view.findViewById(R.id.dynamic_listView);
-        dynamic_RB = (RadioButton) view.findViewById(R.id.dynamic_dynamic);
-        community_RB = (RadioButton) view.findViewById(R.id.dynamic_community);
-        dynamic_RG = (RadioGroup) view.findViewById(R.id.dynamic_radioGroup);
-        community_layout = (LinearLayout) view.findViewById(R.id.dynamic_community_layout);
+        all_layout = ((FrameLayout) view.findViewById(R.id.dynamic_all_layout));
+        friend_layout = (FrameLayout) view.findViewById(R.id.dynamic_friend_layout);
+       listView = (CustomScrollListView) view.findViewById(R.id.dynamic_listView);
+        dynamic_title = (TextView) view.findViewById(R.id.dynamic_title);
     }
 
     private void initListView() {
-        dynamic_list = new ArrayList<>();
-        dynamic_adapter = new DynamicListAdapter(getContext(), dynamic_list);
-        dynamic_listView.setAdapter(dynamic_adapter);
+
     }
 
     private void initClick() {
-        dynamic_RB.setOnCheckedChangeListener(this);
-        community_RB.setOnCheckedChangeListener(this);
-        dynamic_adapter.setItemClick(this);
-        dynamic_listView.setOnItemClickListener(this);
+        all_layout.setOnClickListener(this);
+        friend_layout.setOnClickListener(this);
     }
 
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked){
-            if (buttonView.getText().toString().equals("动态")){
-                dynamic_RB.setTextColor(getResources().getColor(R.color.colorBlock));
-                community_RB.setTextColor(getResources().getColor(R.color.colorWhite));
-            }else if (buttonView.getText().toString().equals("社区")){
-                community_RB.setTextColor(getResources().getColor(R.color.colorBlock));
-                dynamic_RB.setTextColor(getResources().getColor(R.color.colorWhite));
-            }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.dynamic_all_layout:
+                startActivity(new Intent(getContext(), DynamicAllActivity.class));
+                break;
+            case R.id.dynamic_friend_layout:
+
+                break;
         }
-    }
-
-    private void requestDynamicList() {
-        BmobQuery<DynamicBean> query = new BmobQuery<>();
-        query.setLimit(10);
-        query.findObjects(new FindListener<DynamicBean>() {
-            @Override
-            public void done(List<DynamicBean> data_list, BmobException e) {
-                if(e==null){
-                    if (data_list != null){
-                        dynamic_list.clear();
-                        Collections.reverse(data_list);
-                        dynamic_list.addAll(data_list);
-                        dynamic_adapter.notifyDataSetChanged();
-                    }
-                }else{
-                    LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~",e.getMessage());
-                }
-            }
-        });
-    }
-
-    private void requestCommunityData() {
-        bbsApi.getForumList(false, new APICallback<ArrayList<ForumForum>>() {
-            public void onSuccess(API api, int action, ArrayList<ForumForum> result) {
-                for (int i = 0; i < result.size(); i++) {
-                    LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~",result.get(i).name+"........");
-                }
-            }
-            public void onError(API api, int action, int errorCode, Throwable details) {
-                //TODO 获取失败
-                LogUtil.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~","失败");
-            }
-        });
-    }
-
-    @Override
-    public void sendMore( String nick,  String contents) {
-
-    }
-
-    @Override
-    public void sendTop(String nick, String contents) {
-        BmobQuery<DynamicBean> query = new BmobQuery<>();
-        query.addWhereEqualTo("user_nick", nick);
-        query.addWhereEqualTo("content", contents);
-        query.findObjects(new FindListener<DynamicBean>() {
-            @Override
-            public void done(List<DynamicBean> list, BmobException e) {
-                if (e == null) {
-                    for (DynamicBean dynamicBean : list) {
-                        getTop(dynamicBean.getObjectId());
-                    }
-                }
-            }
-        });
-    }
-
-    private void getTop(final String objectId) {
-        BmobQuery<DynamicBean> query = new BmobQuery<>();
-        query.getObject(objectId, new QueryListener<DynamicBean>() {
-
-            @Override
-            public void done(DynamicBean dynamicBean, BmobException e) {
-                if (e == null) {
-                    sendTopNum = dynamicBean.getSendTop();
-                    toUpdateTop(objectId, sendTopNum);
-                }
-            }
-        });
-    }
-
-    private void toUpdateTop(String objectId, int sendTopNum) {
-        DynamicBean dynamicBean = new DynamicBean();
-        dynamicBean.setSendTop(sendTopNum + 1);
-        dynamicBean.update(objectId, new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                requestDynamicList();
-            }
-        });
-    }
-
-    @Override
-    public void sendComments(String nick, String contents, String publish_time, int top_num, int comments_num) {
-        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
-        intent.putExtra("user_nick", nick);
-        intent.putExtra("publish_time", publish_time);
-        intent.putExtra("content", contents);
-        intent.putExtra("top", top_num + "");
-        intent.putExtra("comments", comments_num + "");
-        startActivity(intent);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getContext(), LifeDynamicItemActivity.class);
-        intent.putExtra("user_nick", dynamic_list.get(position).getUser_nick());
-        intent.putExtra("publish_time", dynamic_list.get(position).getPublish_time());
-        intent.putExtra("content", dynamic_list.get(position).getContent());
-        intent.putExtra("top", dynamic_list.get(position).getSendTop() + "");
-        intent.putExtra("comments", dynamic_list.get(position).getComments() + "");
-        startActivity(intent);
     }
 
     @Override

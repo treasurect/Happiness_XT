@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,67 +9,87 @@
     android:background="@color/colorGray"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
     tools:context=".activity.dynamic.DynamicActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@mipmap/pic_fengjing"
-            app:layout_collapseMode="parallax"
-            app:layout_collapseParallaxMultiplier="0.7"/>
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <RadioGroup
-                    android:id="@+id/dynamic_radioGroup"
-                    android:layout_width="120dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/frame_white_radius25"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:id="@+id/dynamic_dynamic"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:text="动态"
-                        android:textColor="@color/colorWhite"
-                        android:gravity="center"
-                        android:button="@null"
-                        android:background="@drawable/radiobutton_white"/>
-                    <RadioButton
-                        android:id="@+id/dynamic_community"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:text="社区"
-                        android:textColor="@color/colorWhite"
-                        android:gravity="center"
-                        android:button="@null"
-                        android:background="@drawable/radiobutton_white"/>
-                </RadioGroup>
-            </FrameLayout>
-        </android.support.v7.widget.Toolbar>
-    </FrameLayout>
-    <ListView
-        android:id="@+id/dynamic_listView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:divider="@color/colorGray4"
-        android:dividerHeight="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:scrollbars="none"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/colorOrange">
+
+            <TextView
+                android:id="@+id/dynamic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dynamic_all_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="全部动态"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dynamic_friend_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="好友"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right"/>
+        </FrameLayout>
+
+        <com.treasure_ct.happiness_xt.widget.CustomScrollListView
+            android:id="@+id/dynamic_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:divider="@color/colorGray4"
+            android:dividerHeight="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:scrollbars="none"/>
+    </LinearLayout>
+</ScrollView>

@@ -14,8 +14,9 @@ import com.treasure_ct.happiness_xt.fragments.DynamicFragment;
 import com.treasure_ct.happiness_xt.fragments.EntertainmentFragment;
 import com.treasure_ct.happiness_xt.fragments.LifeFragment;
 import com.treasure_ct.happiness_xt.fragments.UserFragment;
+import com.treasure_ct.happiness_xt.utils.Tools;
 
-public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
+public class Main2Activity extends BaseActivity implements View.OnClickListener {
 
     private FrameLayout main_layout;
     private LinearLayout happy_layout,assistant_layout,dynamic_layout,settings_layout;
@@ -28,6 +29,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        Tools.setTranslucentStatus(this);
         initFindId();
         initClick();
         initView();
